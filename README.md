@@ -21,24 +21,24 @@ Cada tema tiene su propia carpeta con su página (`<carpeta>/index.html`):
 | `git-github/` | Git y GitHub, de lo más básico a lo avanzado: trabajo en solitario con IA, trabajo en equipo y revisión de cambios | 15 | Disponible |
 | `cmd/` | Cómo usar la consola (CMD y PowerShell) | 11 | Disponible |
 | `cpp/` | C++: comentarios, entrada y salida por consola, arreglos, colas, `for`, `while`, `do while` y matrices | 11 | Disponible |
-| `arduino/` | Arduino IDE y todo lo necesario para empezar y avanzar con Arduino | 18 | Próximamente |
+| `arduino/` | Arduino IDE y todo lo necesario para empezar y avanzar con Arduino | 18 | Disponible |
 | `python/` | Python desde cero | 12 | Disponible |
 | `javascript/` | JavaScript desde cero | 13 | Disponible |
-| `desarrollo-web/` | HTML y CSS con estilo profesional, animaciones de texto y más | 16 | Próximamente |
-| `ia-para-programar/` | Cómo usar la IA para programar y lograr que los programas salgan bien | 13 | Próximamente |
+| `desarrollo-web/` | HTML y CSS con estilo profesional, animaciones de texto y más | 16 | Disponible |
+| `ia-para-programar/` | Cómo usar la IA para programar y lograr que los programas salgan bien | 13 | Disponible |
 
 ## Estado
 
 La **base de la página ya está lista**: inicio con buscador, una página por tema con su índice lateral, resaltado de colores para el código, botón de copiar y modo claro/oscuro.
 
-**Ya disponible:** Git y GitHub, C++, CMD y PowerShell, Python y JavaScript. El resto de temas muestra sus secciones planeadas como "Próximamente" mientras se escriben.
+**Ya disponible:** los 8 temas (Git y GitHub, CMD, C++, Arduino, Python, JavaScript, desarrollo web e IA para programar).
 
-El contenido se va agregando en este orden:
+El contenido se agregó en este orden:
 
 1. ~~Git y GitHub~~ (listo)
 2. ~~C++, CMD, Python y JavaScript~~ (listo)
-3. Arduino y desarrollo web
-4. IA para programar
+3. ~~Arduino y desarrollo web~~ (listo)
+4. ~~IA para programar~~ (listo)
 
 ## Cómo está organizada
 

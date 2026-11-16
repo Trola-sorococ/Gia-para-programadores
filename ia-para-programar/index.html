@@ -35,6 +35,665 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="como-funciona-la-ia">
+          <h2>Cómo funciona y qué esperar de la IA</h2>
+          <p>Las herramientas que usas para programar (ChatGPT, Copilot, Cursor, Claude y similares) se basan en <strong>modelos de lenguaje</strong>: predicen el siguiente trozo de texto a partir de lo que les das. No “entienden” tu proyecto como una persona, ni ejecutan el código en su cabeza. Predicen con mucha habilidad… y a veces se equivocan con total seguridad.</p>
+
+          <h3>Fortalezas reales</h3>
+          <ul>
+            <li><strong>Código repetitivo y boilerplate:</strong> formularios, rutas, tipos, tests básicos, configuración inicial.</li>
+            <li><strong>Explicar y resumir:</strong> “¿qué hace este archivo?”, “explica este error”, “resume este diff”.</li>
+            <li><strong>Traducir entre lenguajes o estilos:</strong> de un enfoque a otro, o adaptar un ejemplo a tu stack.</li>
+            <li><strong>Proponer un plan:</strong> pasos, riesgos, archivos a tocar (si le pedes que piense antes de escribir).</li>
+            <li><strong>Depurar con evidencia:</strong> si le pasas el mensaje de error, el traceback y lo que ya probaste, suele acertar más.</li>
+          </ul>
+
+          <h3>Límites que debes asumir</h3>
+          <table>
+            <thead>
+              <tr><th>Límite</th><th>Qué implica en la práctica</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>No ejecuta tu app</strong></td><td>No “ve” que falló el login hasta que tú le pegas el error o el resultado de la prueba.</td></tr>
+              <tr><td><strong>Contexto finito</strong></td><td>Si el proyecto es grande, no tiene todo el código en mente. Tú eliges qué archivos importan.</td></tr>
+              <tr><td><strong>No conoce tu negocio</strong></td><td>Inventará reglas de negocio si no se las das (precios, roles, flujos reales).</td></tr>
+              <tr><td><strong>Puede quedar desactualizada</strong></td><td>APIs, librerías y sintaxis cambian. Verifica versiones y documentación oficial.</td></tr>
+              <tr><td><strong>Optimiza lo plausible, no lo correcto</strong></td><td>Un código que “se ve bien” puede estar mal o ser inseguro.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Alucinaciones: el problema #1</h3>
+          <p>Una <strong>alucinación</strong> es cuando la IA afirma algo falso con tono convincente: una función que no existe, un paquete inventado, un flag de CLI que nunca hubo, o “ya está arreglado” sin haberlo comprobado.</p>
+          <ul>
+            <li>Nombres de APIs o métodos que suenan reales pero no están en tu versión.</li>
+            <li>Dependencias o comandos que no existen (o existen con otro nombre).</li>
+            <li>Archivos o rutas que “deberían” estar en el repo y no están.</li>
+            <li>Explicaciones correctas a medias mezcladas con detalles inventados.</li>
+          </ul>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">La confianza del tono no es una prueba</strong>
+            <p>Si responde con seguridad, no significa que tenga razón. La prueba es: ¿compila?, ¿pasan las pruebas?, ¿el diff tiene sentido?, ¿existe esa API en la documentación?</p>
+          </div>
+
+          <h3>Qué esperar (y qué no)</h3>
+          <table>
+            <thead>
+              <tr><th>Esperable</th><th>No esperable</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Acelerar el primer borrador</td><td>Que entregue un sistema completo sin revisión</td></tr>
+              <tr><td>Ayudarte a pensar opciones</td><td>Que elija sola la arquitectura correcta para tu negocio</td></tr>
+              <tr><td>Señalar posibles causas de un error</td><td>Que adivine el estado de tu base de datos o tu red</td></tr>
+              <tr><td>Escribir tests si le das el contrato</td><td>Que “garantice” que no hay bugs</td></tr>
+            </tbody>
+          </table>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Regla práctica</strong>
+            <p>Trata a la IA como a un compañero rápido y junior con muy buena memoria de ejemplos: útil, productivo… y siempre con revisión humana antes de mergear.</p>
+          </div>
+        </section>
+
+        <section id="ia-en-tu-editor">
+          <h2>La IA dentro de tu editor</h2>
+          <p>En editores como <strong>Cursor</strong>, VS Code con Copilot, o similares, suelen coexistir tres modos. Usar el correcto ahorra tiempo y reduce desastres.</p>
+
+          <h3>1. Chat (preguntar y diseñar)</h3>
+          <p>Ventana de conversación: explicas, pegas errores, pides planes o revisiones. Ideal cuando aún no quieres tocar archivos, o cuando necesitas entender algo.</p>
+          <ul>
+            <li>Diseñar un enfoque antes de editar.</li>
+            <li>Explicar un archivo o un error.</li>
+            <li>Comparar dos opciones (“A vs B, pros y contras”).</li>
+            <li>Pedir un checklist de revisión o un plan de pruebas.</li>
+          </ul>
+
+          <h3>2. Edición en línea / autocompletado</h3>
+          <p>Sugiere o reescribe el trozo donde está el cursor. Sirve para cambios locales y predecibles.</p>
+          <ul>
+            <li>Completar una función que ya empezaste.</li>
+            <li>Renombrar con coherencia en un archivo.</li>
+            <li>Escribir un test para una función concreta.</li>
+            <li>Ajustar un bloque CSS o un handler pequeño.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Acepta sugerencias cortas</strong>
+            <p>Si la sugerencia en línea crece demasiado o cambia lógica de negocio, detente: mejor pásalo al chat o al agente con un prompt claro y revisa el diff.</p>
+          </div>
+
+          <h3>3. Agentes (varios archivos, varios pasos)</h3>
+          <p>Un <strong>agente</strong> puede leer el repo, editar varios archivos, correr comandos y seguir un plan. Es potente y también es donde más fácil es que se “desboque” si el pedido es vago.</p>
+          <table>
+            <thead>
+              <tr><th>Modo</th><th>Cuándo usarlo</th><th>Riesgo típico</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Chat</strong></td><td>Pensar, planear, explicar, revisar</td><td>Pedir código y pegarlo sin contexto del repo</td></tr>
+              <tr><td><strong>Edición en línea</strong></td><td>Cambios pequeños y locales</td><td>Aceptar sugerencias largas sin leerlas</td></tr>
+              <tr><td><strong>Agente</strong></td><td>Tareas multiarchivo bien acotadas</td><td>Refactor “gratis” de media app</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Flujo recomendado en el editor</h3>
+          <ol>
+            <li>Define el objetivo en una frase (qué debe pasar cuando el usuario hace X).</li>
+            <li>Pide un <a href="#pedir-un-plan">plan</a> (sin código) y corrígelo.</li>
+            <li>Ejecuta el plan por <a href="#dividir-en-tareas">tareas pequeñas</a>.</li>
+            <li><a href="#revisar-codigo-de-la-ia">Revisa el diff</a>, corre pruebas y solo entonces acepta.</li>
+          </ol>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Permisos del agente</strong>
+            <p>Si el agente puede correr terminal o instalar paquetes, supervisa esos pasos. Un <code>npm install</code> o un cambio de configuración puede meter dependencias que no pediste.</p>
+          </div>
+        </section>
+
+        <section id="buenos-prompts">
+          <h2>Escribir buenos prompts</h2>
+          <p>Un buen prompt no es “hablar bonito”: es <strong>reducir ambigüedad</strong>. Cuatro piezas casi siempre mejoran el resultado: objetivo, contexto, restricciones y formato.</p>
+
+          <h3>La receta en cuatro partes</h3>
+          <table>
+            <thead>
+              <tr><th>Pieza</th><th>Pregunta que responde</th><th>Ejemplo corto</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Objetivo</strong></td><td>¿Qué debe quedar hecho?</td><td>“Añadir validación de email en el registro”</td></tr>
+              <tr><td><strong>Contexto</strong></td><td>¿Dónde y con qué stack?</td><td>“React + Express, archivo <code>auth.js</code>, ya existe <code>validatePassword</code>”</td></tr>
+              <tr><td><strong>Restricciones</strong></td><td>¿Qué no debe hacer?</td><td>“No cambies la base de datos ni el diseño de la UI”</td></tr>
+              <tr><td><strong>Formato</strong></td><td>¿Cómo quieres la respuesta?</td><td>“Primero plan en 5 pasos; espera mi OK; luego solo el diff”</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Mal vs bien</h3>
+          <pre data-archivo="Prompt débil"><code class="lenguaje-texto">Hazme el login con IA, que quede profesional y moderno.</code></pre>
+          <pre data-archivo="Prompt fuerte"><code class="lenguaje-texto">Objetivo: implementar login con email y contraseña.
+Contexto: Node + Express, sesiones en cookie httpOnly, usuarios en Postgres.
+Archivos relevantes: routes/auth.js, middleware/session.js, schema.sql.
+Restricciones:
+- No uses JWT.
+- No instales librerías nuevas sin preguntar.
+- Mantén el mismo estilo de errores (JSON { error: string }).
+Formato: 1) plan breve 2) espera confirmación 3) implementa solo lo acordado.</code></pre>
+
+          <h3>Detalles que suelen marcar la diferencia</h3>
+          <ul>
+            <li><strong>Lenguaje y versión:</strong> “Python 3.12”, “Node 20”, “React 18”.</li>
+            <li><strong>Qué ya existe:</strong> “reutiliza <code>formatDate</code> de <code>utils/dates.js</code>”.</li>
+            <li><strong>Qué cuenta como listo:</strong> “debe pasar <code>npm test</code>” o “el botón deshabilitado si el form es inválido”.</li>
+            <li><strong>Tono de cambios:</strong> “cambio mínimo” vs “refactor libre” (casi siempre quieres el primero).</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Una instrucción mágica (de verdad útil)</strong>
+            <p>Añade: <em>“Si falta información, pregunta antes de inventar.”</em> Reduce alucinaciones de APIs y de reglas de negocio.</p>
+          </div>
+
+          <h3>Plantilla mínima reutilizable</h3>
+          <pre data-archivo="Plantilla base"><code class="lenguaje-texto">Contexto: [stack + archivos clave]
+Objetivo: [resultado observable]
+Restricciones: [qué no tocar / no instalar / no romper]
+Hechos conocidos: [comportamiento actual, bugs, decisiones]
+Formato de respuesta: [plan / código / checklist]
+Si algo no está claro, pregunta; no inventes APIs ni archivos.</code></pre>
+        </section>
+
+        <section id="pedir-un-plan">
+          <h2>Pedir un plan antes del código</h2>
+          <p>Pedir código de golpe es la forma más rápida de obtener un refactor enorme, tres librerías nuevas y un bug sutil. El plan te deja <strong>corregir la dirección barato</strong>, antes de que toque diez archivos.</p>
+
+          <h3>Por qué planear primero</h3>
+          <ul>
+            <li>Detectas malentendidos (“pensaba que usabas JWT…”).</li>
+            <li>Acotas el alcance (“solo el endpoint, no la UI”).</li>
+            <li>Ordenas el trabajo en pasos verificables.</li>
+            <li>Evitas que el agente “mejore” cosas que no pediste.</li>
+          </ul>
+
+          <h3>Cómo pedirlo</h3>
+          <pre data-archivo="Prompt: pedir plan"><code class="lenguaje-texto">Antes de escribir código, proponme un plan.
+Incluye:
+1) Archivos que tocarías (y por qué)
+2) Pasos ordenados (cada uno verificable)
+3) Riesgos o efectos colaterales
+4) Qué NO harías (fuera de alcance)
+5) Cómo probaríamos que quedó bien
+
+No generes código todavía. Si falta contexto, pregunta.</code></pre>
+
+          <h3>Cómo corregir el plan</h3>
+          <p>Responde como editor, no como espectador:</p>
+          <ul>
+            <li>“Quita el paso 3: no migramos la base todavía.”</li>
+            <li>“Usa el patrón de errores de <code>api/errors.js</code>, no inventes uno nuevo.”</li>
+            <li>“Divide el paso 2 en dos commits: modelo y endpoint.”</li>
+            <li>“El paso 4 es opcional: déjalo al final y marca ‘solo si hace falta’.”</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Modo plan en editores con agentes</strong>
+            <p>Si tu herramienta tiene “Plan” o “Ask before apply”, úsalo para features medianas o grandes. Para un typo o un test de una línea, el plan puede ser overkill.</p>
+          </div>
+
+          <h3>Señal de alarma</h3>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Si el plan es vago, el código será peor</strong>
+            <p>Planes del tipo “refactorizar el módulo de usuarios y mejorar la arquitectura” casi siempre terminan en cambios difíciles de revisar. Exige archivos concretos y criterios de “listo”.</p>
+          </div>
+        </section>
+
+        <section id="dividir-en-tareas">
+          <h2>Dividir el proyecto en tareas pequeñas</h2>
+          <p>La IA rinde mejor cuando cada pedido cabe en tu cabeza y en un diff revisable. “Haz toda la app” invita al caos; “añade el endpoint X y un test” suele salir bien.</p>
+
+          <h3>De feature grande a tareas</h3>
+          <p>Ejemplo: “sistema de comentarios”.</p>
+          <ol>
+            <li>Modelo / tabla <code>comments</code> (sin UI).</li>
+            <li>Endpoint <code>POST /posts/:id/comments</code> con validación.</li>
+            <li>Endpoint <code>GET</code> listado paginado.</li>
+            <li>Componente de lista (solo lectura).</li>
+            <li>Formulario de creación + estados de error.</li>
+            <li>Pruebas de API y un smoke test de UI si aplica.</li>
+          </ol>
+          <p>Entre cada paso: <strong>revisas, pruebas, commit</strong>. Si el paso 3 falla, no arrastras el 4–6 a medias.</p>
+
+          <h3>Tamaño ideal de un pedido</h3>
+          <table>
+            <thead>
+              <tr><th>Señal de tamaño bueno</th><th>Señal de “pide demasiado”</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Puedes explicar el objetivo en 2–3 frases</td><td>Necesitas una página de requisitos</td></tr>
+              <tr><td>El diff cabe en una revisión de 5–15 minutos</td><td>Cambia 15+ archivos sin relación clara</td></tr>
+              <tr><td>Hay una forma clara de probarlo</td><td>“Ya veremos cómo se prueba”</td></tr>
+              <tr><td>Una sola preocupación (API, UI o datos)</td><td>Mezcla UI, migración, auth y CI a la vez</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Cómo pedirle a la IA que divida</h3>
+          <pre data-archivo="Prompt: dividir en tareas"><code class="lenguaje-texto">Quiero implementar: [feature].
+Divide el trabajo en tareas pequeñas (máximo 30–60 minutos cada una).
+Para cada tarea indica: objetivo, archivos probables, criterio de hecho y cómo probar.
+Ordena por dependencias. No escribas código todavía.</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Una tarea = un commit (cuando puedas)</strong>
+            <p>Así, si la IA se equivoca en la tarea 4, reviertes o arreglas sin deshacer las 1–3. Combina esto con el <a href="#flujo-con-git-e-ia">flujo Git</a>.</p>
+          </div>
+        </section>
+
+        <section id="dar-contexto">
+          <h2>Dar contexto del proyecto</h2>
+          <p>La calidad del resultado depende más del <strong>contexto que le das</strong> que de “el modelo más listo”. Sin contexto, la IA improvisa un proyecto imaginario que se parece al tuyo… hasta que rompe algo real.</p>
+
+          <h3>Qué contexto suele importar</h3>
+          <ul>
+            <li><strong>Archivos concretos:</strong> el módulo que editas, sus tests y sus vecinos inmediatos.</li>
+            <li><strong>README:</strong> cómo arrancar, scripts, convenciones del repo.</li>
+            <li><strong>Ejemplos de estilo:</strong> “hazlo como en <code>services/payments.js</code>”.</li>
+            <li><strong>Errores y logs:</strong> mensaje completo, no un resumen vago.</li>
+            <li><strong>Decisiones previas:</strong> “no usamos Redux”, “auth es por sesión”.</li>
+          </ul>
+
+          <h3>README útil para humanos y para la IA</h3>
+          <pre data-archivo="README.md (fragmento útil)"><code class="lenguaje-texto">## Stack
+Node 20, Express, Postgres, React 18.
+
+## Cómo correr
+npm install
+npm run dev          # API en :3000, web en :5173
+npm test
+
+## Convenciones
+- Errores de API: { "error": "mensaje" }
+- No usar JWT; sesiones en cookie httpOnly
+- No commitear .env (usar .env.example)</code></pre>
+
+          <h3>Reglas del proyecto (Cursor Rules, instructions, etc.)</h3>
+          <p>Muchos editores permiten reglas persistentes: preferencias que la IA debería respetar en cada chat. Guarda ahí lo estable; no copies secretos.</p>
+          <pre data-archivo="Ejemplo de reglas del proyecto"><code class="lenguaje-texto">- Responde en español.
+- Prefiere cambios mínimos y diffs revisables.
+- No instales dependencias sin preguntar.
+- No inventes archivos: si falta algo, dilo.
+- Sigue el estilo de código existente (nombres, estructura de carpetas).
+- Antes de features medianas/grandes: propone plan y espera confirmación.</code></pre>
+
+          <h3>Agents.md / instrucciones para agentes</h3>
+          <p>Algunos flujos usan un archivo tipo <code>Agents.md</code> (o similar) con el mapa del repo: qué carpetas importan, comandos seguros, cómo probar. Piensa en él como un briefing para alguien nuevo en el equipo.</p>
+          <pre data-archivo="Agents.md (esqueleto)"><code class="lenguaje-texto"># Agente: guía del repo
+
+## Mapa
+- /src/api — endpoints Express
+- /src/web — React (Vite)
+- /tests — Jest
+
+## Comandos seguros
+- npm test
+- npm run lint
+- No ejecutes migraciones destructivas sin confirmación humana
+
+## Definición de listo
+- Diff acotado a la tarea
+- Tests nuevos o actualizados cuando cambie comportamiento
+- Sin secretos en el código</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Más contexto no siempre es mejor</strong>
+            <p>Pegar el repo entero satura y diluye lo importante. Mejor: pocos archivos relevantes + restricciones claras + un ejemplo del estilo deseado.</p>
+          </div>
+        </section>
+
+        <section id="revisar-codigo-de-la-ia">
+          <h2>Revisar el código que genera la IA</h2>
+          <p>Aceptar sin leer es la causa #1 de “la IA me rompió el proyecto”. Tu trabajo no desaparece: <strong>pasa de escribir todo a revisar y dirigir</strong>.</p>
+
+          <h3>Checklist rápida antes de aceptar</h3>
+          <ul>
+            <li>¿El cambio hace <em>solo</em> lo pedido (sin “mejoras” colaterales)?</li>
+            <li>¿Entiendo cada archivo tocado? Si no, pide explicación del diff.</li>
+            <li>¿Las APIs/importaciones existen en este repo y esta versión?</li>
+            <li>¿Hay secretos, tokens o datos personales en el código?</li>
+            <li>¿Maneja errores y casos borde (vacío, null, no autorizado)?</li>
+            <li>¿Rompe contratos públicos (nombres, rutas, shapes JSON)?</li>
+            <li>¿Hay tests o una forma manual clara de verificar?</li>
+            <li>¿El estilo coincide con el proyecto (nombres, estructura, logs)?</li>
+          </ul>
+
+          <h3>Qué mirar en el diff</h3>
+          <table>
+            <thead>
+              <tr><th>Señal sospechosa</th><th>Por qué importa</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Archivos no relacionados con la tarea</td><td>Alcance inflado; más superficie de bugs</td></tr>
+              <tr><td>Dependencias nuevas sin pedirlo</td><td>Riesgo de supply chain y peso innecesario</td></tr>
+              <tr><td>Comentarios tipo “TODO: fix later”</td><td>Dejó trabajo a medias o inseguro</td></tr>
+              <tr><td>Duplicar lógica que ya existía</td><td>No usó el contexto del repo</td></tr>
+              <tr><td>Catch vacío o <code>any</code> por todas partes</td><td>Esconde errores en lugar de tratarlos</td></tr>
+              <tr><td>“Compatible con todos los casos” sin tests</td><td>Afirmación sin evidencia</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Prompt para pedir una auto-revisión</h3>
+          <pre data-archivo="Prompt: revisar tu propio diff"><code class="lenguaje-texto">Revisa el cambio propuesto como un code review estricto.
+Lista:
+1) Bugs probables
+2) Cambios fuera de alcance
+3) Riesgos de seguridad
+4) Falta de tests
+5) Alternativa más simple (si existe)
+No reescribas todo: prioriza hallazgos concretos con archivo y motivo.</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">No merges “porque compila”</strong>
+            <p>Compilar o levantar la app no prueba reglas de negocio, permisos ni regresiones. Usa el checklist y, cuando puedas, una prueba automática o un caso manual escrito.</p>
+          </div>
+        </section>
+
+        <section id="probar-y-depurar">
+          <h2>Probar y depurar con la IA</h2>
+          <p>La IA depura bien cuando le das <strong>evidencia</strong>: qué esperabas, qué pasó, cómo reproducirlo y qué ya intentaste. “No funciona” casi nunca basta.</p>
+
+          <h3>Plantilla para reportar un error</h3>
+          <pre data-archivo="Prompt: reportar bug"><code class="lenguaje-texto">Bug:
+- Esperado: [qué debería pasar]
+- Actual: [qué pasa]
+- Pasos para reproducir: [1, 2, 3]
+- Entorno: [OS, versión de runtime, comando]
+- Evidencia: [traceback / log / screenshot textual]
+- Archivos sospechosos: [rutas]
+- Qué ya probé: [A, B, C]
+Restricciones: cambio mínimo; no refactorices fuera del bug.
+Primero hipótesis ordenadas por probabilidad; luego el fix.</code></pre>
+
+          <h3>Qué pegar (y qué no)</h3>
+          <ul>
+            <li><strong>Sí:</strong> traceback completo, status HTTP, body de respuesta, consulta SQL fallida (sin datos sensibles).</li>
+            <li><strong>Sí:</strong> el comando exacto (<code>npm test -- auth.test.js</code>).</li>
+            <li><strong>No:</strong> contraseñas, tokens, dumps enteros de producción, datos personales de usuarios.</li>
+          </ul>
+
+          <h3>Pedir pruebas, no solo el arreglo</h3>
+          <pre data-archivo="Prompt: fix + test"><code class="lenguaje-texto">Arregla el bug descrito y añade una prueba que falle antes del fix y pase después.
+Explica en 3 líneas la causa raíz.
+No toques archivos fuera de: [lista].</code></pre>
+
+          <h3>Ciclo corto de depuración</h3>
+          <ol>
+            <li>Reproduce el fallo (tú).</li>
+            <li>Pide hipótesis (la IA).</li>
+            <li>Elige la más probable y un experimento mínimo.</li>
+            <li>Aplica el fix acotado.</li>
+            <li>Vuelve a correr la misma prueba/repro.</li>
+            <li>Si no queda, añade la nueva evidencia al chat (no empieces un hilo nuevo sin contexto).</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Cuando la IA “arregla” inventando</strong>
+            <p>Si propone una API que no existe, responde: <em>“Esa función no está en el proyecto. Busca en el repo y usa lo existente, o di qué falta crear.”</em></p>
+          </div>
+          <pre data-archivo="Comandos típicos de verificación"><code class="lenguaje-shell">npm test
+npm run lint
+git diff
+git status</code></pre>
+        </section>
+
+        <section id="aprender-con-la-ia">
+          <h2>Aprender con la IA, no solo copiar</h2>
+          <p>Si solo pegas código, aceleras hoy y te estancas mañana. La misma herramienta puede ser un <strong>tutor exigente</strong> si se lo pides.</p>
+
+          <h3>Modos de aprendizaje útiles</h3>
+          <table>
+            <thead>
+              <tr><th>Modo</th><th>Qué pedir</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Explicar</strong></td><td>“Explícame este archivo como a alguien con 3 meses de experiencia”</td></tr>
+              <tr><td><strong>Comparar</strong></td><td>“Opción A vs B: cuándo usar cada una en este repo”</td></tr>
+              <tr><td><strong>Socrático</strong></td><td>“No me des la solución; hazme preguntas hasta que yo la proponga”</td></tr>
+              <tr><td><strong>Ejercicios</strong></td><td>“Dame 3 ejercicios graduales sobre promesas y revisa mis respuestas”</td></tr>
+              <tr><td><strong>Post-mortem</strong></td><td>“¿Qué concepto me faltó para caer en este bug?”</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Prompts para entender de verdad</h3>
+          <pre data-archivo="Prompt: explicar código"><code class="lenguaje-texto">Explica qué hace este código, línea por bloque (no línea por línea aburrida).
+Luego:
+1) Analogía corta
+2) 3 conceptos clave que debo dominar
+3) Un ejercicio pequeño para practicar
+4) Errores típicos de quien lo usa mal</code></pre>
+          <pre data-archivo="Prompt: tutor sin spoilear"><code class="lenguaje-texto">Actúa como tutor. Quiero resolver X yo.
+Reglas: no pegues la solución completa.
+Dame pistas progresivas, una a la vez, y espera mi respuesta.
+Si me atasco dos veces, muestra un esqueleto con huecos, no el código final.</code></pre>
+
+          <h3>Regla de oro</h3>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si no puedes explicarlo, no lo merges aún</strong>
+            <p>Antes de aceptar un cambio no trivial, pide: “explícame el diff en lenguaje simple y qué rompería si fallara”. Si la explicación no encaja con tu repo, investiga.</p>
+          </div>
+        </section>
+
+        <section id="seguridad-y-privacidad">
+          <h2>Seguridad y privacidad</h2>
+          <p>Todo lo que pegas en un chat puede salir de tu máquina (según la herramienta y su configuración). Trata a la IA como un canal <strong>no privado por defecto</strong>.</p>
+
+          <h3>Nunca compartas esto</h3>
+          <ul>
+            <li>API keys, tokens, contraseñas, cadenas de conexión con credenciales.</li>
+            <li>Claves privadas SSH, archivos <code>.pem</code>, cookies de sesión.</li>
+            <li>Datos personales de usuarios reales (nombres, emails, direcciones, historiales).</li>
+            <li>Volcados de producción con información sensible.</li>
+            <li>Secretos de CI (<code>GITHUB_TOKEN</code> con permisos amplios, etc.).</li>
+          </ul>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Si ya lo pegaste</strong>
+            <p>Rota el secreto de inmediato (revoca y crea uno nuevo). Revisa si quedó en el historial del chat, en un commit o en un log. No “confíes” en que el proveedor lo borró.</p>
+          </div>
+
+          <h3>Buenas prácticas en el día a día</h3>
+          <table>
+            <thead>
+              <tr><th>Práctica</th><th>Detalle</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>.env fuera del repo</strong></td><td>Usa <code>.env.example</code> sin valores reales; ignora <code>.env</code> en Git.</td></tr>
+              <tr><td><strong>Redacta logs</strong></td><td>Antes de pegar un error, sustituye tokens por <code>REDACTED</code>.</td></tr>
+              <tr><td><strong>Modo privacidad</strong></td><td>Si tu herramienta ofrece “no entrenar con mis datos” o modo local/privado, actívalo en trabajo sensible.</td></tr>
+              <tr><td><strong>Revisa dependencias nuevas</strong></td><td>La IA puede sugerir paquetes poco mantenidos o con nombres parecidos a otros famosos.</td></tr>
+              <tr><td><strong>Permisos mínimos</strong></td><td>No des al agente acceso a secretos o a producción “porque es más fácil”.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Prompt seguro para pedir ayuda con auth</h3>
+          <pre data-archivo="Prompt: sin secretos"><code class="lenguaje-texto">Necesito ayuda con autenticación.
+Te paso solo el flujo y el código con secretos redactados (API_KEY=REDACTED).
+No inventes claves de ejemplo que parezcan reales.
+Señala riesgos OWASP relevantes (inyección, XSS, CSRF, IDOR) si aplican al cambio.</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Código “seguro” generado no es auditoría</strong>
+            <p>La IA puede olvidar hashing, expiración de sesiones, rate limits o autorización por recurso. Revisa auth y permisos con especial cuidado.</p>
+          </div>
+        </section>
+
+        <section id="flujo-con-git-e-ia">
+          <h2>Flujo de trabajo con Git e IA</h2>
+          <p>Git es el cinturón de seguridad cuando programas con IA: <strong>ramas, commits pequeños y revisar el diff</strong> antes de integrar. Si algo sale mal, vuelves atrás en minutos.</p>
+
+          <h3>Flujo mínimo recomendado</h3>
+          <ol>
+            <li>Crea una rama para la tarea.</li>
+            <li>Pide plan → implementa un trozo pequeño.</li>
+            <li>Revisa <code>git diff</code> (tú, no solo la IA).</li>
+            <li>Prueba.</li>
+            <li>Commit con mensaje claro.</li>
+            <li>Repite hasta terminar; luego PR o merge a <code>main</code>.</li>
+          </ol>
+          <pre data-archivo="Comandos del flujo"><code class="lenguaje-shell">git switch -c feature/validacion-email
+git status
+git diff
+git add -p
+git commit -m "feat: valida email en el registro"
+git push -u origin HEAD</code></pre>
+
+          <h3>Por qué commits pequeños</h3>
+          <ul>
+            <li>El diff de un agente grande es imposible de revisar bien.</li>
+            <li>Puedes revertir un paso sin tirar el resto.</li>
+            <li>El historial explica la intención (útil para ti en dos semanas).</li>
+          </ul>
+
+          <h3>Checklist del diff con IA</h3>
+          <ul>
+            <li>¿Hay archivos que no pediste?</li>
+            <li>¿Aparecen <code>.env</code>, claves o binarios?</li>
+            <li>¿Se reformateó medio proyecto sin necesidad?</li>
+            <li>¿El mensaje de commit describe el <em>porqué</em> del cambio?</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si el agente se pasó de frenada</strong>
+            <p>No pelees archivo por archivo a ciegas. Guarda lo bueno, descarta el resto (<code>git restore</code> / checkout selectivo) o vuelve al commit anterior y repite la tarea con un prompt más estricto.</p>
+          </div>
+          <pre data-archivo="Deshacer cambios locales sin commit"><code class="lenguaje-shell">git restore ruta/al/archivo
+git restore .
+git status</code></pre>
+          <p>Para el flujo completo de Git y GitHub (ramas, PR, conflictos), usa la guía <a href="../git-github/">Git y GitHub</a> de este mismo sitio.</p>
+        </section>
+
+        <section id="plantillas-de-prompts">
+          <h2>Plantillas de prompts listas para copiar</h2>
+          <p>Copia, rellena los corchetes y ajusta restricciones. Mantén la regla: <em>si falta información, que pregunte; no invente</em>.</p>
+
+          <h3>Crear una feature</h3>
+          <pre data-archivo="Prompt: crear"><code class="lenguaje-texto">Contexto: [stack, carpeta, patrones existentes]
+Objetivo: [comportamiento observable]
+Restricciones: cambio mínimo; no dependencias nuevas sin preguntar; no tocar [lista].
+Entrega:
+1) Plan en pasos
+2) Espera mi OK
+3) Implementación
+4) Cómo probar
+Si falta info, pregunta. No inventes APIs.</code></pre>
+
+          <h3>Explicar código</h3>
+          <pre data-archivo="Prompt: explicar"><code class="lenguaje-texto">Explica este código para un nivel [junior/mid]:
+- Qué problema resuelve
+- Flujo de datos
+- Puntos frágiles
+- Glosario de 5 términos del archivo
+Luego propón un ejercicio corto relacionado.</code></pre>
+
+          <h3>Depurar</h3>
+          <pre data-archivo="Prompt: depurar"><code class="lenguaje-texto">Error reproducido así: [pasos]
+Esperado: [...]
+Actual: [...]
+Evidencia:
+[pega traceback o log redactado]
+
+Dame:
+1) 3 hipótesis ordenadas
+2) La más probable y por qué
+3) Fix mínimo
+4) Test o repro que demuestre el arreglo</code></pre>
+
+          <h3>Refactorizar</h3>
+          <pre data-archivo="Prompt: refactorizar"><code class="lenguaje-texto">Refactor acotado de [archivo/módulo].
+Objetivo: [legibilidad / duplicación / testabilidad]
+Restricciones:
+- Comportamiento idéntico (no cambies reglas de negocio)
+- Diff pequeño y revisable
+- No renombres públicos sin necesidad
+Antes del código: plan + riesgos. Después: checklist de verificación.</code></pre>
+
+          <h3>Documentar</h3>
+          <pre data-archivo="Prompt: documentar"><code class="lenguaje-texto">Documenta [módulo/endpoint] para desarrolladores.
+Incluye: propósito, inputs/outputs, ejemplos, errores posibles, cómo probar.
+Estilo: breve, en español, sin marketing.
+No inventes endpoints ni parámetros que no existan en el código.</code></pre>
+
+          <h3>Probar</h3>
+          <pre data-archivo="Prompt: probar"><code class="lenguaje-texto">Escribe pruebas para [función/endpoint].
+Framework: [Jest/PyTest/etc.]
+Cubre: caso feliz, validación, error de auth/permiso, borde [null/vacío/límite].
+Sigue el estilo de tests de [archivo de ejemplo].
+No mocks innecesarios. Indica cómo correrlas.</code></pre>
+
+          <h3>Revisión de PR / diff</h3>
+          <pre data-archivo="Prompt: revisar diff"><code class="lenguaje-texto">Haz code review del diff.
+Prioriza: correctness, seguridad, alcance, tests, mantenibilidad.
+Formato: hallazgos con severidad (alta/media/baja) + archivo + motivo + sugerencia breve.
+No reescribas el PR completo.</code></pre>
+        </section>
+
+        <section id="errores-comunes-con-ia">
+          <h2>Errores comunes al programar con IA</h2>
+          <p>Estas trampas se repiten. Evitarlas mejora más tus resultados que cambiar de modelo cada semana.</p>
+
+          <table>
+            <thead>
+              <tr><th>Trampa</th><th>Qué pasa</th><th>Cómo evitarla</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Pedirlo todo de golpe</strong></td>
+                <td>Diff gigante, imposible de revisar</td>
+                <td>Divide en tareas y pide plan primero</td>
+              </tr>
+              <tr>
+                <td><strong>Aceptar sin leer</strong></td>
+                <td>Bugs y “mejoras” no pedidas entran a main</td>
+                <td>Checklist de revisión + <code>git diff</code></td>
+              </tr>
+              <tr>
+                <td><strong>Contexto cero</strong></td>
+                <td>La IA inventa arquitectura y APIs</td>
+                <td>Archivos reales, README, restricciones</td>
+              </tr>
+              <tr>
+                <td><strong>Confiar en el tono seguro</strong></td>
+                <td>Alucinaciones creíbles</td>
+                <td>Verifica en docs, tipos, tests y ejecución</td>
+              </tr>
+              <tr>
+                <td><strong>Pegar secretos</strong></td>
+                <td>Fuga de credenciales</td>
+                <td>Redacta, rota claves, usa .env</td>
+              </tr>
+              <tr>
+                <td><strong>Dejar que instale de todo</strong></td>
+                <td>Dependencias innecesarias o dudosas</td>
+                <td>“Pregunta antes de añadir paquetes”</td>
+              </tr>
+              <tr>
+                <td><strong>Chat eterno sin evidencia</strong></td>
+                <td>Arreglos a ciegas que no cierran el bug</td>
+                <td>Repro + logs + una prueba que falle/pase</td>
+              </tr>
+              <tr>
+                <td><strong>Copiar sin entender</strong></td>
+                <td>No puedes mantener ni depurar</td>
+                <td>Pide explicación y un ejercicio</td>
+              </tr>
+              <tr>
+                <td><strong>Trabajar sin Git</strong></td>
+                <td>No hay vuelta atrás limpia</td>
+                <td>Rama + commits pequeños por tarea</td>
+              </tr>
+              <tr>
+                <td><strong>Objetivo vago (“que quede pro”)</strong></td>
+                <td>Diseño inventado y alcance inflado</td>
+                <td>Define comportamiento observable y fuera de alcance</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Mini ritual de 2 minutos (antes de cada feature)</h3>
+          <ol>
+            <li>Escribe el objetivo en una frase verificable.</li>
+            <li>Lista 2–5 restricciones (“no tocar X”).</li>
+            <li>Pide plan; corrige el plan.</li>
+            <li>Implementa un paso; revisa diff; prueba; commit.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si solo recuerdas una cosa</strong>
+            <p>La IA multiplica tu velocidad <em>y</em> tus errores. El hábito que equilibra eso es: <strong>plan → trozos pequeños → revisar → probar → commit</strong>.</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>

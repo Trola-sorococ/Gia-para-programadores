@@ -35,6 +35,1096 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="que-es-arduino">
+          <h2>¿Qué es Arduino y qué placa elegir?</h2>
+          <p><strong>Arduino</strong> es una plataforma de electrónica y programación de código abierto: una placa con microcontrolador, un entorno de desarrollo (el IDE) y una comunidad enorme. Sirve para leer sensores, encender LEDs, mover motores, mostrar datos en pantallas y conectar proyectos a internet.</p>
+          <p>Programas en un lenguaje basado en C/C++. Cada programa se llama <strong>sketch</strong> y se guarda en un archivo <code>.ino</code>. Lo escribes en el PC, lo <strong>subes</strong> a la placa por USB y la placa lo ejecuta sola (sin necesidad de dejar el PC conectado).</p>
+
+          <h3>Qué puedes hacer con él</h3>
+          <ul>
+            <li>Proyectos educativos: semáforos, alarmas, termómetros, robots sencillos.</li>
+            <li>Automatización en casa: luces, riego, detectores de movimiento.</li>
+            <li>Medición: temperatura, humedad, distancia, luz, calidad del aire.</li>
+            <li>Con placas como ESP32: WiFi, Bluetooth y proyectos IoT.</li>
+          </ul>
+
+          <h3>Comparar placas: Uno, Nano, Mega y ESP32</h3>
+          <table>
+            <thead>
+              <tr><th>Placa</th><th>Pines digitales / analógicos</th><th>Tensión</th><th>Ideal para</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Arduino Uno</strong> (ATmega328P)</td><td>14 digitales (6 PWM) / 6 analógicos</td><td>5 V</td><td>Aprender. Es la más documentada y la que usan casi todos los tutoriales.</td></tr>
+              <tr><td><strong>Arduino Nano</strong></td><td>Similar al Uno, más compacta</td><td>5 V</td><td>Proyectos definitivos en poco espacio; suele ir soldada a una protoboard.</td></tr>
+              <tr><td><strong>Arduino Mega 2560</strong></td><td>54 digitales / 16 analógicos</td><td>5 V</td><td>Muchos sensores, pantallas o motores a la vez.</td></tr>
+              <tr><td><strong>ESP32</strong></td><td>Muchos GPIO (varía el modelo)</td><td>3,3 V</td><td>WiFi y Bluetooth integrados; proyectos conectados. Cuidado: no es 5 V.</td></tr>
+            </tbody>
+          </table>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si estás empezando</strong>
+            <p>Compra un <strong>Arduino Uno</strong> (oficial o compatible) y un kit de iniciación con protoboard, LEDs, resistencias, potenciómetro, botón, cables jumpers y algún sensor. Casi todos los ejemplos de esta guía asumen Uno a 5 V.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">ESP32 y 5 V</strong>
+            <p>Los pines del ESP32 son de <strong>3,3 V</strong>. No les conectes señales de 5 V directamente. Usa divisores de tensión o convertidores de nivel cuando hables con módulos a 5 V.</p>
+          </div>
+
+          <h3>Qué vas a encontrar en esta guía</h3>
+          <ol>
+            <li>Instalar el IDE, drivers y conocer la interfaz.</li>
+            <li>Electrónica mínima y tu primer LED parpadeante.</li>
+            <li>Entradas/salidas, sensores, motores, pantallas y librerías.</li>
+            <li>Temporización con <code>millis()</code>, comunicación y errores frecuentes.</li>
+            <li>Proyectos para practicar al final.</li>
+          </ol>
+        </section>
+
+        <section id="instalar-arduino-ide">
+          <h2>Instalar Arduino IDE</h2>
+          <p>El <strong>Arduino IDE</strong> es el programa donde escribes el sketch, lo verificas (compilas) y lo subes a la placa. En Windows conviene la versión 2.x (más moderna) o la 1.8.x (más ligera). Ambas sirven para esta guía.</p>
+
+          <h3>1. Descargar e instalar</h3>
+          <ol>
+            <li>Entra en <a href="https://www.arduino.cc/en/software" target="_blank" rel="noopener">arduino.cc/en/software</a>.</li>
+            <li>Descarga el instalador para Windows (o el ZIP si no quieres instalar).</li>
+            <li>Ejecuta el instalador. Acepta instalar los drivers USB cuando te lo pida.</li>
+            <li>Al terminar, abre <strong>Arduino IDE</strong>.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">También con winget</strong>
+            <p>Si tienes Windows reciente:</p>
+            <pre><code class="lenguaje-shell">winget install --id ArduinoSA.IDE.stable -e</code></pre>
+          </div>
+
+          <h3>2. Conectar la placa por USB</h3>
+          <ul>
+            <li>Usa un cable de datos (algunos cables solo cargan y no transmiten).</li>
+            <li>Conecta la placa al PC. Debe encenderse un LED de alimentación (ON / PWR).</li>
+            <li>Windows debería detectar un puerto <strong>COM</strong> (por ejemplo COM3).</li>
+          </ul>
+
+          <h3>3. Drivers (si el puerto no aparece)</h3>
+          <table>
+            <thead>
+              <tr><th>Chip USB de la placa</th><th>Qué instalar</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>ATmega16U2 (Uno/Mega oficiales)</td><td>Suele venir con el instalador de Arduino.</td></tr>
+              <tr><td>CH340 / CH341 (muchos clones)</td><td>Driver CH340 de WCH; reinicia el PC si hace falta.</td></tr>
+              <tr><td>CP210x (algunos Nano y ESP32)</td><td>Driver Silicon Labs CP210x.</td></tr>
+              <tr><td>FTDI</td><td>Driver FTDI VCP.</td></tr>
+            </tbody>
+          </table>
+          <p>Para ver el puerto: clic derecho en el menú Inicio → <strong>Administrador de dispositivos</strong> → <em>Puertos (COM y LPT)</em>. Si ves un dispositivo con signo de admiración, falta el driver.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Descarga drivers solo de sitios conocidos</strong>
+            <p>Busca el fabricante (WCH, Silicon Labs, FTDI) o la documentación de tu placa. Evita “paquetes todo en uno” de sitios dudosos.</p>
+          </div>
+
+          <h3>4. Primera comprobación en el IDE</h3>
+          <ol>
+            <li><em>Herramientas → Placa</em> y elige tu modelo (p. ej. Arduino Uno).</li>
+            <li><em>Herramientas → Puerto</em> y elige el COMx que apareció al conectar.</li>
+            <li>Abre el ejemplo Blink: <em>Archivo → Ejemplos → 01.Basics → Blink</em>.</li>
+            <li>Pulsa el botón de <strong>Subir</strong> (flecha). Si termina sin error, la instalación está bien.</li>
+          </ol>
+        </section>
+
+        <section id="conocer-el-ide">
+          <h2>Conocer el Arduino IDE</h2>
+          <p>Conocer cuatro controles te basta para el día a día: verificar, subir, elegir placa/puerto y abrir el monitor serie.</p>
+
+          <h3>Barra de herramientas</h3>
+          <table>
+            <thead>
+              <tr><th>Botón / menú</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Verificar</strong> (✓)</td><td>Compila el sketch sin subirlo. Sirve para cazar errores de sintaxis.</td></tr>
+              <tr><td><strong>Subir</strong> (→)</td><td>Compila y graba el programa en la placa por USB.</td></tr>
+              <tr><td><strong>Nuevo / Abrir / Guardar</strong></td><td>Gestiona archivos <code>.ino</code>. Un sketch vive en una carpeta con el mismo nombre.</td></tr>
+              <tr><td><strong>Monitor serie</strong></td><td>Ventana para ver lo que imprime la placa con <code>Serial.print</code>.</td></tr>
+              <tr><td><strong>Plotter serie</strong></td><td>Grafica números que envías por Serial (útil con sensores).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Placa y puerto</h3>
+          <ul>
+            <li><em>Herramientas → Placa</em>: debe coincidir con lo que tienes enchufado (o el perfil correcto del ESP32).</li>
+            <li><em>Herramientas → Puerto</em>: el COM de tu placa. Si no hay ninguno, revisa cable y drivers.</li>
+            <li>En IDE 2.x también puedes elegir placa y puerto en el selector de la barra inferior / superior.</li>
+          </ul>
+          <div class="nota">
+            <strong class="nota__titulo">Procesador en Nano antiguos</strong>
+            <p>Algunos Nano necesitan <em>Herramientas → Procesador → ATmega328P (Old Bootloader)</em> si el subido falla con “not in sync”.</p>
+          </div>
+
+          <h3>Área de mensajes</h3>
+          <p>Debajo del editor aparece la consola: progreso de compilación, tamaño del programa y errores. Si falla al subir, lee la última línea: suele decir si el problema es el puerto, la placa o el sketch.</p>
+
+          <h3>Preferencias útiles</h3>
+          <ul>
+            <li><em>Archivo → Preferencias</em>: marca “Mostrar salida detallada al subir” cuando depuras un fallo de conexión.</li>
+            <li>Anota la carpeta de sketches (por defecto <code>Documentos\Arduino</code>).</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Orden típico cada vez que conectas</strong>
+            <p>1) Cable USB → 2) elegir placa → 3) elegir puerto → 4) Verificar → 5) Subir → 6) abrir Monitor serie si el sketch imprime algo.</p>
+          </div>
+        </section>
+
+        <section id="electronica-basica">
+          <h2>Electrónica básica y seguridad</h2>
+          <p>No hace falta ser ingeniero, pero sí respetar voltaje, corriente y polaridad. Un cable mal puesto puede quemar un pin o un módulo.</p>
+
+          <h3>Voltaje, corriente y resistencia</h3>
+          <table>
+            <thead>
+              <tr><th>Concepto</th><th>En la práctica</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Voltaje (V)</strong></td><td>“Presión” eléctrica. Arduino Uno trabaja a <strong>5 V</strong>. ESP32 a <strong>3,3 V</strong>.</td></tr>
+              <tr><td><strong>Corriente (A / mA)</strong></td><td>Cuánta carga fluye. Un pin digital del Uno aguanta ~20 mA de forma segura (mejor no pasarse).</td></tr>
+              <tr><td><strong>Resistencia (Ω)</strong></td><td>Limita la corriente. Un LED siempre lleva resistencia en serie.</td></tr>
+            </tbody>
+          </table>
+          <p>Ley de Ohm (idea): <code>V = I × R</code>. Para un LED rojo a 5 V, una resistencia de <strong>220 Ω</strong> o <strong>330 Ω</strong> suele ir bien.</p>
+
+          <h3>Protoboard</h3>
+          <p>La protoboard permite montar circuitos sin soldar:</p>
+          <ul>
+            <li>Los agujeros de cada <strong>fila corta</strong> (en la zona central) están unidos entre sí.</li>
+            <li>El “canal” central separa las dos mitades: un circuito integrado se coloca a caballo.</li>
+            <li>Las <strong>líneas laterales</strong> (buses +/−) suelen llevar 5 V y GND a lo largo de la placa.</li>
+          </ul>
+
+          <h3>Pines importantes del Uno</h3>
+          <ul>
+            <li><strong>5V</strong> y <strong>3.3V</strong>: alimentación para módulos (no abuses de la corriente).</li>
+            <li><strong>GND</strong>: tierra común. Todos los GND del circuito deben unirse.</li>
+            <li><strong>0–13</strong>: digitales. El 13 suele tener un LED en la placa.</li>
+            <li><strong>A0–A5</strong>: entradas analógicas (también se pueden usar como digitales).</li>
+            <li><strong>VIN</strong>: alimentación externa (p. ej. 7–12 V). El regulador de la placa genera los 5 V.</li>
+          </ul>
+
+          <h3>Seguridad</h3>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Nunca conectes 220 V / red eléctrica a Arduino</strong>
+            <p>Para bombillas o electrodomésticos usa un <strong>relé</strong> o un módulo adecuado, con aislamiento, y solo si sabes lo que haces. La red eléctrica puede matar.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Reglas de oro</strong>
+            <ul>
+              <li>Desconecta el USB (o la alimentación) antes de cambiar cables.</li>
+              <li>No cortocircuites 5 V con GND.</li>
+              <li>Respeta la polaridad de LEDs, electrolíticos y módulos.</li>
+              <li>Motores y servos “grandes” necesitan alimentación aparte; solo compartes GND con Arduino.</li>
+              <li>No saques de un pin más corriente de la recomendada: usa transistor, MOSFET o driver.</li>
+            </ul>
+          </div>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Multímetro</strong>
+            <p>Con uno barato mides si hay 5 V, continuidad en cables y el valor de una resistencia. Es la herramienta que más tiempo te ahorra al depurar un circuito.</p>
+          </div>
+        </section>
+
+        <section id="estructura-de-un-sketch">
+          <h2>Estructura de un sketch</h2>
+          <p>Todo sketch de Arduino tiene al menos dos funciones especiales: <code>setup()</code> y <code>loop()</code>. El microcontrolador las llama automáticamente.</p>
+
+          <h3>Esqueleto mínimo</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  // Se ejecuta UNA vez al encender o al reset
+}
+
+void loop() {
+  // Se ejecuta una y otra vez, para siempre
+}</code></pre>
+
+          <h3>Orden de ejecución</h3>
+          <ol>
+            <li>Alimentas la placa (USB o externa) o pulsas RESET.</li>
+            <li>Se ejecuta <code>setup()</code> una sola vez: aquí configuras pines, Serial, sensores…</li>
+            <li>Entra en <code>loop()</code> y lo repite sin parar hasta que apagues o reinicies.</li>
+          </ol>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  Serial.begin(9600);
+  Serial.println("Arranque: setup terminado");
+}
+
+void loop() {
+  Serial.println("Paso por loop");
+  delay(1000);  // espera 1 segundo (bloquea; más adelante verás millis)
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Arranque: setup terminado
+Paso por loop
+Paso por loop
+Paso por loop
+...</code></pre>
+
+          <h3>Variables globales y constantes</h3>
+          <p>Lo que declares <strong>fuera</strong> de las funciones es global (accesible desde <code>setup</code> y <code>loop</code>). Usa <code>const</code> para pines fijos:</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_LED = 13;
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(PIN_LED, HIGH);
+  delay(500);
+  digitalWrite(PIN_LED, LOW);
+  delay(500);
+}</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Tipos habituales</strong>
+            <p><code>int</code>, <code>long</code>, <code>float</code>, <code>bool</code>, <code>char</code>, <code>byte</code>, <code>String</code> (objeto de Arduino). Para tiempos con <code>millis()</code> conviene <code>unsigned long</code>.</p>
+          </div>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Comentarios</strong>
+            <p>Igual que en C++: <code>//</code> una línea y <code>/* ... */</code> varias. Explica el porqué (pin, cableado, unidad del sensor).</p>
+          </div>
+        </section>
+
+        <section id="primer-proyecto-led">
+          <h2>Tu primer proyecto: LED parpadeante</h2>
+          <p>El “Hola, mundo” de Arduino: un LED que enciende y apaga. Practicas <code>pinMode</code>, <code>digitalWrite</code> y <code>delay</code>.</p>
+
+          <h3>Material</h3>
+          <ul>
+            <li>Arduino Uno (o compatible).</li>
+            <li>1 LED (cualquier color).</li>
+            <li>1 resistencia 220 Ω o 330 Ω.</li>
+            <li>Protoboard y cables jumpers.</li>
+          </ul>
+
+          <h3>Cableado</h3>
+          <ol>
+            <li>Pata larga del LED (ánodo, +) → resistencia → pin digital <strong>8</strong> (o el que elijas).</li>
+            <li>Pata corta del LED (cátodo, −) → <strong>GND</strong>.</li>
+          </ol>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Sin resistencia, el LED (o el pin) puede dañarse</strong>
+            <p>La resistencia limita la corriente. No la omitas “para probar un segundo”.</p>
+          </div>
+
+          <h3>Sketch</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_LED = 8;
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);  // el pin será salida
+}
+
+void loop() {
+  digitalWrite(PIN_LED, HIGH);  // 5 V → LED encendido
+  delay(1000);                 // espera 1000 ms = 1 s
+  digitalWrite(PIN_LED, LOW);   // 0 V → LED apagado
+  delay(1000);
+}</code></pre>
+
+          <h3>Qué hace cada función</h3>
+          <table>
+            <thead>
+              <tr><th>Función</th><th>Para qué</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>pinMode(pin, OUTPUT)</code></td><td>Configura el pin como salida.</td></tr>
+              <tr><td><code>digitalWrite(pin, HIGH/LOW)</code></td><td>Pone el pin a alto (≈5 V) o bajo (0 V).</td></tr>
+              <tr><td><code>delay(ms)</code></td><td>Pausa el programa ese número de milisegundos. Mientras tanto no hace nada más.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Atajo: LED integrado</h3>
+          <p>El pin <strong>13</strong> del Uno tiene un LED en la propia placa. Puedes probar sin protoboard:</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(200);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(200);
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si no parpadea</strong>
+            <p>Revisa polaridad del LED, que el pin del código coincida con el cable, que hayas subido el sketch y que la placa tenga alimentación.</p>
+          </div>
+        </section>
+
+        <section id="monitor-serie">
+          <h2>Monitor serie y depuración</h2>
+          <p>El <strong>monitor serie</strong> es tu ventana al programa: imprime mensajes, valores de sensores y avisos de error. Es la herramienta de depuración nº 1.</p>
+
+          <h3>Iniciar y escribir</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  Serial.begin(9600);  // misma velocidad en el monitor
+  Serial.println("Listo");
+}
+
+void loop() {
+  Serial.print("Contador: ");
+  Serial.println(millis() / 1000);  // segundos desde el arranque
+  delay(1000);
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Listo
+Contador: 1
+Contador: 2
+Contador: 3
+...</code></pre>
+
+          <h3>print vs println</h3>
+          <table>
+            <thead>
+              <tr><th>Función</th><th>Efecto</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>Serial.print(x)</code></td><td>Escribe sin salto de línea.</td></tr>
+              <tr><td><code>Serial.println(x)</code></td><td>Escribe y salta de línea.</td></tr>
+              <tr><td><code>Serial.write(byte)</code></td><td>Envía un byte crudo (menos usado al empezar).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Cómo abrirlo</h3>
+          <ol>
+            <li>Sube el sketch.</li>
+            <li>Abre el monitor serie (icono de lupa / <em>Herramientas → Monitor serie</em>).</li>
+            <li>Elige la velocidad: <strong>9600</strong> debe coincidir con <code>Serial.begin(9600)</code>.</li>
+          </ol>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Velocidades distintas = basura</strong>
+            <p>Si ves símbolos raros, el baud rate del monitor no coincide con el del sketch. Cámbialo a 9600 (o al valor que usaste).</p>
+          </div>
+
+          <h3>Leer lo que escribes en el monitor</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.println("Escribe 1 para encender, 0 para apagar");
+}
+
+void loop() {
+  if (Serial.available() &gt; 0) {
+    char c = Serial.read();
+    if (c == '1') {
+      digitalWrite(LED_BUILTIN, HIGH);
+      Serial.println("LED ON");
+    } else if (c == '0') {
+      digitalWrite(LED_BUILTIN, LOW);
+      Serial.println("LED OFF");
+    }
+  }
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Consejo de depuración</strong>
+            <p>Cuando algo “no funciona”, imprime el valor que lees del sensor o del botón <em>antes</em> de cambiar el cableado otra vez. Muchas veces el circuito está bien y la lógica no.</p>
+          </div>
+        </section>
+
+        <section id="entradas-y-salidas-digitales">
+          <h2>Entradas y salidas digitales</h2>
+          <p>Un pin digital solo conoce dos estados: <strong>HIGH</strong> o <strong>LOW</strong>. Como salida enciende cosas; como entrada lee botones e interruptores.</p>
+
+          <h3>Salida: repaso rápido</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">pinMode(8, OUTPUT);
+digitalWrite(8, HIGH);  // activo
+digitalWrite(8, LOW);   // inactivo</code></pre>
+
+          <h3>Entrada con botón y pull-up interno</h3>
+          <p>Lo más sencillo y fiable: un botón entre el pin y GND, y activar la resistencia de <strong>pull-up interna</strong> con <code>INPUT_PULLUP</code>. Así el pin lee HIGH en reposo y LOW al pulsar.</p>
+          <p><strong>Cableado:</strong> un extremo del botón al pin 2, el otro a GND. No hace falta resistencia externa.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_BOTON = 2;
+const int PIN_LED = 8;
+
+void setup() {
+  pinMode(PIN_BOTON, INPUT_PULLUP);
+  pinMode(PIN_LED, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int estado = digitalRead(PIN_BOTON);  // LOW = pulsado
+  if (estado == LOW) {
+    digitalWrite(PIN_LED, HIGH);
+    Serial.println("Pulsado");
+  } else {
+    digitalWrite(PIN_LED, LOW);
+  }
+}</code></pre>
+
+          <h3>Antirrebote (debounce)</h3>
+          <p>Al pulsar, el contacto mecánico “rebota” y puede generar varios flancos. Una espera corta tras detectar el cambio suele bastar:</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_BOTON = 2;
+bool ledEncendido = false;
+int lecturaAnterior = HIGH;
+
+void setup() {
+  pinMode(PIN_BOTON, INPUT_PULLUP);
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  int lectura = digitalRead(PIN_BOTON);
+  if (lectura == LOW &amp;&amp; lecturaAnterior == HIGH) {
+    delay(30);  // antirrebote simple
+    if (digitalRead(PIN_BOTON) == LOW) {
+      ledEncendido = !ledEncendido;
+      digitalWrite(LED_BUILTIN, ledEncendido ? HIGH : LOW);
+    }
+  }
+  lecturaAnterior = lectura;
+}</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Pull-down externo</strong>
+            <p>También puedes poner el botón entre 5 V y el pin, y una resistencia (10 kΩ) del pin a GND (<em>pull-down</em>). Entonces reposo = LOW y pulsado = HIGH. Con <code>INPUT_PULLUP</code> te ahorras esa resistencia.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No dejes un INPUT “flotando”</strong>
+            <p>Si configuras <code>INPUT</code> sin pull-up/down, el pin capta ruido y el valor salta solo. Usa <code>INPUT_PULLUP</code> o una resistencia externa.</p>
+          </div>
+        </section>
+
+        <section id="entradas-analogicas">
+          <h2>Entradas analógicas</h2>
+          <p><code>analogRead</code> mide un voltaje entre 0 y 5 V (en el Uno) y lo convierte a un número entero de <strong>0 a 1023</strong> (ADC de 10 bits).</p>
+
+          <h3>Potenciómetro</h3>
+          <p>Un potenciómetro es un divisor de tensión ajustable. Tres patas: una a 5 V, otra a GND, y la central (cursor) a <strong>A0</strong>.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int crudo = analogRead(A0);          // 0..1023
+  float voltios = crudo * (5.0 / 1023.0);
+  Serial.print("ADC: ");
+  Serial.print(crudo);
+  Serial.print("  V: ");
+  Serial.println(voltios);
+  delay(200);
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">ADC: 0  V: 0.00
+ADC: 512  V: 2.50
+ADC: 1023  V: 5.00</code></pre>
+
+          <h3>map(): convertir rangos</h3>
+          <p><code>map(valor, deMin, deMax, aMin, aMax)</code> reescala un número. Útil para pasar de 0–1023 a 0–255 (PWM) o a un ángulo 0–180 (servo):</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int crudo = analogRead(A0);
+  int brillo = map(crudo, 0, 1023, 0, 255);
+  int angulo = map(crudo, 0, 1023, 0, 180);
+  Serial.print(brillo);
+  Serial.print(" / ");
+  Serial.println(angulo);
+  delay(100);
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">map usa enteros</strong>
+            <p>No redondea con decimales. Para cálculos finos, haz la regla de tres con <code>float</code> a mano.</p>
+          </div>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">ESP32</strong>
+            <p>En ESP32 el ADC suele ir de 0 a 4095 (12 bits) y la referencia es 3,3 V. Ajusta las fórmulas.</p>
+          </div>
+        </section>
+
+        <section id="pwm">
+          <h2>Salidas PWM</h2>
+          <p><strong>PWM</strong> (modulación por ancho de pulso) simula un voltaje intermedio encendiendo y apagando muy rápido. En Arduino usas <code>analogWrite(pin, valor)</code> con <code>valor</code> de <strong>0 a 255</strong>.</p>
+
+          <h3>Pines PWM del Uno</h3>
+          <p>Solo algunos pines digitales soportan PWM: <strong>3, 5, 6, 9, 10 y 11</strong> (marcados con ~ en la serigrafía).</p>
+
+          <h3>Brillo de un LED</h3>
+          <p>LED + resistencia en el pin 9, cátodo a GND. Potenciómetro en A0 (opcional):</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_PWM = 9;
+
+void setup() {
+  // analogWrite no necesita pinMode en la mayoría de placas AVR, pero no estorba:
+  pinMode(PIN_PWM, OUTPUT);
+}
+
+void loop() {
+  int crudo = analogRead(A0);
+  int brillo = map(crudo, 0, 1023, 0, 255);
+  analogWrite(PIN_PWM, brillo);
+  delay(10);
+}</code></pre>
+
+          <h3>Fundido automático</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_PWM = 9;
+
+void setup() {
+  pinMode(PIN_PWM, OUTPUT);
+}
+
+void loop() {
+  for (int v = 0; v &lt;= 255; v++) {
+    analogWrite(PIN_PWM, v);
+    delay(8);
+  }
+  for (int v = 255; v &gt;= 0; v--) {
+    analogWrite(PIN_PWM, v);
+    delay(8);
+  }
+}</code></pre>
+
+          <h3>Velocidad de un motor DC (idea)</h3>
+          <p>No conectes un motor directo al pin. Usa un driver (L298N, TB6612…) y alimenta el motor aparte. El pin PWM del Arduino solo manda la señal de velocidad al driver.</p>
+          <div class="nota">
+            <strong class="nota__titulo">analogWrite no es “analógico de verdad”</strong>
+            <p>Sigue siendo digital pulsado. Un voltímetro puede mostrar un promedio; un LED lo percibe como brillo continuo.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">En ESP32 la API cambia</strong>
+            <p>En muchos cores de ESP32 se usa el API de LEDC en lugar del <code>analogWrite</code> clásico. Revisa el ejemplo de tu placa.</p>
+          </div>
+        </section>
+
+        <section id="sensores">
+          <h2>Sensores más comunes</h2>
+          <p>Cuatro sensores que aparecen en casi todos los kits. Instala las librerías que indiquen (sección Librerías) cuando haga falta.</p>
+
+          <h3>DHT11 — temperatura y humedad</h3>
+          <p><strong>Pines típicos del módulo:</strong> VCC→5 V, GND→GND, DATA→pin 4 (a veces con resistencia pull-up ya soldada).</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">#include &lt;DHT.h&gt;
+
+#define PIN_DHT 4
+#define TIPO_DHT DHT11
+
+DHT dht(PIN_DHT, TIPO_DHT);
+
+void setup() {
+  Serial.begin(9600);
+  dht.begin();
+}
+
+void loop() {
+  float h = dht.readHumidity();
+  float t = dht.readTemperature();  // °C
+
+  if (isnan(h) || isnan(t)) {
+    Serial.println("Error leyendo DHT11");
+    return;
+  }
+
+  Serial.print("Humedad: ");
+  Serial.print(h);
+  Serial.print("%  Temp: ");
+  Serial.print(t);
+  Serial.println(" C");
+  delay(2000);  // el DHT11 no quiere lecturas demasiado seguidas
+}</code></pre>
+
+          <h3>HC-SR04 — distancia ultrasónica</h3>
+          <p>VCC→5 V, GND→GND, TRIG→pin 9, ECHO→pin 10.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_TRIG = 9;
+const int PIN_ECHO = 10;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(PIN_TRIG, OUTPUT);
+  pinMode(PIN_ECHO, INPUT);
+}
+
+void loop() {
+  digitalWrite(PIN_TRIG, LOW);
+  delayMicroseconds(2);
+  digitalWrite(PIN_TRIG, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(PIN_TRIG, LOW);
+
+  long duracion = pulseIn(PIN_ECHO, HIGH);  // µs
+  float cm = duracion * 0.0343 / 2.0;
+
+  Serial.print("Distancia: ");
+  Serial.print(cm);
+  Serial.println(" cm");
+  delay(200);
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">ECHO a 5 V en ESP32</strong>
+            <p>El eco del HC-SR04 suele ser a 5 V. En ESP32 usa un divisor de resistencia o un módulo compatible con 3,3 V.</p>
+          </div>
+
+          <h3>LDR — sensor de luz</h3>
+          <p>La LDR cambia su resistencia con la luz. Montaje típico: 5 V → LDR → nodo → resistencia 10 kΩ → GND. El nodo va a A0.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">void setup() {
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  int luz = analogRead(A0);  // valores altos o bajos según el montaje
+  Serial.println(luz);
+  digitalWrite(LED_BUILTIN, luz &lt; 400 ? HIGH : LOW);  // umbral de ejemplo
+  delay(100);
+}</code></pre>
+
+          <h3>PIR — detector de movimiento</h3>
+          <p>Módulos HC-SR501: VCC, GND y OUT a un pin digital. OUT pasa a HIGH cuando detecta movimiento (tras un tiempo de estabilización al encender).</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_PIR = 7;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(PIN_PIR, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
+  Serial.println("Calentando PIR (aprox. 30 s)...");
+  delay(30000);
+}
+
+void loop() {
+  bool movimiento = digitalRead(PIN_PIR) == HIGH;
+  digitalWrite(LED_BUILTIN, movimiento ? HIGH : LOW);
+  if (movimiento) {
+    Serial.println("Movimiento detectado");
+  }
+  delay(50);
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Calibra umbrales con el monitor serie</strong>
+            <p>Imprime los valores crudos unos minutos y decide qué número significa “oscuro”, “cerca” o “alarma”. Cada montaje es distinto.</p>
+          </div>
+        </section>
+
+        <section id="motores-y-actuadores">
+          <h2>Motores, servos y relés</h2>
+          <p>Los actuadores convierten señales en movimiento o conmutación. Casi siempre necesitan más corriente de la que un pin puede dar: usa drivers y alimentación adecuada.</p>
+
+          <h3>Servo SG90</h3>
+          <p>Cableado típico: rojo→5 V, marrón/negro→GND, naranja/amarillo→pin 9 (señal). Para varios servos, alimenta a 5 V externos y une GND con Arduino.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">#include &lt;Servo.h&gt;
+
+Servo miServo;
+
+void setup() {
+  miServo.attach(9);
+}
+
+void loop() {
+  miServo.write(0);
+  delay(1000);
+  miServo.write(90);
+  delay(1000);
+  miServo.write(180);
+  delay(1000);
+}</code></pre>
+
+          <h3>Motor DC con L298N</h3>
+          <p>El L298N recibe alimentación del motor (p. ej. 6–12 V en el bornes del módulo), GND común con Arduino, y señales IN1/IN2 (dirección) + ENA (PWM de velocidad).</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int IN1 = 8;
+const int IN2 = 7;
+const int ENA = 9;  // PWM
+
+void setup() {
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+}
+
+void adelante(int velocidad) {
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, velocidad);  // 0..255
+}
+
+void atras(int velocidad) {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, HIGH);
+  analogWrite(ENA, velocidad);
+}
+
+void parar() {
+  digitalWrite(IN1, LOW);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, 0);
+}
+
+void loop() {
+  adelante(180);
+  delay(1500);
+  parar();
+  delay(500);
+  atras(180);
+  delay(1500);
+  parar();
+  delay(1000);
+}</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Alimentación de motores</strong>
+            <p>No alimentes motores medianos/grandes solo desde el 5 V del USB. Usa batería o fuente aparte y <strong>GND común</strong>. Sin eso reiniciarás la placa o quemarás el regulador.</p>
+          </div>
+
+          <h3>Relé</h3>
+          <p>Un módulo de relé aísla (ópticamente en muchos kits) una carga de más voltaje. El pin IN se controla con <code>digitalWrite</code>. Lee la serigrafía: algunos se activan en LOW.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_RELE = 6;
+
+void setup() {
+  pinMode(PIN_RELE, OUTPUT);
+  digitalWrite(PIN_RELE, HIGH);  // muchos módulos: HIGH = apagado
+}
+
+void loop() {
+  digitalWrite(PIN_RELE, LOW);   // activa
+  delay(2000);
+  digitalWrite(PIN_RELE, HIGH);  // desactiva
+  delay(2000);
+}</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Cargas de red (220 V)</strong>
+            <p>Si no tienes formación en electricidad, no manipules la red. Usa bombillas de baja tensión o lámparas USB para practicar.</p>
+          </div>
+
+          <h3>Buzzer</h3>
+          <p>Buzzer activo: HIGH/LOW como un LED. Buzzer pasivo: usa <code>tone(pin, frecuencia)</code> / <code>noTone(pin)</code>.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_BUZZER = 5;
+
+void setup() {
+  pinMode(PIN_BUZZER, OUTPUT);
+}
+
+void loop() {
+  tone(PIN_BUZZER, 1000);  // 1 kHz
+  delay(300);
+  noTone(PIN_BUZZER);
+  delay(700);
+}</code></pre>
+        </section>
+
+        <section id="pantallas">
+          <h2>Pantallas LCD y OLED</h2>
+          <p>Mostrar texto evita depender del PC. Las opciones más amigables al empezar son el LCD 16×2 con backpack <strong>I2C</strong> y las OLED SSD1306 también por I2C.</p>
+
+          <h3>LCD 16×2 I2C</h3>
+          <p>Cableado: VCC→5 V, GND→GND, SDA→A4, SCL→A5 (en el Uno). Instala la librería <strong>LiquidCrystal I2C</strong> (o similar) desde el gestor.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+
+// Dirección frecuente: 0x27 o 0x3F (escanea si no ves nada)
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+void setup() {
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Hola, Arduino");
+  lcd.setCursor(0, 1);
+  lcd.print("Gia para prog.");
+}
+
+void loop() {
+  // nada: el texto permanece
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Pantalla en blanco</strong>
+            <p>Prueba la otra dirección I2C (0x3F), sube el contraste del potenciómetro del backpack y verifica SDA/SCL. Un sketch “I2C scanner” lista las direcciones presentes.</p>
+          </div>
+
+          <h3>OLED 128×64 (SSD1306)</h3>
+          <p>Suele ir a 3,3–5 V según el módulo. Librerías habituales: <strong>Adafruit SSD1306</strong> + <strong>Adafruit GFX</strong>, o <strong>U8g2</strong>.</p>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">#include &lt;Wire.h&gt;
+#include &lt;Adafruit_GFX.h&gt;
+#include &lt;Adafruit_SSD1306.h&gt;
+
+#define ANCHO 128
+#define ALTO 64
+Adafruit_SSD1306 display(ANCHO, ALTO, &amp;Wire, -1);
+
+void setup() {
+  if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    for (;;) { /* no se encontró la pantalla */ }
+  }
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(0, 0);
+  display.println("OLED lista");
+  display.display();  // ¡imprescindible para volcar el buffer!
+}
+
+void loop() {
+  display.clearDisplay();
+  display.setCursor(0, 20);
+  display.print("ms: ");
+  display.println(millis());
+  display.display();
+  delay(200);
+}</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">I2C en Uno</strong>
+            <p>SDA = A4, SCL = A5. En Mega son pines distintos (20 y 21). En ESP32 suelen ser configurables; muchos kits usan 21 (SDA) y 22 (SCL).</p>
+          </div>
+        </section>
+
+        <section id="librerias">
+          <h2>Librerías</h2>
+          <p>Una librería añade funciones listas (sensores, pantallas, WiFi…). Evita reinventar protocolos complicados.</p>
+
+          <h3>Instalar desde el gestor</h3>
+          <ol>
+            <li><em>Herramientas → Administrar bibliotecas…</em> (IDE 1.x: <em>Programa → Incluir librería → Administrar bibliotecas</em>).</li>
+            <li>Busca el nombre (p. ej. <code>DHT sensor library</code>, <code>Servo</code> ya viene incluida).</li>
+            <li>Instala y cierra el gestor.</li>
+            <li>En el sketch: <code>#include &lt;Nombre.h&gt;</code>.</li>
+          </ol>
+
+          <h3>Ejemplo de uso</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">#include &lt;Servo.h&gt;   // cabecera de la librería
+
+Servo brazo;          // objeto que expone la librería
+
+void setup() {
+  brazo.attach(9);    // métodos del objeto
+}
+
+void loop() {
+  brazo.write(90);
+  delay(500);
+}</code></pre>
+
+          <h3>Dónde se guardan</h3>
+          <ul>
+            <li>Librerías del usuario: carpeta <code>Documentos\Arduino\libraries</code>.</li>
+            <li>Cada librería es una carpeta con sus <code>.h</code> / <code>.cpp</code>.</li>
+            <li>Tras instalar a mano (ZIP), reinicia el IDE.</li>
+          </ul>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Conflictos de nombres</strong>
+            <p>No metas dos librerías distintas con el mismo nombre de carpeta. Si un ejemplo no compila, lee el error: a menudo falta una dependencia (p. ej. Adafruit GFX junto a SSD1306).</p>
+          </div>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Ejemplos incluidos</strong>
+            <p><em>Archivo → Ejemplos</em> lista demos de las librerías instaladas. Es la forma más rápida de comprobar cableado y dirección I2C.</p>
+          </div>
+        </section>
+
+        <section id="millis-sin-bloquear">
+          <h2>millis(): hacer varias cosas a la vez</h2>
+          <p><code>delay()</code> es fácil, pero <strong>bloquea</strong>: mientras esperas, no lees botones ni actualizas pantallas. <code>millis()</code> devuelve los milisegundos desde el arranque y te deja programar esperas sin frenar el resto.</p>
+
+          <h3>Patrón básico</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_LED = 8;
+unsigned long anterior = 0;
+const unsigned long INTERVALO = 500;  // ms
+bool encendido = false;
+
+void setup() {
+  pinMode(PIN_LED, OUTPUT);
+}
+
+void loop() {
+  unsigned long ahora = millis();
+  if (ahora - anterior &gt;= INTERVALO) {
+    anterior = ahora;
+    encendido = !encendido;
+    digitalWrite(PIN_LED, encendido ? HIGH : LOW);
+  }
+
+  // aquí puedes leer botones, sensores, etc. en cada vuelta
+}</code></pre>
+
+          <h3>Dos LEDs a ritmos distintos</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int LED_A = 8;
+const int LED_B = 9;
+
+unsigned long tA = 0, tB = 0;
+bool estadoA = false, estadoB = false;
+
+void setup() {
+  pinMode(LED_A, OUTPUT);
+  pinMode(LED_B, OUTPUT);
+}
+
+void loop() {
+  unsigned long ahora = millis();
+
+  if (ahora - tA &gt;= 500) {
+    tA = ahora;
+    estadoA = !estadoA;
+    digitalWrite(LED_A, estadoA);
+  }
+
+  if (ahora - tB &gt;= 200) {
+    tB = ahora;
+    estadoB = !estadoB;
+    digitalWrite(LED_B, estadoB);
+  }
+}</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Por qué restar y no comparar absolutos</strong>
+            <p>Usar <code>ahora - anterior &gt;= INTERVALO</code> funciona incluso cuando <code>millis()</code> desborda (~49 días) y vuelve a cero, si las variables son <code>unsigned long</code>.</p>
+          </div>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Cuándo sí usar delay</strong>
+            <p>En demos cortas, esperas de sensores (DHT) o pulsos de microsegundos (<code>delayMicroseconds</code>) está bien. En proyectos interactivos, prefiere <code>millis()</code>.</p>
+          </div>
+        </section>
+
+        <section id="comunicacion">
+          <h2>Comunicación: Serial, I2C y SPI</h2>
+          <p>Las placas y módulos “hablan” por buses. No necesitas memorizar los protocolos: sí saber cuál usa tu sensor y qué pines toca.</p>
+
+          <h3>Resumen</h3>
+          <table>
+            <thead>
+              <tr><th>Bus</th><th>Hilos típicos</th><th>Uso frecuente</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>UART / Serial</strong></td><td>TX, RX (+ GND)</td><td>Monitor serie, GPS, Bluetooth HC-05, comunicación entre placas.</td></tr>
+              <tr><td><strong>I2C</strong></td><td>SDA, SCL (+ VCC, GND)</td><td>LCD I2C, OLED, RTC, muchos sensores. Varios dispositivos, dos cables de datos.</td></tr>
+              <tr><td><strong>SPI</strong></td><td>MOSI, MISO, SCK, CS</td><td>Pantallas rápidas, tarjetas SD, algunos sensores. Más cables, más velocidad.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Serial (UART)</h3>
+          <p>Ya lo usaste con <code>Serial</code>. En el Uno, los pines 0 (RX) y 1 (TX) son el mismo canal USB: si conectas un módulo ahí, desconéctalo al subir el sketch o usa <code>SoftwareSerial</code> en otros pines.</p>
+
+          <h3>I2C</h3>
+          <p>Cada dispositivo tiene una dirección (p. ej. 0x27, 0x3C). Librería base: <code>Wire.h</code>. No mezcles dispositivos a 5 V y 3,3 V sin nivelación.</p>
+
+          <h3>SPI</h3>
+          <p>En Uno: 11 MOSI, 12 MISO, 13 SCK y un CS por dispositivo (p. ej. 10). Suele ir con librerías específicas del módulo.</p>
+
+          <h3>Bluetooth (HC-05 / HC-06) — breve</h3>
+          <p>Módulo serie inalámbrico: VCC, GND, TXD→RX de Arduino, RXD→TX (a veces con divisor 5 V→3,3 V). Emparejas el móvil o el PC y envías los mismos caracteres que por el monitor serie.</p>
+
+          <h3>WiFi — breve</h3>
+          <p>Con <strong>ESP32</strong> o ESP8266 usas WiFi integrado y librerías como <code>WiFi.h</code> para conectarte a tu red, montar un servidor web sencillo o publicar datos. El Uno clásico necesita un shield o módulo externo (ESP-01, Ethernet…).</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No subas contraseñas a repositorios públicos</strong>
+            <p>Si publicas un sketch con SSID y password, cámbialos o usa un archivo local que no subas a GitHub.</p>
+          </div>
+        </section>
+
+        <section id="errores-comunes">
+          <h2>Errores comunes y cómo resolverlos</h2>
+          <p>La mayoría de fallos al empezar son de cable, puerto o placa mal seleccionada, no del código.</p>
+
+          <h3>Tabla rápida</h3>
+          <table>
+            <thead>
+              <tr><th>Síntoma</th><th>Qué probar</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>No aparece puerto COM</td><td>Cable de datos, otro USB, drivers CH340/CP210x, Administrador de dispositivos.</td></tr>
+              <tr><td><code>port not found</code> / no se puede abrir el puerto</td><td>Cierra el monitor serie, cierra otros programas que usen el COM, vuelve a elegir puerto.</td></tr>
+              <tr><td><code>avrdude: stk500_getsync(): not in sync</code></td><td>Placa/puerto incorrectos; pulsa RESET al subir; Nano con “Old Bootloader”; cable flojo.</td></tr>
+              <tr><td>Sube bien pero no hace lo esperado</td><td>Pin del código ≠ pin del cable; falta GND común; LED al revés; abre Serial y depura.</td></tr>
+              <tr><td>Compila con error de librería</td><td>Instala la librería; revisa el <code>#include</code>; mayúsculas en el nombre del <code>.h</code>.</td></tr>
+              <tr><td>Pantalla I2C en blanco</td><td>Dirección 0x27 vs 0x3F; SDA/SCL; alimentación; contraste.</td></tr>
+              <tr><td>La placa se reinicia al mover un motor</td><td>Alimentación insuficiente; motor con fuente aparte + GND común; condensador de desacople.</td></tr>
+              <tr><td>Caracteres raros en el monitor</td><td>Baud rate distinto (9600 vs 115200).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>“not in sync” paso a paso</h3>
+          <ol>
+            <li>Confirma <em>Placa</em> exacta (Uno ≠ Nano ≠ Mega).</li>
+            <li>Confirma <em>Puerto</em> (desconecta y mira cuál desaparece).</li>
+            <li>Cierra el monitor serie e intenta de nuevo.</li>
+            <li>Prueba otro cable USB.</li>
+            <li>En Nano clon: <em>Procesador → ATmega328P (Old Bootloader)</em>.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Salida detallada</strong>
+            <p>En Preferencias activa la salida detallada al subir. El final del log suele señalar si avrdude encontró el puerto o falló el protocolo.</p>
+          </div>
+          <div class="nota">
+            <strong class="nota__titulo">ESP32: “Failed to connect”</strong>
+            <p>Mantén pulsado BOOT (y a veces EN) según tu placa mientras empieza la carga, o usa un cable de datos de calidad. Instala el soporte ESP32 desde el gestor de placas.</p>
+          </div>
+        </section>
+
+        <section id="proyectos">
+          <h2>Proyectos para practicar</h2>
+          <p>Ideas concretas para juntar lo aprendido. Empieza por el cableado, imprime valores por Serial y luego añade la lógica.</p>
+
+          <h3>1. Semáforo peatonal</h3>
+          <ul>
+            <li><strong>Material:</strong> 3 LEDs (rojo, amarillo, verde) + resistencias; opcional botón peatón.</li>
+            <li><strong>Lógica:</strong> secuencia verde → amarillo → rojo con <code>delay</code> o mejor con <code>millis</code>.</li>
+            <li><strong>Extra:</strong> al pulsar el botón, acelera el cambio a rojo para el coche / verde peatón.</li>
+          </ul>
+
+          <h3>2. Alarma con PIR y buzzer</h3>
+          <ul>
+            <li><strong>Material:</strong> PIR, buzzer, LED.</li>
+            <li><strong>Lógica:</strong> si PIR = HIGH, suena <code>tone</code> y enciende LED durante N segundos.</li>
+            <li><strong>Extra:</strong> botón para armar/desarmar; mensaje por Serial.</li>
+          </ul>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">const int PIN_PIR = 7;
+const int PIN_BUZZER = 5;
+const int PIN_LED = 8;
+
+void setup() {
+  pinMode(PIN_PIR, INPUT);
+  pinMode(PIN_BUZZER, OUTPUT);
+  pinMode(PIN_LED, OUTPUT);
+  delay(30000);  // calentamiento PIR
+}
+
+void loop() {
+  if (digitalRead(PIN_PIR) == HIGH) {
+    digitalWrite(PIN_LED, HIGH);
+    tone(PIN_BUZZER, 2000);
+    delay(2000);
+    noTone(PIN_BUZZER);
+    digitalWrite(PIN_LED, LOW);
+  }
+}</code></pre>
+
+          <h3>3. Termómetro con DHT11 y LCD</h3>
+          <ul>
+            <li>Lee temperatura/humedad cada 2 s.</li>
+            <li>Muéstralas en LCD I2C (línea 1: temp, línea 2: humedad).</li>
+            <li>Si temperatura &gt; umbral, enciende un LED de aviso.</li>
+          </ul>
+
+          <h3>4. Medidor de distancia</h3>
+          <ul>
+            <li>HC-SR04 + LED o buzzer que pite más rápido cuanto más cerca (como sensor de aparcamiento).</li>
+            <li>Usa <code>millis</code> para el ritmo del pitido sin bloquear la medición.</li>
+          </ul>
+
+          <h3>5. Luz automática con LDR</h3>
+          <ul>
+            <li>Si <code>analogRead</code> indica oscuridad, <code>analogWrite</code> sube el brillo de un LED (PWM).</li>
+            <li>Ajusta el umbral mirando el monitor serie de noche y de día.</li>
+          </ul>
+
+          <h3>6. Control de servo con potenciómetro</h3>
+          <pre data-archivo="sketch.ino"><code class="lenguaje-arduino">#include &lt;Servo.h&gt;
+
+Servo servo;
+void setup() {
+  servo.attach(9);
+}
+
+void loop() {
+  int angulo = map(analogRead(A0), 0, 1023, 0, 180);
+  servo.write(angulo);
+  delay(15);
+}</code></pre>
+
+          <h3>Orden sugerido</h3>
+          <ol>
+            <li>LED + botón (digital).</li>
+            <li>Potenciómetro + PWM.</li>
+            <li>Un sensor (LDR o HC-SR04) con Serial.</li>
+            <li>Pantalla o servo.</li>
+            <li>Proyecto “completo” (alarma o termómetro) con <code>millis</code>.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Cómo practicar sin frustrarte</strong>
+            <p>Cambia una sola cosa cada vez (un cable o tres líneas de código). Si se rompe, vuelve al último sketch que funcionaba. Guarda versiones con nombres claros: <code>semaforo_v1</code>, <code>semaforo_boton</code>.</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>

@@ -35,6 +35,1337 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="estructura-html">
+          <h2>Estructura de una página HTML</h2>
+          <p>HTML describe <strong>qué hay</strong> en la página: títulos, párrafos, imágenes, enlaces. El navegador lee el archivo, arma el documento y luego aplica el CSS (cómo se ve) y el JavaScript (cómo reacciona).</p>
+
+          <h3>Documento mínimo</h3>
+          <p>Crea una carpeta, por ejemplo <code>mi-sitio</code>, y dentro un archivo <code>index.html</code>:</p>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Mi primera página&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Hola, mundo&lt;/h1&gt;
+  &lt;p&gt;Esta es mi primera página web.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+          <p>Ábrelo con doble clic o arrástralo al navegador. Deberías ver el título grande y el párrafo debajo.</p>
+
+          <h3>Qué hace cada pieza</h3>
+          <table>
+            <thead>
+              <tr><th>Parte</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&lt;!DOCTYPE html&gt;</code></td><td>Dice al navegador que es HTML5 (modo estándar).</td></tr>
+              <tr><td><code>&lt;html lang="es"&gt;</code></td><td>Raíz del documento. <code>lang</code> ayuda a lectores de pantalla y a la traducción.</td></tr>
+              <tr><td><code>&lt;head&gt;</code></td><td>Metadatos: charset, viewport, título, CSS, favicon. <strong>No se ve</strong> en la página.</td></tr>
+              <tr><td><code>&lt;meta charset="utf-8"&gt;</code></td><td>Permite acentos y eñes sin caracteres raros.</td></tr>
+              <tr><td><code>viewport</code></td><td>Hace que el ancho se adapte al celular. Sin esto, el móvil “simula” una pantalla grande.</td></tr>
+              <tr><td><code>&lt;title&gt;</code></td><td>Texto de la pestaña del navegador y de los favoritos.</td></tr>
+              <tr><td><code>&lt;body&gt;</code></td><td>Todo el contenido visible: textos, imágenes, formularios.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Etiquetas básicas de texto</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;h1&gt;Título principal (uno por página)&lt;/h1&gt;
+&lt;h2&gt;Sección&lt;/h2&gt;
+&lt;h3&gt;Subsección&lt;/h3&gt;
+
+&lt;p&gt;Un párrafo con &lt;strong&gt;énfasis fuerte&lt;/strong&gt;
+y &lt;em&gt;énfasis suave&lt;/em&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Lista sin orden&lt;/li&gt;
+  &lt;li&gt;Otro ítem&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Paso uno&lt;/li&gt;
+  &lt;li&gt;Paso dos&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;!-- Esto es un comentario: el navegador lo ignora --&gt;</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Jerarquía de títulos</strong>
+            <p>Usa un solo <code>&lt;h1&gt;</code> por página. Luego <code>h2</code>, <code>h3</code>… sin saltar niveles (no pases de <code>h2</code> a <code>h4</code>). Ayuda a la accesibilidad y al SEO.</p>
+          </div>
+
+          <h3>Cómo se anidan las etiquetas</h3>
+          <p>Las etiquetas se abren y se cierran como cajas dentro de cajas. El cierre va en orden inverso:</p>
+          <pre data-archivo="Bien anidado" data-sin-copiar><code class="lenguaje-html">&lt;p&gt;Texto con &lt;strong&gt;negrita&lt;/strong&gt; y listo.&lt;/p&gt;</code></pre>
+          <pre data-archivo="Mal anidado (no hagas esto)" data-sin-copiar><code class="lenguaje-html">&lt;p&gt;Texto con &lt;strong&gt;negrita&lt;/p&gt;&lt;/strong&gt;</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Algunas etiquetas no se cierran</strong>
+            <p><code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;meta&gt;</code> e <code>&lt;input&gt;</code> son <em>vacías</em>: no tienen contenido ni etiqueta de cierre.</p>
+          </div>
+        </section>
+
+        <section id="html-semantico-y-formularios">
+          <h2>HTML semántico y formularios</h2>
+          <p><strong>Semántico</strong> significa usar etiquetas que describen el significado, no solo la apariencia. Así la página es más clara para humanos, buscadores y lectores de pantalla.</p>
+
+          <h3>Esqueleto semántico típico</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;body&gt;
+  &lt;header&gt;
+    &lt;a href="/"&gt;Mi marca&lt;/a&gt;
+    &lt;nav&gt;
+      &lt;a href="#servicios"&gt;Servicios&lt;/a&gt;
+      &lt;a href="#contacto"&gt;Contacto&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+
+  &lt;main&gt;
+    &lt;section id="servicios"&gt;
+      &lt;h2&gt;Servicios&lt;/h2&gt;
+      &lt;article&gt;
+        &lt;h3&gt;Diseño web&lt;/h3&gt;
+        &lt;p&gt;Páginas claras y rápidas.&lt;/p&gt;
+      &lt;/article&gt;
+    &lt;/section&gt;
+
+    &lt;section id="contacto"&gt;
+      &lt;h2&gt;Contacto&lt;/h2&gt;
+      &lt;!-- formulario abajo --&gt;
+    &lt;/section&gt;
+  &lt;/main&gt;
+
+  &lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2026 Mi marca&lt;/p&gt;
+  &lt;/footer&gt;
+&lt;/body&gt;</code></pre>
+          <table>
+            <thead>
+              <tr><th>Etiqueta</th><th>Cuándo usarla</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>&lt;header&gt;</code></td><td>Cabecera de la página o de un bloque (logo, nav).</td></tr>
+              <tr><td><code>&lt;nav&gt;</code></td><td>Conjunto de enlaces de navegación principales.</td></tr>
+              <tr><td><code>&lt;main&gt;</code></td><td>Contenido único de la página (uno por documento).</td></tr>
+              <tr><td><code>&lt;section&gt;</code></td><td>Bloque temático con su propio encabezado.</td></tr>
+              <tr><td><code>&lt;article&gt;</code></td><td>Contenido que tiene sentido solo (post, tarjeta, noticia).</td></tr>
+              <tr><td><code>&lt;aside&gt;</code></td><td>Contenido relacionado pero secundario (barra lateral).</td></tr>
+              <tr><td><code>&lt;footer&gt;</code></td><td>Pie: copyright, enlaces legales, redes.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Enlaces e imágenes</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;!-- Enlace interno (ancla) y externo --&gt;
+&lt;a href="#contacto"&gt;Ir a contacto&lt;/a&gt;
+&lt;a href="https://ejemplo.com" target="_blank" rel="noopener"&gt;
+  Sitio externo
+&lt;/a&gt;
+
+&lt;!-- Imagen: alt describe la imagen si no se ve --&gt;
+&lt;img src="foto.jpg" alt="Escritorio con laptop y café" width="800" height="500"&gt;</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">target="_blank" y rel="noopener"</strong>
+            <p>Al abrir otra pestaña, añade <code>rel="noopener"</code> (o <code>noopener noreferrer</code>) por seguridad. El <code>alt</code> de las imágenes no es opcional: si la imagen es decorativa, usa <code>alt=""</code>.</p>
+          </div>
+
+          <h3>Formulario de contacto</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;form action="/enviar" method="post"&gt;
+  &lt;label for="nombre"&gt;Nombre&lt;/label&gt;
+  &lt;input id="nombre" name="nombre" type="text" required autocomplete="name"&gt;
+
+  &lt;label for="email"&gt;Correo&lt;/label&gt;
+  &lt;input id="email" name="email" type="email" required autocomplete="email"&gt;
+
+  &lt;label for="mensaje"&gt;Mensaje&lt;/label&gt;
+  &lt;textarea id="mensaje" name="mensaje" rows="4" required&gt;&lt;/textarea&gt;
+
+  &lt;label&gt;
+    &lt;input type="checkbox" name="acepto" required&gt;
+    Acepto la política de privacidad
+  &lt;/label&gt;
+
+  &lt;button type="submit"&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          <table>
+            <thead>
+              <tr><th>type</th><th>Uso</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>text</code></td><td>Texto libre (nombre, asunto).</td></tr>
+              <tr><td><code>email</code></td><td>Valida formato de correo en el navegador.</td></tr>
+              <tr><td><code>password</code></td><td>Oculta lo que escribes.</td></tr>
+              <tr><td><code>number</code> / <code>tel</code></td><td>Números o teléfono.</td></tr>
+              <tr><td><code>checkbox</code> / <code>radio</code></td><td>Opciones (varias / una sola).</td></tr>
+              <tr><td><code>file</code></td><td>Subir archivos.</td></tr>
+              <tr><td><code>submit</code> (en button)</td><td>Envía el formulario.</td></tr>
+            </tbody>
+          </table>
+          <div class="nota">
+            <strong class="nota__titulo">label + for + id</strong>
+            <p>Conecta cada <code>&lt;label for="..."&gt;</code> con el <code>id</code> del campo. Así puedes hacer clic en el texto para enfocar el input, y los lectores de pantalla anuncian bien el campo.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">action necesita un servidor</strong>
+            <p>Sin backend, <code>action</code> no “envía” a nadie. Para practicar el HTML basta; para producción usarás un servicio de formularios, una API o JavaScript con <code>fetch</code>.</p>
+          </div>
+        </section>
+
+        <section id="conectar-y-selectores-css">
+          <h2>CSS: conectarlo y selectores</h2>
+          <p>CSS describe <strong>cómo se ve</strong> el HTML: colores, tamaños, layout. La forma profesional es un archivo aparte.</p>
+
+          <h3>Enlazar la hoja de estilos</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Mi sitio&lt;/title&gt;
+  &lt;link rel="stylesheet" href="estilos.css"&gt;
+&lt;/head&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  line-height: 1.6;
+  color: #1a1a1a;
+  background: #f7f7f5;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #0f172a;
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Tres formas de aplicar CSS</strong>
+            <p>1) Archivo externo (<code>&lt;link&gt;</code>) — la recomendada. 2) <code>&lt;style&gt;</code> en el <code>head</code> — útil para prototipos cortos. 3) Atributo <code>style=""</code> en la etiqueta — evita usarlo salvo casos muy puntuales.</p>
+          </div>
+
+          <h3>Selectores: a quién le hablas</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">/* Por etiqueta */
+p { margin-bottom: 1rem; }
+
+/* Por clase (reutilizable) */
+.boton { padding: 0.75rem 1.25rem; }
+
+/* Por id (único en la página) */
+#hero { min-height: 70vh; }
+
+/* Descendiente: p dentro de .tarjeta */
+.tarjeta p { color: #475569; }
+
+/* Hijo directo */
+nav &gt; a { text-decoration: none; }
+
+/* Varios a la vez */
+h1, h2, h3 { font-weight: 700; }
+
+/* Pseudo-clases */
+a:hover { color: #db2777; }
+input:focus { outline: 2px solid #db2777; }</code></pre>
+          <table>
+            <thead>
+              <tr><th>Selector</th><th>Ejemplo HTML</th><th>Cuándo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>.clase</code></td><td><code>&lt;button class="boton"&gt;</code></td><td>Estilos reutilizables (lo más habitual).</td></tr>
+              <tr><td><code>#id</code></td><td><code>&lt;section id="hero"&gt;</code></td><td>Un solo elemento especial (anclas, JS).</td></tr>
+              <tr><td><code>etiqueta</code></td><td><code>&lt;p&gt;</code></td><td>Base tipográfica o resets suaves.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Clase vs id en HTML</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;button class="boton boton--primario"&gt;Comprar&lt;/button&gt;
+&lt;section id="precios" class="seccion"&gt;...&lt;/section&gt;</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Especificidad (quién gana)</strong>
+            <p>Si dos reglas chocan, gana la más específica: id &gt; clase &gt; etiqueta. Evita pelear con <code>!important</code>; mejor organiza clases claras. Un id muy específico dificulta reutilizar estilos.</p>
+          </div>
+
+          <h3>Comentarios y cascada</h3>
+          <p>Si dos reglas tienen la misma especificidad, <strong>gana la que aparece después</strong> en el CSS. Por eso el orden del archivo importa.</p>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.boton { background: #334155; } /* primero */
+.boton { background: #db2777; } /* esta gana */</code></pre>
+        </section>
+
+        <section id="modelo-de-caja">
+          <h2>Modelo de caja y espaciado</h2>
+          <p>Cada elemento es una caja con <strong>contenido</strong>, <strong>padding</strong> (relleno interno), <strong>border</strong> (borde) y <strong>margin</strong> (espacio exterior).</p>
+
+          <pre data-archivo="Diagrama del modelo de caja" data-sin-copiar><code class="lenguaje-texto">  ┌──────── margin ────────┐
+  │  ┌──── border ────┐    │
+  │  │  ┌─ padding ─┐ │    │
+  │  │  │ contenido │ │    │
+  │  │  └───────────┘ │    │
+  │  └────────────────┘    │
+  └────────────────────────┘</code></pre>
+
+          <h3>margin, padding y border</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.tarjeta {
+  /* Arriba | Derecha | Abajo | Izquierda */
+  margin: 1rem 1.5rem 2rem 1.5rem;
+  padding: 1.25rem;          /* los cuatro lados iguales */
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+/* Atajos útiles */
+.bloque {
+  margin-block: 2rem;   /* arriba y abajo */
+  margin-inline: auto;  /* izquierda y derecha (centrar bloques) */
+  padding-inline: 1rem; /* izquierda y derecha */
+}</code></pre>
+          <table>
+            <thead>
+              <tr><th>Propiedad</th><th>Efecto</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>margin</code></td><td>Empuja a otros elementos (fuera de la caja).</td></tr>
+              <tr><td><code>padding</code></td><td>Aire entre el borde y el contenido (dentro).</td></tr>
+              <tr><td><code>border</code></td><td>Línea alrededor; suma al tamaño si no usas border-box.</td></tr>
+              <tr><td><code>width</code> / <code>height</code></td><td>Tamaño del contenido (o de toda la caja, según box-sizing).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>box-sizing: border-box (casi obligatorio)</h3>
+          <p>Por defecto, <code>width: 300px</code> es solo el contenido: padding y border lo hacen más ancho. Con <code>border-box</code>, el <code>width</code> incluye padding y border. Así los layouts dejan de “romperse”.</p>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.caja {
+  width: 300px;
+  padding: 20px;
+  border: 2px solid #334155;
+  /* Con border-box, el total sigue siendo 300px */
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Ponlo al inicio de tu CSS</strong>
+            <p>El reset de <code>box-sizing: border-box</code> en todos los elementos es una de las primeras líneas de casi cualquier proyecto moderno.</p>
+          </div>
+
+          <h3>display: block, inline y inline-block</h3>
+          <ul>
+            <li><strong>block</strong> (<code>div</code>, <code>p</code>, <code>section</code>): ocupa todo el ancho disponible, salta de línea.</li>
+            <li><strong>inline</strong> (<code>span</code>, <code>a</code>, <code>strong</code>): fluye con el texto; <code>width</code>/<code>height</code> no aplican como esperas.</li>
+            <li><strong>inline-block</strong>: fluye como texto pero acepta width, height y padding vertical.</li>
+          </ul>
+          <div class="nota">
+            <strong class="nota__titulo">margin vertical se colapsa</strong>
+            <p>Entre dos bloques seguidos, los márgenes verticales no se suman: gana el mayor. Si quieres espacio fijo, usa padding en el contenedor o gap en flex/grid.</p>
+          </div>
+        </section>
+
+        <section id="colores-y-tipografia">
+          <h2>Colores y tipografía profesionales</h2>
+          <p>El “estilo pro” no es magia: es <strong>pocos colores bien elegidos</strong>, tipografía legible y contraste suficiente.</p>
+
+          <h3>Variables CSS (custom properties)</h3>
+          <p>Define la paleta una vez y reutilízala. Si cambias el acento, cambia en toda la web.</p>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">:root {
+  --fondo: #0b1220;
+  --superficie: #121a2b;
+  --texto: #e8eefc;
+  --texto-suave: #94a3b8;
+  --acento: #f472b6;
+  --acento-hover: #fb7185;
+  --borde: rgba(148, 163, 184, 0.25);
+  --radio: 12px;
+  --fuente: "Segoe UI", system-ui, sans-serif;
+  --fuente-display: "Georgia", "Times New Roman", serif;
+}
+
+body {
+  font-family: var(--fuente);
+  color: var(--texto);
+  background: var(--fondo);
+}
+
+.boton-primario {
+  background: var(--acento);
+  color: #0b1220;
+  border-radius: var(--radio);
+}
+
+.boton-primario:hover {
+  background: var(--acento-hover);
+}</code></pre>
+
+          <h3>Cómo armar una paleta sencilla</h3>
+          <ol>
+            <li><strong>Fondo</strong> y <strong>superficie</strong> (tarjetas un poco distintas del fondo).</li>
+            <li><strong>Texto</strong> principal y un tono más suave para secundarios.</li>
+            <li><strong>Un acento</strong> (botones, links activos). Opcional: un segundo acento para avisos.</li>
+            <li><strong>Borde</strong> sutil para separar sin ruido.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Herramientas útiles</strong>
+            <p>Prueba paletas en <a href="https://coolors.co" target="_blank" rel="noopener">coolors.co</a> o <a href="https://www.realtimecolors.com" target="_blank" rel="noopener">realtimecolors.com</a>. Revisa el contraste en <a href="https://webaim.org/resources/contrastchecker/" target="_blank" rel="noopener">WebAIM Contrast Checker</a> (objetivo AA: ≥ 4.5:1 en texto normal).</p>
+          </div>
+
+          <h3>Tipografía legible</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">body {
+  font-size: 1rem;       /* ~16px: base cómoda */
+  line-height: 1.6;      /* aire entre líneas */
+  letter-spacing: 0.01em;
+}
+
+h1, h2, h3 {
+  font-family: var(--fuente-display);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-wrap: balance; /* títulos más equilibrados (navegadores modernos) */
+}
+
+.lead {
+  font-size: 1.125rem;
+  color: var(--texto-suave);
+  max-width: 40rem; /* ~65 caracteres: lectura cómoda */
+}</code></pre>
+          <table>
+            <thead>
+              <tr><th>Consejo</th><th>Detalle</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Pocas familias</td><td>1 para cuerpo + 1 para títulos suele bastar.</td></tr>
+              <tr><td>Escala</td><td>Usa rem: <code>1rem</code>, <code>1.25rem</code>, <code>1.5rem</code>, <code>2rem</code>…</td></tr>
+              <tr><td>Peso</td><td>400 cuerpo, 600/700 títulos; no abuses de bold.</td></tr>
+              <tr><td>Contraste</td><td>Texto gris claro sobre fondo claro es ilegible.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Fuentes de Google (opcional)</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">:root {
+  --fuente: "DM Sans", system-ui, sans-serif;
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Siempre pon un fallback</strong>
+            <p>Si la fuente web no carga, el navegador usa la siguiente de la lista (<code>system-ui</code>, <code>sans-serif</code>). Sin fallback, el texto puede “saltar” o verse mal.</p>
+          </div>
+        </section>
+
+        <section id="flexbox">
+          <h2>Flexbox</h2>
+          <p>Flexbox alinea elementos en <strong>una fila o una columna</strong>: barras de navegación, centrar un bloque, repartir espacio entre ítems.</p>
+
+          <h3>Contenedor flex</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;header class="barra"&gt;
+  &lt;a class="logo" href="/"&gt;Marca&lt;/a&gt;
+  &lt;nav class="menu"&gt;
+    &lt;a href="#a"&gt;Inicio&lt;/a&gt;
+    &lt;a href="#b"&gt;Proyectos&lt;/a&gt;
+    &lt;a href="#c"&gt;Contacto&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/header&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.barra {
+  display: flex;
+  align-items: center;      /* eje cruzado: vertical si es fila */
+  justify-content: space-between; /* eje principal: horizontal */
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+}
+
+.menu {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}</code></pre>
+
+          <h3>justify-content y align-items</h3>
+          <table>
+            <thead>
+              <tr><th>Propiedad</th><th>Valores útiles</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>flex-direction</code></td><td><code>row</code> (default), <code>column</code>, <code>*-reverse</code></td></tr>
+              <tr><td><code>justify-content</code></td><td><code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>space-between</code>, <code>space-around</code></td></tr>
+              <tr><td><code>align-items</code></td><td><code>stretch</code>, <code>flex-start</code>, <code>center</code>, <code>flex-end</code></td></tr>
+              <tr><td><code>gap</code></td><td>Espacio entre ítems (mejor que margin entre hermanos).</td></tr>
+              <tr><td><code>flex-wrap</code></td><td><code>wrap</code> para que bajen de línea en pantallas chicas.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Centrar en la pantalla</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.pantalla-centrada {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}</code></pre>
+
+          <h3>flex en los hijos</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.fila {
+  display: flex;
+  gap: 1rem;
+}
+
+.fila .crece {
+  flex: 1; /* ocupa el espacio libre */
+}
+
+.fila .fijo {
+  flex: 0 0 200px; /* no crece, no encoge, base 200px */
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Regla práctica</strong>
+            <p>Flexbox = una dimensión (fila o columna). Si necesitas filas <em>y</em> columnas a la vez (galería, dashboard), usa <strong>Grid</strong>.</p>
+          </div>
+        </section>
+
+        <section id="grid">
+          <h2>CSS Grid</h2>
+          <p>Grid crea layouts en <strong>dos dimensiones</strong>: filas y columnas. Ideal para galerías, páginas con sidebar y tableros.</p>
+
+          <h3>Galería sencilla</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;div class="galeria"&gt;
+  &lt;figure&gt;1&lt;/figure&gt;
+  &lt;figure&gt;2&lt;/figure&gt;
+  &lt;figure&gt;3&lt;/figure&gt;
+  &lt;figure&gt;4&lt;/figure&gt;
+&lt;/div&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.galeria {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+  gap: 1rem;
+}
+
+.galeria figure {
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  background: #1e293b;
+  border-radius: 12px;
+}</code></pre>
+
+          <h3>Layout con sidebar</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "cabecera cabecera"
+    "lateral  contenido"
+    "pie      pie";
+  min-height: 100vh;
+  gap: 1rem;
+}
+
+.layout__cabecera { grid-area: cabecera; }
+.layout__lateral  { grid-area: lateral; }
+.layout__contenido { grid-area: contenido; }
+.layout__pie      { grid-area: pie; }</code></pre>
+
+          <h3>Columnas que se adaptan solas</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}</code></pre>
+          <p>Cada tarjeta mide al menos 240px; si cabe otra, Grid añade una columna. Sin media queries para el caso básico.</p>
+
+          <h3>span: un ítem ocupa varias celdas</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.destacada {
+  grid-column: span 2; /* ocupa 2 columnas */
+  grid-row: span 2;    /* ocupa 2 filas */
+}</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">fr = fracción</strong>
+            <p><code>1fr 2fr</code> reparte el espacio libre: la segunda columna tiene el doble de ancho que la primera. Combínalo con <code>px</code> o <code>minmax()</code> para límites.</p>
+          </div>
+        </section>
+
+        <section id="diseno-responsive">
+          <h2>Diseño responsive</h2>
+          <p>Responsive = la página se ve bien en <strong>móvil, tablet y escritorio</strong>. Empieza por el viewport y diseña primero para pantallas chicas (mobile-first).</p>
+
+          <h3>Viewport (obligatorio)</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</code></pre>
+
+          <h3>Mobile-first con media queries</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">/* Estilos base = móvil */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.galeria {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+/* Tablet y más */
+@media (min-width: 640px) {
+  .galeria {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Escritorio */
+@media (min-width: 960px) {
+  .nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .galeria {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .contenedor {
+    max-width: 1100px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+}</code></pre>
+
+          <h3>Unidades fluidas</h3>
+          <table>
+            <thead>
+              <tr><th>Unidad</th><th>Uso</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>%</code> / <code>fr</code></td><td>Anchos relativos al contenedor o al grid.</td></tr>
+              <tr><td><code>rem</code></td><td>Tipografía y espaciado (respecto a la raíz).</td></tr>
+              <tr><td><code>vw</code> / <code>vh</code></td><td>% del viewport (con cuidado: 100vh en móvil es tramposo).</td></tr>
+              <tr><td><code>clamp()</code></td><td>Tamaño fluido con mínimo y máximo.</td></tr>
+            </tbody>
+          </table>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">h1 {
+  /* mínimo 1.75rem, preferido 5vw, máximo 3rem */
+  font-size: clamp(1.75rem, 4vw + 1rem, 3rem);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Prueba de verdad</strong>
+            <p>En Chrome/Edge: F12 → icono de dispositivo (o <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd>). Revisa 360px, 768px y 1280px. También prueba en tu celular real.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No bloquees el zoom</strong>
+            <p>Evita <code>user-scalable=no</code> o <code>maximum-scale=1</code> en el viewport: perjudica la accesibilidad de quien necesita ampliar.</p>
+          </div>
+        </section>
+
+        <section id="sombras-degradados-y-efectos">
+          <h2>Sombras, degradados y efectos</h2>
+          <p>Estos detalles dan <strong>profundidad y acabado</strong>. Úsalos con moderación: demasiada sombra o blur cansa la vista.</p>
+
+          <h3>box-shadow</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.tarjeta {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.tarjeta:hover {
+  box-shadow:
+    0 2px 4px rgba(15, 23, 42, 0.08),
+    0 16px 40px rgba(15, 23, 42, 0.12);
+}</code></pre>
+          <p>Orden: <code>offset-x</code>, <code>offset-y</code>, <code>blur</code>, <code>spread</code>, <code>color</code>. Sombras suaves y multicapa se ven más naturales que un solo bloque negro.</p>
+
+          <h3>Gradientes</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.hero {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  color: #f8fafc;
+}
+
+.boton-glow {
+  background: linear-gradient(90deg, #f472b6, #fb7185);
+  border: none;
+  color: #0f172a;
+}
+
+/* Radial: foco de luz */
+.orbita {
+  background: radial-gradient(circle at 30% 20%, #f472b6 0%, transparent 45%),
+              #0b1220;
+}</code></pre>
+
+          <h3>border-radius</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">:root {
+  --radio-sm: 8px;
+  --radio-md: 12px;
+  --radio-lg: 20px;
+  --radio-pill: 999px; /* pastillas / chips */
+}
+
+.avatar { border-radius: 50%; }      /* círculo si es cuadrado */
+.panel  { border-radius: var(--radio-lg); }
+.chip   { border-radius: var(--radio-pill); }</code></pre>
+
+          <h3>Desenfoque y “glass”</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.cristal {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Safari */
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">backdrop-filter y rendimiento</strong>
+            <p>El blur sobre fondos animados puede costar en móviles antiguos. Úsalo en paneles puntuales, no en toda la página.</p>
+          </div>
+
+          <h3>filter en imágenes</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.foto-suave {
+  filter: brightness(0.95) saturate(1.05);
+}
+
+.foto-hover:hover {
+  filter: grayscale(0);
+  transition: filter 0.3s ease;
+}
+
+.foto-hover {
+  filter: grayscale(0.4);
+}</code></pre>
+        </section>
+
+        <section id="transiciones-y-hover">
+          <h2>Transiciones y efectos hover</h2>
+          <p>Una transición hace que el cambio de estilo sea <strong>suave</strong> en lugar de un salto brusco. El hover es el caso más común.</p>
+
+          <h3>transition básica</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  background: #f472b6;
+  color: #0b1220;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.boton:hover {
+  background: #fb7185;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(244, 114, 182, 0.35);
+}
+
+.boton:active {
+  transform: translateY(0);
+}</code></pre>
+
+          <h3>Tarjeta con hover</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.15);
+}
+
+.card img {
+  transition: transform 0.4s ease;
+}
+
+.card:hover img {
+  transform: scale(1.04);
+}</code></pre>
+
+          <h3>Enlaces y subrayado animado</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.link-fino {
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size 0.25s ease;
+}
+
+.link-fino:hover {
+  background-size: 100% 2px;
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Qué animar (y qué no)</strong>
+            <p>Anima <code>transform</code> y <code>opacity</code>: el navegador las acelera bien. Evita animar <code>width</code>, <code>height</code>, <code>top</code> o <code>left</code> en bucles: provocan reflow y se sienten pesadas.</p>
+          </div>
+          <div class="nota">
+            <strong class="nota__titulo">No olvides :focus-visible</strong>
+            <p>Quien navega con teclado necesita ver el foco. Añade un outline claro en <code>:focus-visible</code>, no solo estilos en <code>:hover</code>.</p>
+          </div>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.boton:focus-visible {
+  outline: 2px solid #f472b6;
+  outline-offset: 3px;
+}</code></pre>
+        </section>
+
+        <section id="animaciones-keyframes">
+          <h2>Animaciones con @keyframes</h2>
+          <p>Las transiciones van de A → B al cambiar un estado. Las <strong>animaciones</strong> definen una secuencia completa con <code>@keyframes</code> y pueden repetirse solas.</p>
+
+          <h3>Anatomía</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">@keyframes flotar {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+.icono-flotante {
+  animation: flotar 3s ease-in-out infinite;
+}</code></pre>
+          <table>
+            <thead>
+              <tr><th>Propiedad</th><th>Significado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>animation-name</code></td><td>Nombre del <code>@keyframes</code>.</td></tr>
+              <tr><td><code>animation-duration</code></td><td>Cuánto dura un ciclo (<code>1s</code>, <code>800ms</code>).</td></tr>
+              <tr><td><code>animation-timing-function</code></td><td><code>ease</code>, <code>linear</code>, <code>ease-in-out</code>, <code>cubic-bezier(...)</code>.</td></tr>
+              <tr><td><code>animation-delay</code></td><td>Espera antes de empezar.</td></tr>
+              <tr><td><code>animation-iteration-count</code></td><td><code>1</code>, <code>3</code>, <code>infinite</code>.</td></tr>
+              <tr><td><code>animation-direction</code></td><td><code>normal</code>, <code>alternate</code>, <code>reverse</code>.</td></tr>
+              <tr><td><code>animation-fill-mode</code></td><td><code>forwards</code> deja el estado final; <code>both</code> también aplica el inicial en el delay.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Entrada fade + subida</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.entrar {
+  animation: entrar 0.6s ease-out both;
+}
+
+/* Retrasos escalonados */
+.entrar:nth-child(1) { animation-delay: 0.05s; }
+.entrar:nth-child(2) { animation-delay: 0.15s; }
+.entrar:nth-child(3) { animation-delay: 0.25s; }</code></pre>
+
+          <h3>Spinner de carga</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid rgba(244, 114, 182, 0.25);
+  border-top-color: #f472b6;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}</code></pre>
+
+          <h3>Respetar quién reduce movimiento</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Accesibilidad</strong>
+            <p>Animaciones infinitas fuertes (parpadeo, sacudidas) pueden marear. Ofrece alternativas estáticas y respeta <code>prefers-reduced-motion</code>.</p>
+          </div>
+        </section>
+
+        <section id="animaciones-de-texto">
+          <h2>Animaciones de texto</h2>
+          <p>El texto animado bien hecho da personalidad a un hero o a un titular. Aquí tienes los efectos más usados, listos para copiar. Combínalos con moderación: un solo efecto protagonista por pantalla.</p>
+
+          <h3>1. Degradado animado en el texto</h3>
+          <p>El truco: el fondo es un gradiente y se recorta a la forma de las letras con <code>background-clip: text</code>.</p>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;h1 class="texto-degradado"&gt;Diseño que se siente vivo&lt;/h1&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.texto-degradado {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(
+    90deg,
+    #f472b6,
+    #a78bfa,
+    #38bdf8,
+    #f472b6
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: brillo-texto 8s linear infinite;
+}
+
+@keyframes brillo-texto {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}</code></pre>
+
+          <h3>2. Máquina de escribir (typewriter) solo con CSS</h3>
+          <p>Funciona mejor con tipografía monoespaciada y un texto de longitud conocida. El “cursor” es un borde que parpadea.</p>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;p class="typewriter"&gt;Construye interfaces con estilo.&lt;/p&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.typewriter {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 1.25rem;
+  width: 32ch;              /* ≈ número de caracteres */
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid currentColor;
+  animation:
+    teclear 2.8s steps(32, end) forwards,
+    parpadear 0.8s step-end infinite;
+}
+
+@keyframes teclear {
+  from { width: 0; }
+  to   { width: 32ch; }
+}
+
+@keyframes parpadear {
+  50% { border-color: transparent; }
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Límite del CSS puro</strong>
+            <p>Si el texto cambia de longitud o quieres varias líneas, usa JavaScript (siguiente ejemplo). En responsive, <code>ch</code> + <code>nowrap</code> puede desbordar: prueba en móvil.</p>
+          </div>
+
+          <h3>3. Typewriter con JavaScript (flexible)</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;h1&gt;
+  &lt;span id="maquina" aria-live="polite"&gt;&lt;/span&gt;&lt;span class="cursor" aria-hidden="true"&gt;|&lt;/span&gt;
+&lt;/h1&gt;
+&lt;script src="typewriter.js"&gt;&lt;/script&gt;</code></pre>
+          <pre data-archivo="typewriter.js"><code class="lenguaje-js">const frases = [
+  "HTML semántico",
+  "CSS con intención",
+  "Animaciones con criterio",
+];
+
+const el = document.querySelector("#maquina");
+let frase = 0;
+let i = 0;
+let borrando = false;
+
+function tick() {
+  const actual = frases[frase];
+  el.textContent = actual.slice(0, i);
+
+  if (!borrando && i &lt; actual.length) {
+    i++;
+    setTimeout(tick, 70);
+  } else if (!borrando && i === actual.length) {
+    borrando = true;
+    setTimeout(tick, 1400); // pausa al terminar
+  } else if (borrando && i &gt; 0) {
+    i--;
+    setTimeout(tick, 35);
+  } else {
+    borrando = false;
+    frase = (frase + 1) % frases.length;
+    setTimeout(tick, 300);
+  }
+}
+
+tick();</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  animation: parpadear 0.9s step-end infinite;
+  color: #f472b6;
+}
+
+@keyframes parpadear {
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor { animation: none; }
+}</code></pre>
+
+          <h3>4. Letra por letra (stagger)</h3>
+          <p>Envuelves cada carácter en un <code>span</code> y retrasas la animación con <code>--i</code>.</p>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;h1 class="letras" aria-label="Impacto"&gt;
+  &lt;span style="--i:0"&gt;I&lt;/span&gt;&lt;span style="--i:1"&gt;m&lt;/span&gt;&lt;span style="--i:2"&gt;p&lt;/span&gt;&lt;span style="--i:3"&gt;a&lt;/span&gt;&lt;span style="--i:4"&gt;c&lt;/span&gt;&lt;span style="--i:5"&gt;t&lt;/span&gt;&lt;span style="--i:6"&gt;o&lt;/span&gt;
+&lt;/h1&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.letras span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.6em);
+  animation: letra-entra 0.5s ease forwards;
+  animation-delay: calc(var(--i) * 0.05s);
+}
+
+@keyframes letra-entra {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}</code></pre>
+          <p>Para no escribir a mano cada letra, genera los spans con JS:</p>
+          <pre data-archivo="letras.js"><code class="lenguaje-js">function envolverLetras(selector) {
+  const nodo = document.querySelector(selector);
+  const texto = nodo.textContent;
+  nodo.setAttribute("aria-label", texto.trim());
+  nodo.innerHTML = "";
+  [...texto].forEach((caracter, i) =&gt; {
+    const span = document.createElement("span");
+    span.textContent = caracter === " " ? "\u00A0" : caracter;
+    span.style.setProperty("--i", i);
+    span.setAttribute("aria-hidden", "true");
+    nodo.appendChild(span);
+  });
+}
+
+envolverLetras(".letras");</code></pre>
+
+          <h3>5. Fade-in de líneas o párrafos</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">@keyframes fade-arriba {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+.fade-linea {
+  animation: fade-arriba 0.7s ease both;
+}
+
+.fade-linea.delay-1 { animation-delay: 0.15s; }
+.fade-linea.delay-2 { animation-delay: 0.3s; }
+.fade-linea.delay-3 { animation-delay: 0.45s; }</code></pre>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;p class="fade-linea"&gt;Primera línea.&lt;/p&gt;
+&lt;p class="fade-linea delay-1"&gt;Segunda, un poco después.&lt;/p&gt;
+&lt;p class="fade-linea delay-2"&gt;Tercera, cerrando el ritmo.&lt;/p&gt;</code></pre>
+
+          <h3>6. Subrayado que crece</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.titulo-subrayado {
+  display: inline;
+  background-image: linear-gradient(#f472b6, #f472b6);
+  background-size: 0% 0.12em;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  animation: subrayar 0.8s 0.4s ease forwards;
+}
+
+@keyframes subrayar {
+  to { background-size: 100% 0.12em; }
+}</code></pre>
+
+          <h3>7. Texto que “revela” con máscara</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.revelar {
+  display: inline-block;
+  color: #f8fafc;
+  -webkit-mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  mask-image: linear-gradient(90deg, #000 40%, transparent 60%);
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  animation: revelar-mascara 1.4s ease forwards;
+}
+
+@keyframes revelar-mascara {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to   { -webkit-mask-position: 0 0;   mask-position: 0 0; }
+}</code></pre>
+
+          <h3>Checklist rápido de texto animado</h3>
+          <ul>
+            <li>Un efecto principal por hero; el resto, estático o muy sutil.</li>
+            <li>Mantén el contraste: el degradado no debe bajar de ~4.5:1 sobre el fondo.</li>
+            <li>Usa <code>aria-label</code> / <code>aria-live</code> cuando el texto se construye por JS.</li>
+            <li>Respeta <code>prefers-reduced-motion</code>: muestra el texto final sin animar.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Combinación ganadora</strong>
+            <p>Degradado estático o muy lento en el <code>h1</code> + fade corto en el párrafo + CTA con hover. Se siente premium sin marear.</p>
+          </div>
+        </section>
+
+        <section id="animaciones-al-hacer-scroll">
+          <h2>Animaciones al hacer scroll</h2>
+          <p>En lugar de animar todo al cargar, puedes hacer que los bloques <strong>aparezcan cuando entran en pantalla</strong>. La API moderna es <code>IntersectionObserver</code>: eficiente y sin librerías.</p>
+
+          <h3>HTML + clase inicial</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;section class="reveal"&gt;
+  &lt;h2&gt;Proyecto uno&lt;/h2&gt;
+  &lt;p&gt;Descripción breve.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class="reveal"&gt;
+  &lt;h2&gt;Proyecto dos&lt;/h2&gt;
+  &lt;p&gt;Otra descripción.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;script src="reveal.js"&gt;&lt;/script&gt;</code></pre>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.es-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}</code></pre>
+          <pre data-archivo="reveal.js"><code class="lenguaje-js">const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+if (reduce) {
+  document.querySelectorAll(".reveal").forEach((el) =&gt; {
+    el.classList.add("es-visible");
+  });
+} else {
+  const io = new IntersectionObserver(
+    (entradas) =&gt; {
+      entradas.forEach((entrada) =&gt; {
+        if (entrada.isIntersecting) {
+          entrada.target.classList.add("es-visible");
+          io.unobserve(entrada.target); // solo una vez
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+  );
+
+  document.querySelectorAll(".reveal").forEach((el) =&gt; io.observe(el));
+}</code></pre>
+
+          <h3>Retrasos escalonados en una fila</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">.reveal-grupo .reveal:nth-child(1) { transition-delay: 0s; }
+.reveal-grupo .reveal:nth-child(2) { transition-delay: 0.1s; }
+.reveal-grupo .reveal:nth-child(3) { transition-delay: 0.2s; }</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">threshold y rootMargin</strong>
+            <p><code>threshold: 0.15</code> exige que se vea un 15 % del elemento. <code>rootMargin</code> negativo abajo hace que la animación arranque un poco antes de llegar al borde inferior.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Contenido oculto y SEO/a11y</strong>
+            <p>No dejes texto crítico solo con <code>opacity: 0</code> sin plan B: si JS falla, el usuario no ve nada. El bloque de <code>prefers-reduced-motion</code> (o mostrar visible por defecto y ocultar solo si hay JS) evita ese agujero.</p>
+          </div>
+        </section>
+
+        <section id="modo-oscuro-y-claro">
+          <h2>Modo oscuro y claro</h2>
+          <p>Lo profesional es ofrecer ambos modos con <strong>variables CSS</strong>, respetar la preferencia del sistema y recordar la elección en <code>localStorage</code>.</p>
+
+          <h3>Paleta con variables</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">:root,
+[data-modo="claro"] {
+  --fondo: #f8fafc;
+  --superficie: #ffffff;
+  --texto: #0f172a;
+  --texto-suave: #475569;
+  --acento: #db2777;
+  --borde: #e2e8f0;
+}
+
+[data-modo="oscuro"] {
+  --fondo: #0b1220;
+  --superficie: #121a2b;
+  --texto: #e8eefc;
+  --texto-suave: #94a3b8;
+  --acento: #f472b6;
+  --borde: rgba(148, 163, 184, 0.25);
+}
+
+body {
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+}</code></pre>
+
+          <h3>Evitar el parpadeo al cargar</h3>
+          <p>Pon este script <strong>en el &lt;head&gt;</strong>, antes del CSS visible, para aplicar el modo antes del primer pintado:</p>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;script&gt;
+(function () {
+  var modo = "oscuro";
+  try {
+    modo = localStorage.getItem("tema") ||
+      (window.matchMedia("(prefers-color-scheme: light)").matches
+        ? "claro"
+        : "oscuro");
+  } catch (e) {}
+  document.documentElement.setAttribute("data-modo", modo);
+})();
+&lt;/script&gt;</code></pre>
+
+          <h3>Botón para alternar</h3>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;button type="button" id="cambiar-modo" aria-label="Cambiar modo claro u oscuro"&gt;
+  Cambiar tema
+&lt;/button&gt;
+&lt;script src="tema.js"&gt;&lt;/script&gt;</code></pre>
+          <pre data-archivo="tema.js"><code class="lenguaje-js">const boton = document.querySelector("#cambiar-modo");
+
+function aplicar(modo) {
+  document.documentElement.setAttribute("data-modo", modo);
+  try {
+    localStorage.setItem("tema", modo);
+  } catch (e) {}
+}
+
+boton.addEventListener("click", () =&gt; {
+  const actual = document.documentElement.getAttribute("data-modo");
+  aplicar(actual === "oscuro" ? "claro" : "oscuro");
+});</code></pre>
+
+          <h3>Solo con CSS (sin botón)</h3>
+          <pre data-archivo="estilos.css"><code class="lenguaje-css">:root {
+  --fondo: #f8fafc;
+  --texto: #0f172a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #0b1220;
+    --texto: #e8eefc;
+  }
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Imágenes y fondos</strong>
+            <p>En modo oscuro, baja un poco el brillo de fotos grandes (<code>filter: brightness(0.9)</code>) o usa assets distintos. Los logos con fondo blanco suelen necesitar una versión clara.</p>
+          </div>
+        </section>
+
+        <section id="estilo-pro">
+          <h2>Checklist para un estilo profesional</h2>
+          <p>Estas son las diferencias habituales entre una página “hecha a mano alzada” y una que se siente <strong>diseñada</strong>.</p>
+
+          <h3>Consistencia</h3>
+          <ul>
+            <li>Misma paleta (variables) en toda la web; no inventes un rosa distinto en cada sección.</li>
+            <li>Misma familia tipográfica y escala de tamaños.</li>
+            <li>Mismos radios de borde y mismos espaciados (8 / 12 / 16 / 24 / 32 px o rem equivalentes).</li>
+            <li>Misma altura y estilo de botones primarios / secundarios.</li>
+          </ul>
+
+          <h3>Espaciado y ritmo</h3>
+          <ul>
+            <li>Más aire entre secciones que entre párrafos de una misma sección.</li>
+            <li><code>max-width</code> en el texto corrido (~60–70 caracteres) para no leer de lado a lado en monitores anchos.</li>
+            <li>Alinea a una rejilla mental: márgenes laterales iguales, columnas con el mismo gap.</li>
+          </ul>
+
+          <h3>Contraste y jerarquía</h3>
+          <ul>
+            <li>Un <code>h1</code> claro; el resto baja de tamaño e importancia.</li>
+            <li>Texto sobre fondo con contraste AA (≥ 4.5:1).</li>
+            <li>El CTA principal destaca por color y posición; no compitas con cinco botones iguales.</li>
+          </ul>
+
+          <h3>Accesibilidad (a11y) mínima</h3>
+          <table>
+            <thead>
+              <tr><th>Chequeo</th><th>Qué hacer</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Teclado</td><td>Tab llega a enlaces, botones e inputs; el foco se ve.</td></tr>
+              <tr><td>Imágenes</td><td><code>alt</code> descriptivo o vacío si es decorativa.</td></tr>
+              <tr><td>Formularios</td><td><code>label</code> asociado; errores comprensibles.</td></tr>
+              <tr><td>Movimiento</td><td><code>prefers-reduced-motion</code> respetado.</td></tr>
+              <tr><td>Idioma</td><td><code>lang="es"</code> en el <code>html</code>.</td></tr>
+              <tr><td>Skip link</td><td>Enlace “Saltar al contenido” al inicio (como en esta guía).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Detalle visual</h3>
+          <ul>
+            <li>Sombras suaves, no negras a tope.</li>
+            <li>Hover e estados <code>:focus-visible</code> / <code>:disabled</code> definidos.</li>
+            <li>Imágenes con <code>max-width: 100%</code> y peso optimizado.</li>
+            <li>Favicon y <code>title</code> con sentido (la pestaña también es diseño).</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Antes de publicar, revisa en 2 minutos</strong>
+            <p>Abre en móvil, tabula con el teclado, apaga las animaciones del sistema y mira si todo sigue usable. Si pasa esa prueba, ya estás por encima de la media.</p>
+          </div>
+        </section>
+
+        <section id="publicar-tu-pagina">
+          <h2>Publicar tu página gratis</h2>
+          <p><strong>GitHub Pages</strong> sirve sitios estáticos (HTML, CSS, JS) desde un repositorio. Ideal para portafolios y guías.</p>
+
+          <h3>1. Sube el proyecto a GitHub</h3>
+          <p>Si aún no tienes repo, en la carpeta del sitio:</p>
+          <pre><code class="lenguaje-shell">git init
+git add .
+git commit -m "Primera versión del sitio"
+git branch -M main
+git remote add origin https://github.com/TU-USUARIO/TU-REPO.git
+git push -u origin main</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Estructura típica</strong>
+            <p>Para Pages en la rama <code>main</code>, el <code>index.html</code> suele estar en la raíz del repo o en la carpeta <code>/docs</code>. Si usas otra carpeta, configúrala en los ajustes de Pages.</p>
+          </div>
+
+          <h3>2. Activa GitHub Pages</h3>
+          <ol>
+            <li>En GitHub: tu repositorio → <em>Settings</em> → <em>Pages</em>.</li>
+            <li>En <em>Build and deployment</em> → <em>Source</em>: elige <strong>Deploy from a branch</strong>.</li>
+            <li>Branch: <code>main</code>, carpeta <code>/ (root)</code> o <code>/docs</code> → <em>Save</em>.</li>
+            <li>En uno o dos minutos verás la URL: <code>https://TU-USUARIO.github.io/TU-REPO/</code>.</li>
+          </ol>
+
+          <h3>3. Rutas relativas</h3>
+          <p>Si el sitio no está en el dominio raíz, los enlaces absolutos a <code>/estilos.css</code> pueden fallar. Prefiere rutas relativas:</p>
+          <pre data-archivo="index.html"><code class="lenguaje-html">&lt;link rel="stylesheet" href="estilos.css"&gt;
+&lt;img src="img/foto.jpg" alt="..."&gt;
+&lt;a href="proyectos.html"&gt;Proyectos&lt;/a&gt;</code></pre>
+
+          <h3>4. Actualizar la web</h3>
+          <pre><code class="lenguaje-shell">git add .
+git commit -m "Mejora el hero y el modo oscuro"
+git push</code></pre>
+          <p>Pages se regenera solo tras el push. Si no ves cambios, fuerza recarga con <kbd>Ctrl</kbd>+<kbd>F5</kbd> o espera un minuto.</p>
+
+          <h3>5. Dominio propio (opcional)</h3>
+          <p>En <em>Pages</em> puedes indicar un dominio personalizado y crear en tu DNS un registro <code>CNAME</code> hacia <code>TU-USUARIO.github.io</code>. GitHub muestra las instrucciones exactas.</p>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Más allá de Pages</strong>
+            <p>Netlify, Cloudflare Pages y Vercel también publican sitios estáticos con HTTPS gratis y suelen conectar el repo en unos clics. El flujo es el mismo: push → deploy automático.</p>
+          </div>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">No subas secretos</strong>
+            <p>Nunca subas claves API, contraseñas o archivos <code>.env</code> al repositorio público. Lo que está en GitHub Pages es visible para todo el mundo.</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>
