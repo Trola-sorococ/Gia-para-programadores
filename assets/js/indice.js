@@ -42,7 +42,7 @@
         color: '249 115 22',
         resumen: 'Para qué sirve cada comando y cómo usarlo bien: trabajando solo con tu IA, en equipo o revisando los cambios de otros.',
         nivel: 'Básico → Avanzado',
-        estado: 'pronto',
+        estado: 'listo',
         destacados: ['commit', 'ramas', 'pull request'],
         alias: ['git', 'github'],
         etiquetas: ['repositorio', 'repo', 'control de versiones', 'versionar', 'clone', 'fork', 'pull request'],

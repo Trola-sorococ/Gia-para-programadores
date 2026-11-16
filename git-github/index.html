@@ -35,6 +35,1738 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="que-es-git-y-github">
+          <h2>¿Qué son Git y GitHub?</h2>
+          <p>Aunque casi siempre se nombran juntos, son <strong>dos cosas distintas</strong> que se complementan:</p>
+          <ul>
+            <li><strong>Git</strong> es un programa que instalas en tu computadora. Guarda el historial de tu proyecto en “puntos de guardado” llamados <em>commits</em>, para que puedas ver qué cambió, volver atrás y probar ideas sin miedo a romper nada. Funciona sin internet.</li>
+            <li><strong>GitHub</strong> es un sitio web que guarda en internet una copia de tus proyectos de Git. Sirve como respaldo, para compartir tu código y para trabajar con otras personas (con <em>pull requests</em>, <em>issues</em> y más).</li>
+          </ul>
+          <table>
+            <thead>
+              <tr><th></th><th>Git</th><th>GitHub</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Qué es</strong></td><td>Un programa de control de versiones</td><td>Un servicio web para alojar repositorios de Git y colaborar</td></tr>
+              <tr><td><strong>Dónde vive</strong></td><td>En tu computadora</td><td>En internet (github.com)</td></tr>
+              <tr><td><strong>¿Necesita internet?</strong></td><td>No, salvo para subir o bajar cambios</td><td>Sí</td></tr>
+              <tr><td><strong>Cómo se usa</strong></td><td>Con comandos como <code>git commit</code></td><td>Desde el navegador, y con Git para conectarse</td></tr>
+              <tr><td><strong>Alternativas</strong></td><td>—</td><td>GitLab y Bitbucket (hacen algo parecido)</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Una forma fácil de imaginarlo</h3>
+          <p>Piensa en un videojuego: <strong>Git</strong> son las partidas guardadas de tu consola (puedes volver a cualquiera de ellas) y <strong>GitHub</strong> es subir esas partidas a la nube para no perderlas y compartirlas con otras personas.</p>
+
+          <h3>Por qué te sirve, sobre todo si programas con IA</h3>
+          <ul>
+            <li>Una IA puede modificar diez archivos de un solo golpe. Con Git ves <em>exactamente</em> qué cambió y puedes deshacerlo.</li>
+            <li>Puedes probar una idea en una rama aparte y borrarla si no sale bien.</li>
+            <li>Tu código queda respaldado en GitHub aunque se dañe tu computadora.</li>
+            <li>En equipo, cada persona avanza por su lado y después los cambios se juntan de forma ordenada y revisada.</li>
+          </ul>
+
+          <h3>Qué vas a encontrar en esta guía</h3>
+          <ol>
+            <li>Primero lo básico: instalar Git, el vocabulario y los comandos del día a día.</li>
+            <li>Después, <strong>tres casos completos</strong>: trabajar solo con tu IA, trabajar en equipo y revisar los cambios de otras personas.</li>
+            <li>Al final: deshacer errores, comandos avanzados, las herramientas de GitHub y una referencia rápida con los errores más comunes.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">No necesitas memorizar nada</strong>
+            <p>Con unos pocos comandos haces el 90 % del trabajo (<code>status</code>, <code>add</code>, <code>commit</code>, <code>push</code> y <code>pull</code>). El resto lo consultas aquí cuando lo necesites. Ten en cuenta que los mensajes de Git aparecen en inglés; en esta guía te explico los más comunes.</p>
+          </div>
+        </section>
+
+        <section id="instalar-y-configurar">
+          <h2>Instalar y configurar Git</h2>
+          <p>Esto se hace una sola vez por computadora y tarda unos minutos.</p>
+
+          <h3>1. Revisa si ya lo tienes</h3>
+          <p>Abre una terminal (PowerShell o CMD) y escribe:</p>
+          <pre><code class="lenguaje-shell">git --version</code></pre>
+          <p>Si responde algo como <code>git version 2.47.1.windows.1</code>, ya lo tienes. Si dice que no reconoce el comando, sigue con el paso 2.</p>
+
+          <h3>2. Instálalo en Windows</h3>
+          <p>La forma más sencilla es con <code>winget</code>, que viene con Windows 11 y con las versiones recientes de Windows 10:</p>
+          <pre><code class="lenguaje-shell">winget install --id Git.Git -e --source winget</code></pre>
+          <p>También puedes descargar el instalador de <strong>Git for Windows</strong> desde <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com</a> y dejar las opciones que trae por defecto. Al terminar, <strong>cierra y vuelve a abrir la terminal</strong> para que reconozca el comando.</p>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si el instalador pregunta por el editor</strong>
+            <p>Elige uno que conozcas (Notepad o VS Code) en lugar de Vim. Vim es muy potente, pero desconcierta a quien está empezando.</p>
+          </div>
+
+          <h3>3. Dile a Git quién eres</h3>
+          <p>Cada commit lleva tu nombre y tu correo. Configúralos una sola vez (cambia los datos por los tuyos):</p>
+          <pre><code class="lenguaje-shell">git config --global user.name "Tu Nombre"
+git config --global user.email "tu-correo@ejemplo.com"</code></pre>
+          <p>Usa el mismo correo de tu cuenta de GitHub para que tus commits se asocien a tu perfil. Si prefieres no mostrar tu correo real, GitHub te da uno privado que termina en <code>@users.noreply.github.com</code> (lo ves en <em>Settings → Emails</em>).</p>
+
+          <h3>4. Ajustes recomendados</h3>
+          <pre><code class="lenguaje-shell">git config --global init.defaultBranch main
+git config --global push.autoSetupRemote true
+git config --global pull.rebase false</code></pre>
+          <table>
+            <thead>
+              <tr><th>Ajuste</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>init.defaultBranch main</code></td><td>Los repositorios nuevos empiezan con la rama <code>main</code>, que es el nombre que usa GitHub.</td></tr>
+              <tr><td><code>push.autoSetupRemote true</code></td><td>La primera vez que subes una rama nueva, Git la conecta solo con GitHub y no tienes que escribir <code>-u origin nombre</code>. Requiere Git 2.37 o más nuevo.</td></tr>
+              <tr><td><code>pull.rebase false</code></td><td>Hace que <code>git pull</code> junte los cambios con una fusión (merge) y evita un aviso que confunde al principio.</td></tr>
+            </tbody>
+          </table>
+          <p>Para revisar cómo quedó tu configuración:</p>
+          <pre><code class="lenguaje-shell">git config --global --list</code></pre>
+
+          <h3>5. Conecta tu computadora con GitHub</h3>
+          <ol>
+            <li>Crea tu cuenta en <a href="https://github.com" target="_blank" rel="noopener">github.com</a> si aún no la tienes.</li>
+            <li>Activa la verificación en dos pasos (<em>Settings → Password and authentication</em>). Protege tu cuenta y GitHub la exige a quienes publican código.</li>
+            <li>Elige cómo se identificará tu computadora: HTTPS (lo más fácil) o SSH.</li>
+          </ol>
+
+          <h3>Opción A (recomendada): HTTPS</h3>
+          <p>Git for Windows incluye el <strong>Git Credential Manager</strong>. La primera vez que hagas <code>git push</code> o <code>git clone</code> de un repositorio privado se abre una ventana del navegador: inicias sesión en GitHub, autorizas y listo. No vuelve a pedirte nada.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">La contraseña de tu cuenta ya no sirve en la consola</strong>
+            <p>Si Git te pide usuario y contraseña en la terminal, recuerda que GitHub dejó de aceptar la contraseña de la cuenta para Git en 2021. Usa el inicio de sesión del navegador o un token de acceso personal.</p>
+          </div>
+
+          <h3>Opción B: SSH (se configura una vez y no pide nada más)</h3>
+          <p>Primero creas un par de claves y copias la <strong>pública</strong> (la que termina en <code>.pub</code>):</p>
+          <pre><code class="lenguaje-shell">ssh-keygen -t ed25519 -C "tu-correo@ejemplo.com"
+Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard</code></pre>
+          <p>Pulsa Enter para aceptar la ubicación por defecto (la contraseña de la clave es opcional). Luego, en GitHub, ve a <em>Settings → SSH and GPG keys → New SSH key</em>, pega la clave y guárdala. Para probar:</p>
+          <pre><code class="lenguaje-shell">ssh -T git@github.com</code></pre>
+          <p>Si ves <code>Hi tu-usuario! You've successfully authenticated</code>, funcionó. Desde ahora clona con las direcciones que empiezan con <code>git@github.com:</code>.</p>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Nunca compartas tu clave privada ni tus tokens</strong>
+            <p>El archivo <code>id_ed25519</code> (sin <code>.pub</code>) y los tokens de acceso son como tu contraseña. No los pegues en chats, no los subas a un repositorio y no se los des a nadie.</p>
+          </div>
+
+          <h3>Dos sorpresas que son normales</h3>
+          <ul>
+            <li><strong>“LF will be replaced by CRLF”:</strong> es un aviso habitual en Windows sobre los saltos de línea. No es un error y no tienes que hacer nada.</li>
+            <li><strong>Se abrió una pantalla rara (Vim):</strong> pasa cuando haces <code>git commit</code> sin <code>-m</code>. Para salir sin guardar pulsa <kbd>Esc</kbd>, escribe <code>:q!</code> y pulsa <kbd>Enter</kbd>. Para guardar y salir, escribe <code>:wq</code>.</li>
+          </ul>
+        </section>
+
+        <section id="conceptos-clave">
+          <h2>Conceptos clave</h2>
+          <p>Con este vocabulario entenderás todo lo demás. Vuelve a esta tabla cuando una palabra te suene rara.</p>
+          <table>
+            <thead>
+              <tr><th>Término</th><th>Qué significa</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Repositorio</strong> (repo)</td><td>La carpeta de tu proyecto más su historial completo. Git guarda ese historial en una carpeta oculta llamada <code>.git</code>; no la borres ni la edites a mano.</td></tr>
+              <tr><td><strong>Commit</strong></td><td>Un punto de guardado: una “foto” de tu proyecto con un mensaje, tu nombre y la fecha. Tiene un código único (el <em>hash</em>), por ejemplo <code>a1b2c3d</code>.</td></tr>
+              <tr><td><strong>Directorio de trabajo</strong></td><td>Tus archivos tal como los ves y editas ahora mismo.</td></tr>
+              <tr><td><strong>Área de preparación</strong> (staging)</td><td>Una “sala de espera” donde eliges qué cambios entrarán en el próximo commit. Se llena con <code>git add</code>.</td></tr>
+              <tr><td><strong>Rama</strong> (branch)</td><td>Una línea de trabajo independiente, para probar cosas sin tocar lo que ya funciona. La principal se llama <code>main</code>.</td></tr>
+              <tr><td><strong>HEAD</strong></td><td>Un marcador que dice “aquí estás ahora”. Normalmente apunta al último commit de la rama en la que trabajas.</td></tr>
+              <tr><td><strong>Remoto</strong> (remote)</td><td>Una copia del repositorio en otro lugar, normalmente GitHub. El remoto principal se llama <code>origin</code>.</td></tr>
+              <tr><td><strong>Clonar</strong> (clone)</td><td>Descargar un repositorio completo, con todo su historial, a tu computadora.</td></tr>
+              <tr><td><strong>Push, fetch y pull</strong></td><td><em>Push</em> sube tus commits al remoto. <em>Fetch</em> trae las novedades sin mezclarlas. <em>Pull</em> las trae y las mezcla con tu rama (es fetch + merge).</td></tr>
+              <tr><td><strong>Merge</strong> (fusión)</td><td>Juntar los cambios de una rama en otra.</td></tr>
+              <tr><td><strong>Conflicto</strong></td><td>Cuando dos ramas cambian las mismas líneas y Git no sabe cuál conservar. Lo decides tú.</td></tr>
+              <tr><td><strong>Fork</strong></td><td>Tu propia copia en GitHub de un repositorio ajeno, para proponer cambios sin tener permiso en el original.</td></tr>
+              <tr><td><strong>Pull request</strong> (PR)</td><td>En GitHub, una solicitud para fusionar una rama en otra, con espacio para que otras personas revisen y comenten.</td></tr>
+              <tr><td><strong>Issue</strong></td><td>Un “ticket” en GitHub: una tarea, idea o error por resolver.</td></tr>
+              <tr><td><strong><code>.gitignore</code></strong></td><td>Un archivo que lista lo que Git debe ignorar (contraseñas, carpetas pesadas, archivos temporales).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Cómo viajan tus cambios</h3>
+          <p>Casi todo lo que haces con Git es mover cambios de un lugar al siguiente:</p>
+          <pre data-archivo="Del archivo a GitHub" data-sin-copiar><code class="lenguaje-texto"> Tus archivos (directorio de trabajo)
+        │  git add
+        ▼
+ Área de preparación
+        │  git commit
+        ▼
+ Historial en tu computadora (commits)
+        │  git push             ▲  git pull / git fetch
+        ▼                       │
+ GitHub (remoto: origin) ───────┘</code></pre>
+
+          <h3>Los cuatro estados de un archivo</h3>
+          <table>
+            <thead>
+              <tr><th>Estado</th><th>Qué significa</th><th>Cómo pasa al siguiente</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Sin seguimiento</strong> (untracked)</td><td>Archivo nuevo que Git todavía no conoce.</td><td><code>git add archivo</code></td></tr>
+              <tr><td><strong>Modificado</strong> (modified)</td><td>Un archivo que Git ya conoce y que cambiaste.</td><td><code>git add archivo</code></td></tr>
+              <tr><td><strong>Preparado</strong> (staged)</td><td>Entrará en el próximo commit.</td><td><code>git commit</code></td></tr>
+              <tr><td><strong>Confirmado</strong> (committed)</td><td>Ya está guardado en el historial.</td><td>—</td></tr>
+            </tbody>
+          </table>
+          <div class="nota">
+            <strong class="nota__titulo">¿Para qué existe el área de preparación?</strong>
+            <p>Para que tú decidas qué entra en cada commit. Si cambiaste cinco archivos pero solo tres tienen que ver con la misma tarea, preparas esos tres, haces un commit, y luego preparas los otros dos en un commit aparte. Así el historial queda ordenado y fácil de leer.</p>
+          </div>
+        </section>
+
+        <section id="comandos-basicos">
+          <h2>Comandos básicos, uno por uno</h2>
+          <p>Estos nueve comandos cubren casi todo lo que harás cada día. De cada uno verás para qué sirve, cómo se escribe y cuándo usarlo.</p>
+
+          <h3>El ciclo del día a día</h3>
+          <p>Cuando ya tienes un repositorio, casi siempre repites estos pasos:</p>
+          <pre><code class="lenguaje-shell">git status
+git add .
+git commit -m "Describe lo que cambiaste"
+git push</code></pre>
+          <ol>
+            <li>Editas tus archivos (tú o tu IA).</li>
+            <li><code>git status</code>: miras qué cambió.</li>
+            <li><code>git add .</code>: preparas esos cambios.</li>
+            <li><code>git commit -m "..."</code>: los guardas en el historial.</li>
+            <li><code>git push</code>: los subes a GitHub.</li>
+          </ol>
+
+          <h3><code>git init</code>: crear un repositorio</h3>
+          <p>Convierte la carpeta donde estás en un repositorio de Git (crea la carpeta oculta <code>.git</code>). Se usa una sola vez por proyecto.</p>
+          <pre><code class="lenguaje-shell">mkdir mi-proyecto
+cd mi-proyecto
+git init</code></pre>
+
+          <h3><code>git clone</code>: descargar un repositorio</h3>
+          <p>Descarga un repositorio completo (archivos e historial) y lo deja conectado a GitHub con el nombre <code>origin</code>. La dirección la copias del botón verde <strong>Code</strong> de la página del repositorio.</p>
+          <pre><code class="lenguaje-shell">git clone https://github.com/usuario/repositorio.git
+git clone https://github.com/usuario/repositorio.git mi-carpeta
+cd repositorio</code></pre>
+          <p>El segundo ejemplo guarda el proyecto en una carpeta con el nombre que tú elijas. Después de clonar, entra a la carpeta con <code>cd</code>.</p>
+
+          <h3><code>git status</code>: ver qué está pasando</h3>
+          <p>Es el comando que más vas a usar. Te dice en qué rama estás, qué archivos cambiaron y cuáles están preparados. Úsalo antes de cada <code>add</code> y cada <code>commit</code>.</p>
+          <pre><code class="lenguaje-shell">git status
+git status -s</code></pre>
+          <pre data-archivo="Salida de git status" data-sin-copiar><code class="lenguaje-texto">On branch main
+Changes to be committed:
+  (use "git restore --staged &lt;file&gt;..." to unstage)
+        modified:   index.html
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git restore &lt;file&gt;..." to discard changes in working directory)
+        modified:   estilos.css
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+        notas.txt</code></pre>
+          <p>Se lee en tres bloques:</p>
+          <ul>
+            <li><strong>Changes to be committed:</strong> ya están preparados (con <code>git add</code>) y entrarán en el próximo commit.</li>
+            <li><strong>Changes not staged for commit:</strong> los modificaste, pero aún no los preparaste.</li>
+            <li><strong>Untracked files:</strong> archivos nuevos que Git todavía no conoce.</li>
+          </ul>
+          <p>Con <code>-s</code> obtienes una versión corta. La primera columna es lo preparado y la segunda lo que falta preparar:</p>
+          <pre data-archivo="Salida de git status -s" data-sin-copiar><code class="lenguaje-texto">M  index.html
+ M estilos.css
+?? notas.txt</code></pre>
+
+          <h3><code>git add</code>: preparar cambios</h3>
+          <p>Marca qué cambios entrarán en el próximo commit. <strong>No sube nada a GitHub</strong>: solo los deja en la “sala de espera”.</p>
+          <pre><code class="lenguaje-shell">git add index.html      # un archivo
+git add carpeta/        # una carpeta completa
+git add .               # todo lo que cambió desde donde estás
+git add -p              # eliges trozo por trozo qué entra</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Mira antes de usar <code>git add .</code></strong>
+            <p>Prepara <em>todo</em>, incluidos archivos nuevos. Haz <code>git status</code> primero para asegurarte de no incluir contraseñas, archivos pesados o cosas temporales.</p>
+          </div>
+
+          <h3><code>git commit</code>: guardar en el historial</h3>
+          <p>Crea el punto de guardado con lo que está preparado.</p>
+          <pre><code class="lenguaje-shell">git commit -m "Agrega el formulario de contacto"
+git commit -am "Corrige el color del botón"</code></pre>
+          <ul>
+            <li><code>-m "mensaje"</code> escribe el mensaje directamente. Sin <code>-m</code> se abre un editor.</li>
+            <li><code>-a</code> prepara automáticamente los archivos que ya estaban en Git y que modificaste (no incluye archivos nuevos). Es un atajo para ahorrarte el <code>git add</code>.</li>
+            <li>El commit se queda en <strong>tu computadora</strong> hasta que hagas <code>git push</code>.</li>
+            <li>Un buen mensaje explica qué cambiaste y por qué. Mira la sección de buenas prácticas.</li>
+          </ul>
+
+          <h3><code>git push</code>: subir a GitHub</h3>
+          <p>Envía tus commits al repositorio remoto.</p>
+          <pre><code class="lenguaje-shell">git push
+git push -u origin main</code></pre>
+          <p>El segundo comando se usa <strong>la primera vez</strong> que subes una rama: <code>-u</code> conecta tu rama local con la de GitHub, y a partir de ahí basta con <code>git push</code>. Si activaste <code>push.autoSetupRemote</code> en la configuración, tampoco lo necesitas para ramas nuevas.</p>
+          <p>Si GitHub rechaza el push (<code>rejected</code>), casi siempre es porque tiene commits que tú no tienes. Haz primero un <code>git pull</code>.</p>
+
+          <h3><code>git pull</code>: traer las novedades</h3>
+          <p>Descarga los commits nuevos de GitHub y los mezcla con tu rama. Hazlo al empezar a trabajar, sobre todo si trabajas en equipo o desde varias computadoras.</p>
+          <pre><code class="lenguaje-shell">git pull
+git fetch</code></pre>
+          <p><code>git pull</code> es en realidad <code>git fetch</code> (traer) más <code>git merge</code> (mezclar). Si solo quieres <em>mirar</em> qué hay de nuevo sin tocar tus archivos, usa <code>git fetch</code>.</p>
+
+          <h3><code>git log</code>: ver el historial</h3>
+          <p>Lista los commits, del más reciente al más antiguo.</p>
+          <pre><code class="lenguaje-shell">git log
+git log --oneline
+git log --oneline --graph --decorate --all
+git log -5</code></pre>
+          <p>Así se ve <code>git log --oneline</code> en este mismo repositorio:</p>
+          <pre data-archivo="Salida de git log --oneline" data-sin-copiar><code class="lenguaje-texto">383f976 (HEAD -> main, origin/main) Actualiza el README con el estado y como agregar contenido
+dbb368e Agrega el inicio y la pagina de cada tema
+0f15ce5 Agrega estilos, buscador y comportamiento de la pagina
+e9312d3 Estructura inicial del repositorio</code></pre>
+          <ul>
+            <li>Si el historial es largo, Git lo muestra por páginas: usa <kbd>Espacio</kbd> para avanzar y <kbd>q</kbd> para salir.</li>
+            <li>Opciones útiles: <code>--stat</code> (qué archivos tocó cada commit), <code>-p</code> (los cambios línea por línea), <code>--author="nombre"</code>, <code>--since="1 week ago"</code> y <code>--grep="palabra"</code>.</li>
+          </ul>
+
+          <h3><code>git diff</code>: ver qué cambió</h3>
+          <p>Muestra las diferencias línea por línea.</p>
+          <pre><code class="lenguaje-shell">git diff                  # cambios que aún no preparaste
+git diff --staged         # cambios preparados (lo que entrará en el commit)
+git diff main..mi-rama    # diferencias entre dos ramas
+git diff --stat           # resumen: archivos y cantidad de líneas</code></pre>
+          <pre data-archivo="Salida de git diff" data-sin-copiar><code class="lenguaje-texto">diff --git a/estilos.css b/estilos.css
+--- a/estilos.css
++++ b/estilos.css
+@@ -10,3 +10,3 @@
+ .boton {
+-  color: red;
++  color: blue;
+ }</code></pre>
+          <p>Las líneas con <code>-</code> son las que se quitaron y las que tienen <code>+</code> son las que se agregaron. Las demás son contexto. Como el historial, si es largo se sale con <kbd>q</kbd>.</p>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Un hábito que te ahorra sustos</strong>
+            <p>Antes de cada commit, mira <code>git status</code> y <code>git diff --staged</code>. Son dos segundos y evitan subir cosas por error. Ten en cuenta que <code>git diff</code> no muestra los archivos nuevos sin seguimiento: esos los ves con <code>git status</code>.</p>
+          </div>
+        </section>
+
+        <section id="crear-un-repositorio">
+          <h2>Crear un repositorio</h2>
+          <p>Hay dos caminos. Los dos terminan igual: una carpeta en tu computadora conectada con un repositorio en GitHub.</p>
+          <table>
+            <thead>
+              <tr><th>Camino</th><th>Cuándo conviene</th><th>Resumen</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>A.</strong> Crearlo en GitHub y clonarlo</td><td>Proyecto nuevo. Es el más fácil para empezar.</td><td>Crear en github.com, luego <code>git clone</code>.</td></tr>
+              <tr><td><strong>B.</strong> Empezar en tu PC y subirlo</td><td>Ya tienes una carpeta con código (por ejemplo, algo que hiciste con tu IA).</td><td><code>git init</code>, commit, crear repo vacío, conectar y <code>git push</code>.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Camino A: crearlo en GitHub y clonarlo</h3>
+          <ol>
+            <li>En github.com pulsa el botón <strong>+</strong> (arriba a la derecha) y elige <strong>New repository</strong>.</li>
+            <li>Ponle un <strong>nombre</strong> sin espacios (usa guiones, por ejemplo <code>mi-proyecto</code>) y una descripción corta.</li>
+            <li>Elige <strong>Public</strong> (cualquiera puede verlo) o <strong>Private</strong> (solo tú y quien invites).</li>
+            <li>Es útil marcar <strong>Add a README file</strong>, elegir una plantilla de <strong>.gitignore</strong> para tu lenguaje y, si vas a compartir el código, una <strong>licencia</strong>.</li>
+            <li>Pulsa <strong>Create repository</strong>, copia la dirección del botón verde <strong>Code</strong> y clónalo:</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git clone https://github.com/tu-usuario/mi-proyecto.git
+cd mi-proyecto</code></pre>
+          <p>Ya puedes trabajar: crea archivos, haz <code>git add</code>, <code>git commit</code> y <code>git push</code>.</p>
+
+          <h3>Camino B: empezar en tu PC y subirlo</h3>
+          <p>Es el camino cuando ya tienes una carpeta con código.</p>
+          <ol>
+            <li>Crea el repositorio <strong>vacío</strong> en GitHub, igual que arriba pero <strong>sin</strong> marcar README, .gitignore ni licencia. Si los agregas, el repositorio remoto ya tendrá un commit y tendrás que mezclar historiales.</li>
+            <li>En tu computadora, dentro de la carpeta del proyecto, ejecuta:</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git init
+git add .
+git commit -m "Primer commit"
+git branch -M main
+git remote add origin https://github.com/tu-usuario/mi-proyecto.git
+git push -u origin main</code></pre>
+          <ul>
+            <li><code>git init</code> crea el repositorio local.</li>
+            <li><code>git add .</code> y <code>git commit</code> guardan el primer punto del historial.</li>
+            <li><code>git branch -M main</code> se asegura de que la rama se llame <code>main</code>.</li>
+            <li><code>git remote add origin ...</code> conecta tu carpeta con el repositorio de GitHub.</li>
+            <li><code>git push -u origin main</code> sube todo y deja la rama conectada.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Crea el <code>.gitignore</code> antes del primer <code>git add .</code></strong>
+            <p>Así no subes por accidente carpetas pesadas (como <code>node_modules</code>) ni archivos con contraseñas. Más detalles en la sección de buenas prácticas.</p>
+          </div>
+
+          <h3>Con GitHub CLI (opcional)</h3>
+          <p>Si tienes instalada la herramienta <code>gh</code> (la explico en la sección de GitHub más allá del código), puedes crear el repositorio en GitHub y subir tu carpeta en un solo paso, siempre que ya tengas al menos un commit:</p>
+          <pre><code class="lenguaje-shell">gh repo create mi-proyecto --private --source=. --remote=origin --push</code></pre>
+          <p>Cambia <code>--private</code> por <code>--public</code> si quieres que cualquiera pueda verlo.</p>
+
+          <h3>Qué repositorio crear para cada ocasión</h3>
+          <table>
+            <thead>
+              <tr><th>Situación</th><th>Repositorio recomendado</th><th>Cómo trabajar</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Practicar o aprender</strong></td><td>Uno por ejercicio o por curso, privado o público.</td><td>Commits frecuentes en <code>main</code>. No necesitas ramas.</td></tr>
+              <tr><td><strong>Proyecto personal con tu IA</strong></td><td>Privado si tiene datos o claves; si no, el que prefieras.</td><td>Una rama corta por tarea y un commit antes de cada petición grande (Caso 1).</td></tr>
+              <tr><td><strong>Portafolio o proyecto para mostrar</strong></td><td>Público, con un buen README y sin secretos.</td><td>Capturas, descripción y licencia. Si es una página web, publícala con GitHub Pages.</td></tr>
+              <tr><td><strong>Trabajo en equipo</strong></td><td>Privado, dentro de una organización o con colaboradores invitados.</td><td><code>main</code> protegida, ramas y pull requests con revisión (Caso 2).</td></tr>
+              <tr><td><strong>Revisar los cambios de otras personas</strong></td><td>El repositorio del equipo. No creas uno nuevo.</td><td>Abres el pull request, revisas y comentas (Caso 3).</td></tr>
+              <tr><td><strong>Colaborar en un proyecto ajeno</strong></td><td>Un <em>fork</em> del repositorio original.</td><td>Fork, rama y pull request hacia el original (Caso 2).</td></tr>
+              <tr><td><strong>Repetir una misma estructura</strong></td><td>Un repositorio marcado como <em>Template repository</em>.</td><td>Otras personas lo usan con el botón <strong>Use this template</strong>.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Reglas para mantener todo ordenado</h3>
+          <ul>
+            <li><strong>Un repositorio por proyecto.</strong> No mezcles proyectos distintos en el mismo.</li>
+            <li>Nombres en minúsculas y con guiones: <code>guia-programadores</code>.</li>
+            <li>Escribe un README desde el primer día, aunque sea corto.</li>
+            <li>No crees un repositorio dentro de otro (una carpeta con <code>.git</code> dentro de otra que también la tiene).</li>
+            <li>Si tienes OneDrive o Dropbox sincronizando tus carpetas, guarda los repositorios en una carpeta fuera de ellas (por ejemplo <code>C:\proyectos</code>). Sincronizar la carpeta <code>.git</code> mientras Git la modifica puede causar errores raros.</li>
+          </ul>
+
+          <h3>Problemas típicos al crear o conectar</h3>
+          <table>
+            <thead>
+              <tr><th>Mensaje</th><th>Qué pasó</th><th>Solución</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>fatal: not a git repository</code></td><td>No estás dentro de la carpeta de un repositorio.</td><td>Entra a la carpeta correcta con <code>cd</code>, o haz <code>git init</code> si es un proyecto nuevo.</td></tr>
+              <tr><td><code>remote origin already exists</code></td><td>Ya habías conectado un remoto.</td><td>Para cambiar la dirección: <code>git remote set-url origin URL</code>.</td></tr>
+              <tr><td><code>src refspec main does not match any</code></td><td>Todavía no hay ningún commit, o tu rama no se llama <code>main</code>.</td><td>Haz un commit y ejecuta <code>git branch -M main</code>.</td></tr>
+              <tr><td><code>refusing to merge unrelated histories</code></td><td>Creaste el repositorio en GitHub con README y también tienes commits locales distintos.</td><td><code>git pull origin main --allow-unrelated-histories</code></td></tr>
+              <tr><td><code>Repository not found</code></td><td>La dirección está mal escrita o no tienes acceso (es privado).</td><td>Revisa la dirección con <code>git remote -v</code> y tu inicio de sesión en GitHub.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="trabajo-solo-con-ia">
+          <h2>Caso 1: trabajar solo con tu IA</h2>
+          <p>Eres tú y una IA (por ejemplo, la de Cursor) editando el mismo proyecto. Nadie más revisa el código, así que <strong>Git es tu red de seguridad</strong>: te deja probar sin miedo, ver exactamente qué cambió la IA y volver atrás cuando algo sale mal.</p>
+
+          <h3>Qué necesitas</h3>
+          <ul>
+            <li>Un repositorio (Camino A o B de la sección “Crear un repositorio”). Hazlo <strong>privado</strong> si el proyecto tiene datos personales o claves.</li>
+            <li>Un archivo <code>.gitignore</code> para no subir carpetas pesadas ni contraseñas.</li>
+            <li>Que la rama <code>main</code> siempre tenga una versión que funcione.</li>
+          </ul>
+
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">La regla de oro</strong>
+            <p>Haz un commit <strong>antes</strong> de pedirle algo grande a la IA. Así siempre tienes un punto al que volver, pase lo que pase.</p>
+          </div>
+
+          <h3>El flujo, paso a paso</h3>
+          <ol>
+            <li><strong>Empieza limpio.</strong> Ejecuta <code>git status</code>. Si hay cambios sueltos, guárdalos primero con un commit.</li>
+            <li><strong>Crea una rama corta</strong> para la tarea (opcional, pero muy recomendable). Si la tarea sale mal, borras la rama y <code>main</code> queda intacto.</li>
+            <li><strong>Pídele a la IA una tarea pequeña y concreta.</strong> Mejor “agrega el botón de borrar” que “termina toda la aplicación”.</li>
+            <li><strong>Revisa lo que cambió</strong> con <code>git status</code> y <code>git diff</code>, o con el panel de control de código fuente de tu editor.</li>
+            <li><strong>Pruébalo.</strong> Ejecuta el programa y comprueba que hace lo que pediste y que no rompió lo anterior.</li>
+            <li><strong>Si está bien, guárdalo</strong> con <code>git add</code> y <code>git commit</code>. Si no, descarta los cambios (mira la tabla de más abajo).</li>
+            <li>Repite desde el paso 3 con la siguiente tarea.</li>
+            <li>Cuando la rama esté lista, <strong>fusiónala con <code>main</code> y sube todo a GitHub</strong>.</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git switch main
+git pull
+git switch -c feature/menu-principal
+# ...aquí trabajas con la IA...
+git status
+git diff
+git add .
+git commit -m "Agrega el menú principal"
+git switch main
+git merge feature/menu-principal
+git push
+git branch -d feature/menu-principal</code></pre>
+
+          <h3>Si prefieres no usar ramas</h3>
+          <p>En proyectos pequeños puedes trabajar directamente en <code>main</code>. La regla es la misma: un commit antes de cada tarea de la IA y otro cuando compruebes que quedó bien. Las ramas dan más tranquilidad cuando la tarea es grande o es un experimento.</p>
+
+          <h3>Qué mirar al revisar lo que hizo la IA</h3>
+          <ul>
+            <li>¿Tocó solo los archivos que esperabas? Compruébalo con <code>git status</code> y <code>git diff --stat</code>.</li>
+            <li>¿Borró o reescribió código que ya funcionaba?</li>
+            <li>¿Agregó librerías, archivos o configuraciones que no pediste?</li>
+            <li>¿Dejó contraseñas, claves de API o datos personales dentro del código?</li>
+            <li>¿Funciona de verdad? Ejecútalo antes de guardar.</li>
+          </ul>
+          <pre><code class="lenguaje-shell">git diff --stat</code></pre>
+          <p>Muestra un resumen con los archivos modificados y cuántas líneas cambiaron en cada uno. Es una forma rápida de detectar si la IA tocó más de lo que debía.</p>
+
+          <h3>Si la IA rompió algo: cómo volver atrás</h3>
+          <table>
+            <thead>
+              <tr><th>Situación</th><th>Qué hacer</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Aún no hiciste commit y quieres descartar <strong>todo</strong> lo que cambió</td><td><code>git restore .</code> y, si creó archivos nuevos, <code>git clean -fd</code>. Antes usa <code>git clean -n</code> para ver qué borraría.</td></tr>
+              <tr><td>Descartar solo un archivo</td><td><code>git restore ruta/archivo</code></td></tr>
+              <tr><td>Ya hiciste commit y quieres deshacerlo, <strong>conservando</strong> los cambios en tus archivos</td><td><code>git reset --soft HEAD~1</code></td></tr>
+              <tr><td>Quieres deshacer un commit dejando constancia (también si ya hiciste push)</td><td><code>git revert HEAD</code></td></tr>
+              <tr><td>Volver a un commit anterior y tirar todo lo posterior</td><td><code>git reset --hard abc1234</code> (peligroso: solo si aún no hiciste push)</td></tr>
+              <tr><td>La tarea salió mal en una rama</td><td><code>git switch main</code> y luego <code>git branch -D feature/nombre</code></td></tr>
+            </tbody>
+          </table>
+          <p>Cada una de estas opciones se explica con calma en <a href="#deshacer-cambios">Deshacer cosas sin miedo</a>.</p>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Cuidado con los comandos que borran trabajo</strong>
+            <p><code>git restore .</code>, <code>git clean -fd</code> y <code>git reset --hard</code> eliminan cambios sin avisar y no se pueden recuperar. Si tu IA puede ejecutar comandos en la terminal, haz que te pida confirmación antes de usarlos y nunca le permitas <code>git push --force</code>.</p>
+          </div>
+
+          <h3>Usar Git desde tu editor</h3>
+          <p>En Cursor (y en VS Code) abre el panel de <strong>Control de código fuente</strong> con <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>G</kbd>, o con el icono de las ramas en la barra lateral. Desde ahí puedes:</p>
+          <ul>
+            <li>Ver la lista de archivos cambiados y abrir cada uno para ver la diferencia.</li>
+            <li>Prepararlos con el signo <strong>+</strong>, escribir el mensaje y pulsar <strong>Commit</strong>.</li>
+            <li>Hacer <strong>Pull</strong> y <strong>Push</strong> desde el menú <strong>⋯</strong>.</li>
+            <li>Ver la rama actual abajo a la izquierda. Si haces clic ahí, puedes cambiar de rama o crear una nueva.</li>
+          </ul>
+          <p>Algunos editores pueden sugerirte el mensaje del commit con IA. Está bien usarlo, pero léelo siempre: tiene que decir qué cambió y por qué.</p>
+
+          <h3>Respáldalo con <code>git push</code></h3>
+          <p>Un commit solo existe en tu computadora hasta que lo subes. Haz <code>git push</code> al terminar cada sesión de trabajo y tu proyecto quedará a salvo en GitHub.</p>
+          <div class="nota">
+            <strong class="nota__titulo">Dos frases que ayudan a que la IA no se pase de lista</strong>
+            <p>“Antes de cambiar nada, dime qué archivos vas a modificar y por qué.” y “Haz solo este cambio y no toques otros archivos.” Así los cambios son pequeños y fáciles de revisar con <code>git diff</code>.</p>
+          </div>
+        </section>
+
+        <section id="ramas-y-fusiones">
+          <h2>Ramas y fusiones</h2>
+          <p>Una rama es una línea de trabajo independiente. Cuando la creas, parte de donde estás, y todo lo que hagas en ella no afecta a las demás. Cuando termina y funciona, la fusionas con <code>main</code>.</p>
+          <pre data-archivo="Una rama y su fusión" data-sin-copiar><code class="lenguaje-texto">          D --- E        mi-rama
+         /       \
+A --- B --- C --- F      main  (F es el commit de fusión)</code></pre>
+
+          <h3>Crear, ver y cambiar de rama</h3>
+          <pre><code class="lenguaje-shell">git branch                       # lista las ramas locales (la actual lleva *)
+git branch -a                    # incluye también las del remoto
+git switch -c feature/login      # crea la rama y se cambia a ella
+git switch main                  # cambia a otra rama
+git switch -                     # vuelve a la rama anterior</code></pre>
+          <table>
+            <thead>
+              <tr><th>Comando</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>git branch nombre</code></td><td>Crea la rama pero te deja donde estás.</td></tr>
+              <tr><td><code>git branch -d nombre</code></td><td>Borra una rama que ya fue fusionada.</td></tr>
+              <tr><td><code>git branch -D nombre</code></td><td>Fuerza el borrado, aunque tenga commits sin fusionar (se pierden).</td></tr>
+              <tr><td><code>git branch -m nuevo-nombre</code></td><td>Cambia el nombre de la rama actual.</td></tr>
+              <tr><td><code>git branch -vv</code></td><td>Muestra de qué rama remota depende cada rama.</td></tr>
+              <tr><td><code>git checkout nombre</code></td><td>La forma antigua de <code>git switch</code>. Sigue funcionando y la verás en muchos tutoriales.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Fusionar una rama (merge)</h3>
+          <p>Te paras en la rama que <strong>recibe</strong> los cambios (normalmente <code>main</code>) y fusionas la otra:</p>
+          <pre><code class="lenguaje-shell">git switch main
+git merge feature/login</code></pre>
+          <p>Pueden pasar dos cosas:</p>
+          <ul>
+            <li><strong>Avance rápido (fast-forward):</strong> si <code>main</code> no cambió desde que creaste la rama, Git solo mueve el puntero hacia adelante. No se crea ningún commit extra y el historial queda en línea recta.</li>
+            <li><strong>Commit de fusión:</strong> si <code>main</code> también avanzó, Git crea un commit especial que junta las dos líneas (la <code>F</code> del dibujo). Si las dos ramas cambiaron las mismas líneas, aparece un <a href="#resolver-conflictos">conflicto</a> que resuelves tú.</li>
+          </ul>
+          <pre><code class="lenguaje-shell">git merge --no-ff feature/login     # siempre crea commit de fusión
+git merge --squash feature/login    # junta todos sus commits en uno (luego haces tú el commit)
+git merge --abort                   # cancela una fusión que se complicó</code></pre>
+
+          <h3>Subir y traer ramas de GitHub</h3>
+          <pre><code class="lenguaje-shell">git push -u origin feature/login
+git fetch
+git switch feature/login</code></pre>
+          <p>El primero publica tu rama en GitHub (si activaste <code>push.autoSetupRemote</code>, te basta con <code>git push</code>). Los otros dos sirven para trabajar con una rama que alguien más subió: <code>git fetch</code> trae la información y <code>git switch</code> crea tu copia local, ya conectada.</p>
+
+          <h3>Borrar ramas cuando terminas</h3>
+          <pre><code class="lenguaje-shell">git branch -d feature/login                # borra la rama en tu computadora
+git push origin --delete feature/login     # la borra también en GitHub
+git fetch --prune                          # limpia las referencias a ramas que ya no existen en GitHub</code></pre>
+          <p>Tras fusionar un pull request, GitHub muestra un botón <strong>Delete branch</strong> que hace el segundo paso por ti.</p>
+
+          <h3>Nombres de ramas</h3>
+          <table>
+            <thead>
+              <tr><th>Prefijo</th><th>Se usa para</th><th>Ejemplo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>feature/</code></td><td>Una función nueva</td><td><code>feature/carrito-de-compras</code></td></tr>
+              <tr><td><code>fix/</code></td><td>Arreglar un error</td><td><code>fix/boton-no-responde</code></td></tr>
+              <tr><td><code>docs/</code></td><td>Documentación</td><td><code>docs/actualizar-readme</code></td></tr>
+              <tr><td><code>exp/</code></td><td>Un experimento que quizá descartes</td><td><code>exp/probar-nueva-libreria</code></td></tr>
+            </tbody>
+          </table>
+          <p>Usa minúsculas, guiones en lugar de espacios y nombres que describan la tarea.</p>
+
+          <h3>Cambiar de rama con cambios sin guardar</h3>
+          <p>Si tus cambios no chocan con la otra rama, Git te deja cambiar y los lleva contigo. Si chocan, avisa con <code>Your local changes ... would be overwritten</code> y no cambia nada. En ese caso haz un commit, o guárdalos temporalmente con <code>git stash</code> (lo verás en <a href="#deshacer-cambios">Deshacer cosas sin miedo</a>).</p>
+
+          <h3>Una forma sencilla de usar ramas</h3>
+          <ol>
+            <li><code>main</code> siempre contiene una versión que funciona.</li>
+            <li>Cada tarea nueva va en una rama que sale de <code>main</code>.</li>
+            <li>Haces commits pequeños en esa rama.</li>
+            <li>Cuando está lista, la fusionas (tú solo con <code>merge</code>, o en equipo con un pull request).</li>
+            <li>Borras la rama y empiezas la siguiente.</li>
+          </ol>
+        </section>
+
+        <section id="trabajo-en-equipo">
+          <h2>Caso 2: trabajar en equipo</h2>
+          <p>Cuando varias personas tocan el mismo proyecto, la regla es sencilla: <strong>nadie trabaja directamente en <code>main</code></strong>. Cada persona trabaja en su propia rama, la sube a GitHub y propone sus cambios con un <em>pull request</em> (PR) para que alguien más los revise antes de fusionarlos.</p>
+
+          <h3>Dos formas de colaborar</h3>
+          <table>
+            <thead>
+              <tr><th></th><th>Clonar el repositorio</th><th>Hacer un fork</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Cuándo</strong></td><td>Eres parte del equipo: te invitaron como colaborador o a la organización.</td><td>Quieres aportar a un proyecto ajeno (por ejemplo, de código abierto) y no tienes permisos.</td></tr>
+              <tr><td><strong>Dónde subes tu rama</strong></td><td>En el mismo repositorio.</td><td>En tu propia copia (el fork).</td></tr>
+              <tr><td><strong>Pull request</strong></td><td>De tu rama hacia <code>main</code> del mismo repositorio.</td><td>De tu fork hacia el repositorio original.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Preparar al equipo (una sola vez)</h3>
+          <ol>
+            <li>La persona dueña del repositorio invita a los demás desde <strong>Settings → Collaborators → Add people</strong>. Si el equipo es grande, conviene crear una <strong>organización</strong> y agrupar a las personas en <em>teams</em>.</li>
+            <li>Cada persona acepta la invitación (llega por correo y como notificación en GitHub).</li>
+            <li>Cada persona clona el repositorio:</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git clone https://github.com/equipo/proyecto.git
+cd proyecto</code></pre>
+          <p>En repositorios de una organización, los permisos se reparten por roles:</p>
+          <table>
+            <thead>
+              <tr><th>Rol</th><th>Qué puede hacer</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Read</strong></td><td>Ver y clonar el repositorio, y comentar.</td></tr>
+              <tr><td><strong>Triage</strong></td><td>Gestionar issues y pull requests, sin subir código.</td></tr>
+              <tr><td><strong>Write</strong></td><td>Subir ramas y fusionar pull requests.</td></tr>
+              <tr><td><strong>Maintain</strong></td><td>Gestionar el repositorio sin acciones destructivas.</td></tr>
+              <tr><td><strong>Admin</strong></td><td>Todo, incluido cambiar la configuración y borrar el repositorio.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>El flujo de cada tarea</h3>
+          <ol>
+            <li><strong>Elige o crea un issue</strong>: la tarea que vas a hacer (más abajo).</li>
+            <li><strong>Actualiza tu <code>main</code></strong> para partir de lo último.</li>
+            <li><strong>Crea tu rama</strong> con un nombre que describa la tarea.</li>
+            <li><strong>Trabaja con commits pequeños</strong> y claros.</li>
+            <li><strong>Sube tu rama</strong> a GitHub.</li>
+            <li><strong>Abre un pull request.</strong> Tras el push, GitHub muestra un botón verde <strong>Compare &amp; pull request</strong>. También puedes ir a la pestaña <strong>Pull requests → New pull request</strong>.</li>
+            <li><strong>Pide revisión</strong> en <strong>Reviewers</strong> y espera comentarios.</li>
+            <li><strong>Atiende los comentarios</strong>: haz más commits en la misma rama y sube con <code>git push</code>. El pull request se actualiza solo.</li>
+            <li><strong>Fusiona</strong> cuando lo aprueben y las comprobaciones (<em>checks</em>) estén en verde.</li>
+            <li><strong>Limpia</strong>: vuelve a <code>main</code>, trae lo nuevo y borra tu rama.</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git switch main
+git pull
+git switch -c feature/123-filtro-de-busqueda
+# ...trabajas y haces commits...
+git push -u origin feature/123-filtro-de-busqueda</code></pre>
+          <p>Después de que fusionen tu pull request:</p>
+          <pre><code class="lenguaje-shell">git switch main
+git pull
+git branch -d feature/123-filtro-de-busqueda</code></pre>
+
+          <h3>Cómo escribir un buen pull request</h3>
+          <ul>
+            <li><strong>Título claro:</strong> “Agrega filtro de búsqueda por categoría”.</li>
+            <li><strong>Descripción útil:</strong> qué cambia, por qué, cómo probarlo y, si es visual, una captura.</li>
+            <li><strong>Pequeño:</strong> un pull request, una idea. Es más fácil de revisar y es menos probable que genere conflictos.</li>
+            <li><strong>Borrador:</strong> si aún no está listo, ábrelo como <strong>Draft pull request</strong> para que nadie lo fusione por error.</li>
+            <li><strong>Enlazado al issue:</strong> escribe <code>Closes #123</code> en la descripción y, al fusionarlo, GitHub cerrará el issue solo.</li>
+          </ul>
+          <pre data-archivo="Plantilla de descripción"><code class="lenguaje-texto">## Qué cambia
+Agrega un filtro por categoría en la página de búsqueda.
+
+## Por qué
+Hoy hay que recorrer toda la lista para encontrar un producto.
+
+## Cómo probarlo
+1. Abre la página de búsqueda.
+2. Elige una categoría en el menú.
+3. La lista debe mostrar solo esa categoría.
+
+Closes #123</code></pre>
+
+          <h3>Issues: las tareas del equipo</h3>
+          <p>Un <em>issue</em> es una tarea, un error o una idea, con su propia conversación. Se crean en la pestaña <strong>Issues → New issue</strong>.</p>
+          <ul>
+            <li>Ponle un título claro y explica qué hay que hacer o cómo reproducir el error.</li>
+            <li>Usa <strong>Labels</strong> (etiquetas como <code>bug</code> o <code>mejora</code>) y <strong>Assignees</strong> (quién se encarga).</li>
+            <li>Escribe <code>@usuario</code> para avisar a una persona.</li>
+            <li>Con <code>Closes #123</code>, <code>Fixes #123</code> o <code>Resolves #123</code> en un pull request, el issue se cierra al fusionarlo.</li>
+          </ul>
+
+          <h3>Mantén tu rama al día</h3>
+          <p>Mientras trabajas, <code>main</code> puede avanzar con el trabajo de otras personas. Trae esos cambios a tu rama de vez en cuando, sobre todo antes de abrir el pull request: si hay conflictos, los verás pronto, cuando todavía son pequeños.</p>
+          <pre><code class="lenguaje-shell">git switch feature/123-filtro-de-busqueda
+git fetch origin
+git merge origin/main</code></pre>
+          <p>En la página del pull request, GitHub también ofrece un botón <strong>Update branch</strong> que hace lo mismo. Hay otra opción, <code>rebase</code>, que verás en <a href="#comandos-avanzados">Comandos avanzados</a>.</p>
+
+          <h3>Colaborar con un fork</h3>
+          <ol>
+            <li>En la página del repositorio original pulsa <strong>Fork</strong> (arriba a la derecha). GitHub crea una copia a tu nombre.</li>
+            <li>Clona <strong>tu fork</strong> (no el original):</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git clone https://github.com/tu-usuario/proyecto.git
+cd proyecto
+git remote add upstream https://github.com/duenio/proyecto.git
+git remote -v</code></pre>
+          <p><code>origin</code> apunta a tu fork y <code>upstream</code> al repositorio original. Después trabajas igual que antes: creas una rama, haces commits y subes con <code>git push -u origin mi-rama</code>. En GitHub, pulsa <strong>Contribute → Open pull request</strong> para proponer tus cambios al original.</p>
+          <p>Para actualizar tu fork con lo nuevo del original:</p>
+          <pre><code class="lenguaje-shell">git fetch upstream
+git switch main
+git merge upstream/main
+git push</code></pre>
+          <p>En la web de tu fork hay un botón <strong>Sync fork</strong> que hace lo mismo.</p>
+
+          <h3>Cómo fusionar en GitHub</h3>
+          <p>El botón verde de un pull request tiene tres modos. Tu equipo debería elegir uno y mantenerlo.</p>
+          <table>
+            <thead>
+              <tr><th>Opción</th><th>Qué hace</th><th>Cuándo usarla</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Create a merge commit</strong></td><td>Conserva todos los commits y agrega un commit de fusión.</td><td>Cuando importa mantener el historial exacto de la rama.</td></tr>
+              <tr><td><strong>Squash and merge</strong></td><td>Junta todos los commits del pull request en uno solo.</td><td>Es la más común: <code>main</code> queda limpio, con un commit por pull request.</td></tr>
+              <tr><td><strong>Rebase and merge</strong></td><td>Reaplica los commits uno por uno sobre <code>main</code>, sin commit de fusión.</td><td>Historial en línea recta con commits ya bien ordenados.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Reglas de equipo que evitan problemas</h3>
+          <ul>
+            <li><strong>Nadie sube directo a <code>main</code>.</strong> Protégela en <strong>Settings → Branches</strong> (o <strong>Settings → Rules → Rulesets</strong>) con las reglas <em>Require a pull request before merging</em>, <em>Require approvals</em> y <em>Block force pushes</em>.</li>
+            <li>Haz <code>git pull</code> al empezar cada jornada.</li>
+            <li>Una persona por rama. Si dos van a trabajar en la misma, avísense antes.</li>
+            <li>Commits pequeños y mensajes claros.</li>
+            <li>Toda fusión pasa por una revisión: no se aprueba sin leer.</li>
+            <li>Hablen en los issues y en los comentarios del pull request: así la decisión queda por escrito para quien llegue después.</li>
+            <li>Agreguen un archivo <code>CONTRIBUTING.md</code> con las reglas del equipo y una plantilla de pull request en <code>.github/pull_request_template.md</code>.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Practica el flujo tú solo</strong>
+            <p>Aunque trabajes solo, puedes simular el trabajo en equipo: crea una rama, ábrete un pull request hacia tu propio <code>main</code> y revísalo tú mismo. Verás exactamente las mismas pantallas que usarás con otras personas.</p>
+          </div>
+        </section>
+
+        <section id="revisar-cambios">
+          <h2>Caso 3: revisar los cambios de otros</h2>
+          <p>Revisar es leer los cambios que alguien propone antes de que entren a <code>main</code>. Puedes hacerlo en GitHub (lo más cómodo) y en tu terminal, cuando necesitas probar el código o comparar a fondo.</p>
+
+          <h3>Revisar un pull request en GitHub</h3>
+          <ol>
+            <li>Abre el pull request desde la pestaña <strong>Pull requests</strong> y lee primero el título y la descripción: ¿qué se quiere lograr?</li>
+            <li>En <strong>Conversation</strong> mira los comentarios, los issues enlazados y, al final, el estado de los <em>checks</em> (pruebas automáticas).</li>
+            <li>Ve a <strong>Files changed</strong>. Ahí cada archivo muestra las líneas agregadas (verde) y las quitadas (rojo).</li>
+            <li>Marca cada archivo como <strong>Viewed</strong> para no perder la cuenta.</li>
+            <li>Para comentar una línea, pasa el mouse por encima y pulsa el <strong>+</strong> azul (arrastra para elegir varias líneas). Con <strong>Add a suggestion</strong> puedes proponer el cambio exacto y la otra persona lo acepta con un clic.</li>
+            <li>Al terminar, pulsa <strong>Review changes</strong>, escribe un resumen y elige una opción.</li>
+          </ol>
+          <table>
+            <thead>
+              <tr><th>Opción</th><th>Cuándo elegirla</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Comment</strong></td><td>Solo dejas comentarios o preguntas. No aprueba ni bloquea.</td></tr>
+              <tr><td><strong>Approve</strong></td><td>Te parece bien y se puede fusionar.</td></tr>
+              <tr><td><strong>Request changes</strong></td><td>Hay cosas que deben cambiar antes de fusionar.</td></tr>
+            </tbody>
+          </table>
+          <p>Si hay muchos cambios de espacios o sangrías, abre el icono de ajustes de <strong>Files changed</strong> y activa <strong>Hide whitespace</strong> para ver solo los cambios que importan.</p>
+
+          <h3>Qué revisar</h3>
+          <ul>
+            <li>¿Hace lo que dice la descripción y resuelve el issue?</li>
+            <li>¿Se entiende el código? Nombres claros, sin duplicados y sin código comentado que sobre.</li>
+            <li>¿Maneja los casos raros? Listas vacías, valores vacíos, errores.</li>
+            <li>¿Puede romper algo que ya funcionaba? ¿Hay pruebas nuevas o actualizadas?</li>
+            <li>¿Hay contraseñas, claves o datos personales dentro del código?</li>
+            <li>¿Los archivos tocados tienen sentido? Atento a archivos basura como <code>node_modules</code> o <code>.env</code>.</li>
+            <li>¿Es demasiado grande? Si cuesta leerlo, pide dividirlo en pull requests más pequeños.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si el código lo escribió una IA</strong>
+            <p>Revísalo como el de una persona nueva en el equipo. Suele funcionar en el caso feliz y fallar en los bordes. Puedes pedirle a otra IA que resuma el pull request o busque errores, pero úsala como segunda opinión: la decisión de aprobar es tuya.</p>
+          </div>
+
+          <h3>Probar los cambios en tu computadora</h3>
+          <p>Leer el código no siempre basta. Trae la rama a tu máquina y ejecútala:</p>
+          <pre><code class="lenguaje-shell">git fetch origin
+git switch feature/123-filtro-de-busqueda</code></pre>
+          <p>Si conoces el número del pull request, puedes traerlo directamente, incluso si viene de un fork:</p>
+          <pre><code class="lenguaje-shell">git fetch origin pull/123/head:pr-123
+git switch pr-123</code></pre>
+          <p>Con GitHub CLI es todavía más corto: <code>gh pr checkout 123</code>. Cuando termines, vuelve a <code>main</code> y borra la rama temporal:</p>
+          <pre><code class="lenguaje-shell">git switch main
+git branch -D pr-123</code></pre>
+
+          <h3>Comparar con la terminal</h3>
+          <table>
+            <thead>
+              <tr><th>Quieres</th><th>Comando</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ver qué commits trae una rama que <code>main</code> no tiene</td><td><code>git log main..feature/x --oneline</code></td></tr>
+              <tr><td>Ver los cambios de una rama desde que se separó de <code>main</code> (lo mismo que muestra el pull request)</td><td><code>git diff main...feature/x</code></td></tr>
+              <tr><td>Solo un resumen de archivos y líneas</td><td><code>git diff --stat main...feature/x</code></td></tr>
+              <tr><td>Ver un commit en detalle</td><td><code>git show abc1234</code></td></tr>
+              <tr><td>Ver qué archivos tocó un commit</td><td><code>git show --stat abc1234</code></td></tr>
+              <tr><td>Ver un archivo como estaba en otro commit</td><td><code>git show abc1234:ruta/archivo</code></td></tr>
+              <tr><td>Ver el historial de un archivo con sus cambios</td><td><code>git log -p -- ruta/archivo</code></td></tr>
+              <tr><td>Saber quién cambió cada línea</td><td><code>git blame ruta/archivo</code></td></tr>
+              <tr><td>Encontrar cuándo apareció o desapareció un texto</td><td><code>git log -S"texto" --oneline</code></td></tr>
+            </tbody>
+          </table>
+          <p>Fíjate en los puntos: con <code>git log</code>, <code>main..rama</code> significa “lo que tiene <code>rama</code> y <code>main</code> no”. Con <code>git diff</code>, tres puntos (<code>main...rama</code>) comparan desde el punto donde se separaron, que es lo que ves en GitHub; con dos puntos se comparan directamente las puntas de las dos ramas.</p>
+          <pre data-archivo="Salida de git log main..feature/x --oneline" data-sin-copiar><code class="lenguaje-texto">c4d5e6f Agrega pruebas del filtro
+b3c4d5e Agrega el filtro por categoría</code></pre>
+          <pre data-archivo="Salida de git blame" data-sin-copiar><code class="lenguaje-texto">a1b2c3d4 (Ana  2026-05-12 10:31:02 -0500 14) function sumar(a, b) {
+e5f6a7b8 (Luis 2026-06-01 16:20:45 -0500 15)   return a + b;
+a1b2c3d4 (Ana  2026-05-12 10:31:02 -0500 16) }</code></pre>
+          <p><code>git blame</code> no sirve para culpar a nadie: sirve para saber a quién preguntarle por qué se hizo un cambio. En la web, el botón <strong>Blame</strong> de cualquier archivo muestra lo mismo.</p>
+
+          <h3>Cómo dejar comentarios útiles</h3>
+          <ul>
+            <li><strong>Sé específico:</strong> señala la línea y explica el motivo.</li>
+            <li><strong>Pregunta antes de ordenar:</strong> a veces hay una razón que no conoces.</li>
+            <li><strong>Habla del código, no de la persona.</strong></li>
+            <li><strong>Distingue lo obligatorio de lo opcional</strong> con palabras como “Opcional:” o “Bloqueante:”.</li>
+            <li><strong>Propón una solución</strong> o usa <strong>Add a suggestion</strong>.</li>
+            <li><strong>Reconoce lo que está bien.</strong> Una revisión no es solo una lista de errores.</li>
+          </ul>
+          <table>
+            <thead>
+              <tr><th>Evita</th><th>Mejor así</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>“Esto está mal.”</td><td>“Si <code>lista</code> está vacía, esta línea falla. ¿Podemos validarlo antes?”</td></tr>
+              <tr><td>“Cambia el nombre.”</td><td>“Opcional: <code>total</code> describe mejor que <code>x</code> lo que guarda esta variable.”</td></tr>
+              <tr><td>“No me gusta.”</td><td>“Esta función calcula y además guarda. ¿La dividimos para poder probarla?”</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Cuando te revisan a ti</h3>
+          <ul>
+            <li>Responde a cada comentario, aunque sea con “Hecho”.</li>
+            <li>Haz los cambios con commits nuevos en la misma rama. El pull request se actualiza solo.</li>
+            <li>Pulsa <strong>Resolve conversation</strong> cuando atiendas un comentario.</li>
+            <li>No te lo tomes personal: la revisión es sobre el código, no sobre ti.</li>
+          </ul>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No apruebes sin leer</strong>
+            <p>Si no tienes tiempo de revisar a fondo, dilo en un comentario en lugar de pulsar <strong>Approve</strong>. Una aprobación sin lectura es peor que ninguna, porque da una falsa seguridad.</p>
+          </div>
+        </section>
+
+        <section id="resolver-conflictos">
+          <h2>Resolver conflictos</h2>
+          <p>Un conflicto aparece cuando dos ramas cambiaron <strong>las mismas líneas</strong> de un archivo (o una borró un archivo que la otra modificó) y Git no puede decidir cuál versión conservar. No es un error ni algo grave: es Git pidiéndote que decidas tú.</p>
+
+          <h3>Cuándo ocurre</h3>
+          <ul>
+            <li>Al hacer <code>git merge</code> o <code>git pull</code>.</li>
+            <li>Al hacer <code>git rebase</code> o <code>git cherry-pick</code>.</li>
+            <li>Al recuperar cambios con <code>git stash pop</code>.</li>
+            <li>En un pull request, cuando <code>main</code> avanzó sobre las mismas líneas que tocaste.</li>
+          </ul>
+
+          <h3>Cómo se ve</h3>
+          <p>Al fusionar, Git te avisa y se detiene a mitad de camino:</p>
+          <pre data-archivo="Salida de git merge" data-sin-copiar><code class="lenguaje-texto">Auto-merging estilos.css
+CONFLICT (content): Merge conflict in estilos.css
+Automatic merge failed; fix conflicts and then commit the result.</code></pre>
+          <p>Con <code>git status</code> ves qué archivos hay que arreglar:</p>
+          <pre data-archivo="Salida de git status" data-sin-copiar><code class="lenguaje-texto">You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Unmerged paths:
+  (use "git add &lt;file&gt;..." to mark resolution)
+        both modified:   estilos.css</code></pre>
+          <p><code>both modified</code> significa que las dos ramas cambiaron ese archivo.</p>
+
+          <h3>Leer los marcadores</h3>
+          <p>Git escribe dentro del archivo las dos versiones, separadas por unos marcadores:</p>
+          <pre data-archivo="estilos.css" data-sin-copiar><code class="lenguaje-texto">.boton {
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  color: blue;
+=======
+  color: green;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/colores
+}</code></pre>
+          <ul>
+            <li>Entre <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</code> y <code>=======</code> está <strong>tu versión</strong>, la de la rama donde estás parado.</li>
+            <li>Entre <code>=======</code> y <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature/colores</code> está <strong>la versión de la otra rama</strong>.</li>
+            <li>Tu trabajo es dejar <strong>una versión final</strong> (una de las dos o una mezcla) y <strong>borrar las tres líneas de marcadores</strong>.</li>
+          </ul>
+          <pre data-archivo="estilos.css (resuelto)" data-sin-copiar><code class="lenguaje-texto">.boton {
+  color: green;
+}</code></pre>
+
+          <h3>Resolverlo paso a paso</h3>
+          <ol>
+            <li>Ejecuta <code>git status</code> para ver qué archivos están en conflicto.</li>
+            <li>Abre cada uno y busca los marcadores <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> (con <kbd>Ctrl</kbd> + <kbd>F</kbd>).</li>
+            <li>Decide qué se queda: tu versión, la otra, o una mezcla. Edita el texto y <strong>borra las líneas de marcadores</strong>.</li>
+            <li>Prueba que el proyecto funciona.</li>
+            <li>Marca el archivo como resuelto con <code>git add</code>.</li>
+            <li>Termina la fusión con <code>git commit</code>.</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git status
+# ...editas el archivo y borras los marcadores...
+git add estilos.css
+git commit --no-edit</code></pre>
+          <p><code>--no-edit</code> usa el mensaje de fusión que Git ya preparó. Sin esa opción se abre el editor de texto con el mismo mensaje.</p>
+
+          <h3>Resolverlo desde el editor</h3>
+          <p>Cursor y VS Code detectan los marcadores y muestran, sobre cada conflicto, estos botones:</p>
+          <ul>
+            <li><strong>Accept Current Change:</strong> te quedas con tu versión.</li>
+            <li><strong>Accept Incoming Change:</strong> te quedas con la de la otra rama.</li>
+            <li><strong>Accept Both Changes:</strong> conservas las dos, una debajo de otra.</li>
+            <li><strong>Compare Changes:</strong> las ves lado a lado.</li>
+          </ul>
+          <p>Para conflictos grandes, el botón <strong>Resolve in Merge Editor</strong> abre una vista de tres paneles (tu versión, la otra y el resultado). Cuando termines, guarda el archivo, haz <code>git add</code> y <code>git commit</code>.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Si dejas que una IA resuelva el conflicto</strong>
+            <p>Revisa el resultado. Debe conservar lo importante de <em>los dos lados</em>, no solo de uno. Pídele que explique qué decidió y por qué, y prueba el programa antes de hacer el commit.</p>
+          </div>
+
+          <h3>Resolverlo en GitHub</h3>
+          <p>Si un pull request dice <strong>This branch has conflicts that must be resolved</strong>, pulsa <strong>Resolve conflicts</strong>. La página muestra los mismos marcadores: edítalos, pulsa <strong>Mark as resolved</strong> y luego <strong>Commit merge</strong>. Es cómodo para conflictos pequeños; para los complicados, es mejor hacerlo en tu computadora, donde puedes probar el código.</p>
+
+          <h3>Otros mensajes de conflicto</h3>
+          <table>
+            <thead>
+              <tr><th>Lo que ves en <code>git status</code></th><th>Qué significa</th><th>Qué hacer</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>both modified</code></td><td>Las dos ramas cambiaron el archivo.</td><td>Edita los marcadores y haz <code>git add</code>.</td></tr>
+              <tr><td><code>both added</code></td><td>Las dos ramas crearon un archivo con el mismo nombre.</td><td>Decide el contenido final, edita y haz <code>git add</code>.</td></tr>
+              <tr><td><code>deleted by us</code> / <code>deleted by them</code></td><td>Una rama borró el archivo y la otra lo modificó.</td><td><code>git add archivo</code> para conservarlo o <code>git rm archivo</code> para borrarlo.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Archivos que no se pueden mezclar</h3>
+          <p>Con imágenes u otros archivos binarios, Git no puede combinar las dos versiones: tienes que elegir una.</p>
+          <pre><code class="lenguaje-shell">git checkout --ours imagen.png
+git checkout --theirs imagen.png
+git add imagen.png</code></pre>
+          <p>Cuál es cuál depende de lo que estés haciendo:</p>
+          <table>
+            <thead>
+              <tr><th>Operación</th><th><code>--ours</code></th><th><code>--theirs</code></th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>git merge</code></td><td>La rama donde estás parado.</td><td>La rama que estás trayendo.</td></tr>
+              <tr><td><code>git rebase</code></td><td>La rama sobre la que se reaplican tus commits (por ejemplo, <code>main</code>).</td><td>Tus commits, que se están reaplicando.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Si te asustas, cancela</h3>
+          <p>Puedes salirte en cualquier momento y volver al estado anterior:</p>
+          <pre><code class="lenguaje-shell">git merge --abort
+git rebase --abort
+git cherry-pick --abort</code></pre>
+          <p>Usa el que corresponda a lo que estabas haciendo. No pierdes lo que tenías antes de empezar.</p>
+
+          <h3>Cómo evitar conflictos</h3>
+          <ul>
+            <li>Haz <code>git pull</code> a menudo y mantén tu rama al día con <code>main</code>.</li>
+            <li>Usa ramas cortas y pull requests pequeños.</li>
+            <li>Evita que dos personas editen el mismo archivo a la vez sin avisarse.</li>
+            <li>No mezcles un reformateo de archivos enteros con cambios de lógica.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Un conflicto no es culpa de nadie</strong>
+            <p>Respira, lee los dos lados y, si no entiendes el cambio de la otra persona, pregúntale antes de decidir cuál se queda.</p>
+          </div>
+        </section>
+
+        <section id="deshacer-cambios">
+          <h2>Deshacer cosas sin miedo</h2>
+          <p>Casi todo en Git se puede deshacer si antes lo guardaste en un commit. Lo único que se pierde para siempre son los cambios que <strong>nunca se guardaron</strong>. Esta sección está organizada por pregunta: <em>¿en qué punto estoy y qué quiero recuperar?</em></p>
+
+          <h3>Qué comando usar</h3>
+          <table>
+            <thead>
+              <tr><th>Situación</th><th>Comando</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Cambié un archivo y no quiero esos cambios (aún sin <code>git add</code>)</td><td><code>git restore archivo</code></td></tr>
+              <tr><td>Hice <code>git add</code> y quiero sacarlo de lo preparado, conservando el cambio</td><td><code>git restore --staged archivo</code></td></tr>
+              <tr><td>Hice commit y el mensaje tiene un error</td><td><code>git commit --amend -m "Mensaje correcto"</code></td></tr>
+              <tr><td>Hice commit y olvidé un archivo</td><td><code>git add archivo</code> y luego <code>git commit --amend --no-edit</code></td></tr>
+              <tr><td>Hice commit y quiero deshacerlo, dejando los cambios preparados</td><td><code>git reset --soft HEAD~1</code></td></tr>
+              <tr><td>Hice commit y quiero deshacerlo, dejando los cambios en los archivos</td><td><code>git reset HEAD~1</code></td></tr>
+              <tr><td>Hice commit y quiero tirar todo (¡peligroso!)</td><td><code>git reset --hard HEAD~1</code></td></tr>
+              <tr><td>Ya hice push y quiero deshacer un commit</td><td><code>git revert abc1234</code></td></tr>
+              <tr><td>Tengo cambios a medias y necesito cambiar de rama</td><td><code>git stash</code></td></tr>
+              <tr><td>Creo que perdí commits después de un reset o un rebase</td><td><code>git reflog</code></td></tr>
+            </tbody>
+          </table>
+
+          <h3><code>git restore</code>: descartar cambios en archivos</h3>
+          <pre><code class="lenguaje-shell">git restore index.html                     # descarta los cambios de un archivo
+git restore .                              # descarta los cambios de todos los archivos
+git restore --staged index.html            # lo saca de lo preparado, pero conserva el cambio
+git restore --source=abc1234 index.html    # trae el archivo como estaba en ese commit</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">No hay vuelta atrás</strong>
+            <p><code>git restore archivo</code> descarta los cambios sin avisar y no se pueden recuperar. Si tienes dudas, usa antes <code>git stash</code>: guarda tus cambios en un cajón y puedes volver a sacarlos.</p>
+          </div>
+
+          <h3><code>git commit --amend</code>: corregir el último commit</h3>
+          <pre><code class="lenguaje-shell">git commit --amend -m "Agrega el formulario de contacto"
+git add olvidado.txt
+git commit --amend --no-edit</code></pre>
+          <p>El primero cambia el mensaje. Los otros dos agregan un archivo olvidado al último commit sin tocar su mensaje. Úsalo solo si <strong>aún no hiciste push</strong>: <code>--amend</code> crea un commit nuevo (con otra identificación) y reemplaza al anterior.</p>
+
+          <h3><code>git reset</code>: mover la rama hacia atrás</h3>
+          <p>Mueve tu rama a un commit anterior. La diferencia entre sus tres modos está en qué pasa con tus cambios:</p>
+          <table>
+            <thead>
+              <tr><th>Modo</th><th>Lo preparado (<code>add</code>)</th><th>Tus archivos</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>--soft</code></td><td>Se queda preparado.</td><td>No cambian.</td><td>Rehacer el commit o juntar varios en uno.</td></tr>
+              <tr><td><code>--mixed</code> (el predeterminado)</td><td>Se vacía.</td><td>No cambian.</td><td>Deshacer el commit y elegir de nuevo qué preparar.</td></tr>
+              <tr><td><code>--hard</code></td><td>Se vacía.</td><td><strong>Se sobrescriben: pierdes los cambios.</strong></td><td>Tirar todo y volver a ese punto exacto.</td></tr>
+            </tbody>
+          </table>
+          <pre><code class="lenguaje-shell">git reset --soft HEAD~1         # deshace el último commit; los cambios siguen preparados
+git reset HEAD~1                # deshace el último commit; los cambios quedan sin preparar
+git reset --hard HEAD~1         # deshace el último commit y borra sus cambios
+git reset --hard abc1234        # vuelve exactamente a ese commit
+git reset --hard origin/main    # deja tu rama igual que la de GitHub (descarta lo local)</code></pre>
+          <p><code>HEAD~1</code> es el commit anterior al actual, <code>HEAD~2</code> el anterior a ese, y así sucesivamente.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo"><code>reset</code> reescribe el historial</strong>
+            <p>Úsalo solo con commits que <strong>no hayas subido</strong>. Si ya hiciste push y otras personas pueden haber descargado esos commits, usa <code>git revert</code>.</p>
+          </div>
+
+          <h3><code>git revert</code>: deshacer sin reescribir</h3>
+          <p>En lugar de borrar un commit, crea uno nuevo que hace exactamente lo contrario. El historial queda intacto, por eso es la opción segura cuando ya compartiste los cambios.</p>
+          <pre><code class="lenguaje-shell">git revert abc1234     # deshace ese commit
+git revert HEAD        # deshace el último commit</code></pre>
+          <table>
+            <thead>
+              <tr><th></th><th><code>git reset</code></th><th><code>git revert</code></th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Historial</strong></td><td>Lo reescribe: los commits desaparecen.</td><td>Lo conserva y agrega un commit nuevo.</td></tr>
+              <tr><td><strong>Tras hacer push o en equipo</strong></td><td>No es seguro.</td><td>Es seguro.</td></tr>
+              <tr><td><strong>Úsalo con</strong></td><td>Commits que solo existen en tu computadora.</td><td>Commits que ya se subieron.</td></tr>
+            </tbody>
+          </table>
+
+          <h3><code>git stash</code>: guardar cambios en un cajón</h3>
+          <p>Guarda tus cambios sin hacer commit y deja el directorio limpio. Es útil cuando tienes algo a medias y necesitas cambiar de rama, hacer <code>git pull</code> o probar otra cosa.</p>
+          <pre><code class="lenguaje-shell">git stash                            # guarda los cambios de archivos que Git ya conoce
+git stash -u                         # guarda también los archivos nuevos
+git stash push -m "menu a medias"    # guarda con un nombre
+git stash list                       # muestra lo que hay en el cajón
+git stash pop                        # recupera lo último y lo saca del cajón
+git stash apply                      # lo recupera, pero lo deja en el cajón
+git stash drop                       # borra lo último que guardaste</code></pre>
+          <pre data-archivo="Salida de git stash list" data-sin-copiar><code class="lenguaje-texto">stash@{0}: On main: menu a medias
+stash@{1}: WIP on feature/login: 3f2a1b0 Agrega formulario</code></pre>
+          <p>Para recuperar uno que no es el último usa su nombre, por ejemplo <code>git stash pop stash@{1}</code>.</p>
+
+          <h3><code>git reflog</code>: la red de seguridad final</h3>
+          <p>Git anota cada movimiento de tu <code>HEAD</code> (commits, cambios de rama, resets, rebases) durante unos 90 días. Si crees que perdiste commits, por ejemplo después de un <code>reset --hard</code> o de borrar una rama, casi siempre siguen ahí.</p>
+          <pre><code class="lenguaje-shell">git reflog</code></pre>
+          <pre data-archivo="Salida de git reflog" data-sin-copiar><code class="lenguaje-texto">a1b2c3d HEAD@{0}: reset: moving to HEAD~2
+9f8e7d6 HEAD@{1}: commit: Agrega el carrito
+5c4b3a2 HEAD@{2}: commit: Agrega el menu</code></pre>
+          <p>Aquí el reset “borró” dos commits, pero <code>9f8e7d6</code> sigue existiendo. Lo más seguro es crear una rama en ese punto para revisarlo:</p>
+          <pre><code class="lenguaje-shell">git switch -c rescate 9f8e7d6</code></pre>
+          <p>El <code>reflog</code> solo recuerda lo que llegó a estar en un commit. Los cambios que nunca se guardaron (ni con commit ni con <code>stash</code>) no se pueden recuperar.</p>
+
+          <h3>Casos frecuentes</h3>
+          <table>
+            <thead>
+              <tr><th>Situación</th><th>Solución</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Hice commit en <code>main</code> y debía ser en una rama</td><td><code>git switch -c feature/nueva</code> (la rama se queda con el commit) y luego <code>git branch -f main origin/main</code> (<code>main</code> vuelve a como está en GitHub).</td></tr>
+              <tr><td>Borré un archivo y aún no hice commit</td><td><code>git restore archivo</code></td></tr>
+              <tr><td>Borré un archivo y ya hice commit</td><td><code>git restore --source=HEAD~1 archivo</code> y luego un nuevo commit.</td></tr>
+              <tr><td>Quiero un archivo como estaba hace 3 commits</td><td><code>git restore --source=HEAD~3 archivo</code></td></tr>
+              <tr><td>Quiero tirar todo lo local y dejar mi rama igual que GitHub</td><td><code>git fetch origin</code> y luego <code>git reset --hard origin/main</code></td></tr>
+              <tr><td>Me equivoqué en el mensaje del último commit (sin push)</td><td><code>git commit --amend -m "Mensaje correcto"</code></td></tr>
+              <tr><td>Subí una contraseña o una clave por error</td><td>Cámbiala o revócala <strong>ahora</strong>: eso es lo urgente. Borrarla en un commit nuevo no basta, porque queda en el historial. Mira la sección de <a href="#buenas-practicas">buenas prácticas</a>.</td></tr>
+            </tbody>
+          </table>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Antes de usar un comando que borra</strong>
+            <p>Con <code>reset --hard</code>, <code>clean -fd</code> o <code>restore .</code> haz primero <code>git status</code> y, si dudas, <code>git stash -u</code>. Y nunca reescribas historial ya compartido con <code>git push --force</code> sin avisar al equipo.</p>
+          </div>
+        </section>
+
+        <section id="comandos-avanzados">
+          <h2>Comandos avanzados</h2>
+          <p>Estos comandos no los necesitas el primer día. Aprende cada uno cuando aparezca el problema que resuelve.</p>
+
+          <h3><code>git rebase</code>: poner tu rama al día sin commit de fusión</h3>
+          <p><code>rebase</code> vuelve a aplicar tus commits encima de otra base, como si hubieras empezado tu rama más tarde. El resultado es un historial en línea recta, sin commits de fusión.</p>
+          <pre data-archivo="Antes y después de git rebase main" data-sin-copiar><code class="lenguaje-texto">Antes:
+      D --- E          feature
+     /
+A - B - C - F          main
+
+Después de git rebase main (estando en feature):
+                D' --- E'   feature
+               /
+A - B - C - F               main</code></pre>
+          <p><code>D'</code> y <code>E'</code> son copias de <code>D</code> y <code>E</code> con otra identificación: por eso se dice que el rebase <em>reescribe</em> el historial.</p>
+          <pre><code class="lenguaje-shell">git switch feature/login
+git rebase main                 # reaplica tus commits encima de main
+git rebase --continue           # sigue, después de resolver un conflicto
+git rebase --abort              # cancela y vuelve a como estabas</code></pre>
+
+          <h3>Rebase interactivo: ordenar tus commits</h3>
+          <p>Antes de abrir un pull request puedes limpiar tus últimos commits:</p>
+          <pre><code class="lenguaje-shell">git rebase -i HEAD~3</code></pre>
+          <p>Se abre un editor con la lista de los últimos tres commits. Cambias la palabra del inicio de cada línea según lo que quieras hacer:</p>
+          <pre data-archivo="Lista del rebase interactivo" data-sin-copiar><code class="lenguaje-texto">pick 1a2b3c4 Agrega el menu
+fixup 5d6e7f8 Corrige un error de tipeo
+pick 9a8b7c6 Agrega el carrito</code></pre>
+          <table>
+            <thead>
+              <tr><th>Palabra</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>pick</code></td><td>Usa el commit tal cual.</td></tr>
+              <tr><td><code>reword</code></td><td>Usa el commit, pero te deja cambiar el mensaje.</td></tr>
+              <tr><td><code>squash</code></td><td>Lo junta con el commit anterior y combina los mensajes.</td></tr>
+              <tr><td><code>fixup</code></td><td>Lo junta con el commit anterior y descarta su mensaje.</td></tr>
+              <tr><td><code>drop</code></td><td>Elimina el commit.</td></tr>
+              <tr><td><code>edit</code></td><td>Se detiene en ese commit para que lo modifiques.</td></tr>
+            </tbody>
+          </table>
+          <p>En el ejemplo, el segundo commit se une al primero y se descarta su mensaje. También puedes cambiar el orden de las líneas para reordenar los commits.</p>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">La regla de oro del rebase</strong>
+            <p>No hagas rebase de commits que <strong>ya compartiste</strong> (<code>main</code> o ramas que usan otras personas). El rebase crea commits nuevos, y quienes tengan los viejos tendrán problemas para reconciliarse. En ramas tuyas que no usa nadie más, es seguro.</p>
+          </div>
+
+          <h3><code>git push --force-with-lease</code>: forzar con seguridad</h3>
+          <p>Después de un rebase o un <code>--amend</code> en una rama que ya habías subido, GitHub rechaza el <code>push</code> normal porque el historial cambió. Para sobrescribirla:</p>
+          <pre><code class="lenguaje-shell">git push --force-with-lease</code></pre>
+          <p>Sobrescribe la rama de GitHub <strong>solo si nadie más subió cambios</strong> desde la última vez que la viste. Es mucho más seguro que <code>--force</code>, que pisa todo sin preguntar. Y nunca fuerces <code>main</code>.</p>
+
+          <h3><code>git cherry-pick</code>: copiar un commit</h3>
+          <p>Copia un commit concreto de otra rama a la rama donde estás. Es útil, por ejemplo, para llevar un arreglo urgente a otra rama sin fusionar todo lo demás.</p>
+          <pre><code class="lenguaje-shell">git cherry-pick abc1234               # copia ese commit a la rama actual
+git cherry-pick abc1234 def5678       # copia varios
+git cherry-pick -x abc1234            # anota en el mensaje de dónde viene
+git cherry-pick --continue            # sigue, después de resolver un conflicto
+git cherry-pick --abort               # cancela</code></pre>
+          <p>El commit copiado tiene otra identificación que el original, porque es un commit nuevo.</p>
+
+          <h3>Etiquetas (<code>tag</code>): marcar versiones</h3>
+          <p>Una etiqueta pone un nombre fijo a un commit, normalmente para marcar una versión publicada.</p>
+          <pre><code class="lenguaje-shell">git tag v1.0.0                              # etiqueta ligera en el commit actual
+git tag -a v1.0.0 -m "Primera versión"      # etiqueta anotada (la recomendada)
+git tag -a v0.9.0 abc1234 -m "Beta"         # etiqueta un commit anterior
+git tag                                     # lista las etiquetas
+git show v1.0.0                             # muestra los detalles
+git push origin v1.0.0                      # sube una etiqueta
+git push origin --tags                      # sube todas
+git tag -d v1.0.0                           # la borra en tu computadora
+git push origin --delete v1.0.0             # la borra en GitHub</code></pre>
+          <p>Las versiones suelen seguir el esquema <code>MAYOR.MENOR.PARCHE</code> (por ejemplo, <code>v2.4.1</code>): sube <strong>MAYOR</strong> si hay cambios que rompen la compatibilidad, <strong>MENOR</strong> si agregas funciones compatibles y <strong>PARCHE</strong> si solo corriges errores. En GitHub, las etiquetas son la base de los <em>Releases</em>.</p>
+
+          <h3><code>git bisect</code>: encontrar qué commit rompió algo</h3>
+          <p>Si algo funcionaba antes y ahora no, <code>bisect</code> hace una búsqueda binaria en el historial: te lleva a un commit intermedio, le dices si funciona o no, y descarta la mitad de los candidatos cada vez. Con 1000 commits, lo encuentra en unos 10 pasos.</p>
+          <pre><code class="lenguaje-shell">git bisect start
+git bisect bad                 # el commit actual está roto
+git bisect good v1.0.0         # esta versión funcionaba
+# Git te lleva a un commit intermedio. Pruebas y respondes:
+git bisect good                # o bien: git bisect bad
+# ...repites hasta que Git indica el primer commit malo...
+git bisect reset               # vuelves a tu rama</code></pre>
+          <p>Si tienes un comando que comprueba el error (por ejemplo, tus pruebas), Git puede hacerlo solo con <code>git bisect run npm test</code>. Un código de salida 0 significa “bueno” y cualquier otro significa “malo”.</p>
+
+          <h3><code>git worktree</code>: dos ramas a la vez, en dos carpetas</h3>
+          <p>Crea otra carpeta de trabajo conectada al mismo repositorio. Así trabajas en dos ramas a la vez sin hacer <code>stash</code> ni clonar de nuevo.</p>
+          <pre><code class="lenguaje-shell">git worktree add ../proyecto-arreglo -b fix/urgente    # carpeta nueva con una rama nueva
+git worktree list
+git worktree remove ../proyecto-arreglo</code></pre>
+          <p>También es la forma de que dos agentes de IA trabajen en paralelo sin pisarse: cada uno en su carpeta y en su rama.</p>
+
+          <h3>Submódulos: un repositorio dentro de otro</h3>
+          <p>Un submódulo incluye otro repositorio dentro del tuyo, fijado a un commit concreto. Sirve para compartir una librería propia entre proyectos.</p>
+          <pre><code class="lenguaje-shell">git submodule add https://github.com/usuario/libreria.git libs/libreria
+git clone --recurse-submodules https://github.com/usuario/proyecto.git
+git submodule update --init --recursive</code></pre>
+          <p>El segundo comando clona el proyecto con sus submódulos; el tercero los descarga si ya habías clonado sin ellos. Tienen su complejidad: si puedes usar un gestor de paquetes (npm, pip…), suele ser más simple.</p>
+
+          <h3>Buscar en el código y en el historial</h3>
+          <pre><code class="lenguaje-shell">git grep "TODO"                      # busca texto en los archivos del repositorio
+git grep -n "funcion"                # igual, mostrando el número de línea
+git log -S"texto" --oneline          # commits que agregaron o quitaron ese texto
+git log --grep="arreglo" --oneline   # commits cuyo mensaje contiene esa palabra
+git shortlog -sn                     # cuántos commits hizo cada persona</code></pre>
+
+          <h3>Limpiar y mantener</h3>
+          <pre><code class="lenguaje-shell">git clean -n          # simulacro: muestra qué archivos sin seguimiento borraría
+git clean -fd         # los borra (no se pueden recuperar)
+git gc                # limpia y comprime el repositorio</code></pre>
+
+          <h3>Alias: atajos para tus comandos</h3>
+          <pre><code class="lenguaje-shell">git config --global alias.st status
+git config --global alias.lg "log --oneline --graph --decorate --all"
+git config --global alias.cm "commit -m"</code></pre>
+          <p>Después escribes <code>git st</code>, <code>git lg</code> o <code>git cm "mensaje"</code>.</p>
+
+          <h3>Otras herramientas que te encontrarás</h3>
+          <ul>
+            <li><strong>Git LFS:</strong> Git no está pensado para archivos muy grandes (videos, modelos, bases de datos), y GitHub rechaza los de más de 100 MB. Git LFS los guarda aparte y deja en el repositorio solo una referencia.</li>
+            <li><strong>Hooks:</strong> scripts que Git ejecuta en ciertos momentos, por ejemplo antes de cada commit para pasar un linter. Viven en <code>.git/hooks</code>; herramientas como Husky o pre-commit facilitan compartirlos con el equipo.</li>
+          </ul>
+        </section>
+
+        <section id="mas-alla-del-codigo">
+          <h2>GitHub más allá del código</h2>
+          <p>GitHub es mucho más que un lugar para guardar archivos. Estas son las herramientas que más vas a usar y dónde encontrarlas.</p>
+          <table>
+            <thead>
+              <tr><th>Herramienta</th><th>Dónde está</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Issues</strong></td><td>Pestaña <strong>Issues</strong></td><td>Tareas, errores e ideas.</td></tr>
+              <tr><td><strong>Pull requests</strong></td><td>Pestaña <strong>Pull requests</strong></td><td>Proponer y revisar cambios.</td></tr>
+              <tr><td><strong>Projects</strong></td><td>Pestaña <strong>Projects</strong></td><td>Tableros (estilo Kanban) para organizar el trabajo.</td></tr>
+              <tr><td><strong>Actions</strong></td><td>Pestaña <strong>Actions</strong></td><td>Automatizar pruebas, revisiones y despliegues (CI/CD).</td></tr>
+              <tr><td><strong>Pages</strong></td><td><strong>Settings → Pages</strong></td><td>Publicar una página web estática gratis.</td></tr>
+              <tr><td><strong>Releases</strong></td><td>Barra lateral derecha del repositorio</td><td>Publicar versiones descargables.</td></tr>
+              <tr><td><strong>Wiki</strong></td><td>Pestaña <strong>Wiki</strong></td><td>Documentación larga.</td></tr>
+              <tr><td><strong>Discussions</strong></td><td>Pestaña <strong>Discussions</strong></td><td>Preguntas, ideas y anuncios abiertos a la comunidad.</td></tr>
+              <tr><td><strong>Security</strong></td><td>Pestaña <strong>Security</strong></td><td>Alertas de vulnerabilidades y de claves expuestas.</td></tr>
+              <tr><td><strong>Codespaces</strong></td><td>Botón <strong>Code → Codespaces</strong></td><td>Un entorno de desarrollo completo en el navegador.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Issues a fondo</h3>
+          <ul>
+            <li>Con <strong>labels</strong> clasificas (<code>bug</code>, <code>mejora</code>, <code>duda</code>), con <strong>assignees</strong> asignas responsables y con <strong>milestones</strong> agrupas las tareas de una versión.</li>
+            <li>Escribir <code>#123</code> en cualquier comentario crea un enlace al issue o pull request 123.</li>
+            <li>La barra de búsqueda acepta filtros, por ejemplo <code>is:open label:bug</code>.</li>
+            <li>Las <strong>plantillas</strong> viven en <code>.github/ISSUE_TEMPLATE/</code> y guían a quien reporta un error.</li>
+          </ul>
+          <pre data-archivo="Ejemplo de issue"><code class="lenguaje-texto">## Error
+El botón "Guardar" no hace nada en Firefox.
+
+## Pasos para reproducirlo
+1. Abre el formulario.
+2. Escribe un nombre.
+3. Pulsa "Guardar".
+
+## Resultado esperado
+Se guarda y aparece un mensaje de confirmación.
+
+- [ ] Reproducirlo
+- [ ] Corregirlo
+- [ ] Agregar una prueba</code></pre>
+          <p>Las líneas que empiezan con <code>- [ ]</code> se convierten en casillas que puedes ir marcando.</p>
+
+          <h3>Projects: un tablero para organizarte</h3>
+          <ol>
+            <li>Ve a la pestaña <strong>Projects</strong> y pulsa <strong>New project</strong>.</li>
+            <li>Elige la plantilla <strong>Board</strong> (columnas como <em>Todo</em>, <em>In progress</em> y <em>Done</em>) o <strong>Table</strong> (una hoja de cálculo).</li>
+            <li>Agrega issues y pull requests al proyecto y arrástralos entre columnas.</li>
+            <li>Activa las automatizaciones para que, por ejemplo, un issue cerrado pase solo a <em>Done</em>.</li>
+          </ol>
+          <p>Es útil incluso si trabajas solo: te sirve para decidir en qué trabajar a continuación.</p>
+
+          <h3>Actions: automatizar con CI/CD</h3>
+          <p>GitHub Actions ejecuta tareas automáticas cuando pasa algo en el repositorio: un push, un pull request, una hora fija…</p>
+          <ul>
+            <li><strong>CI</strong> (integración continua): probar y revisar cada cambio automáticamente.</li>
+            <li><strong>CD</strong> (entrega o despliegue continuo): publicar automáticamente cuando todo pasó correctamente.</li>
+          </ul>
+          <p>Se configura con un archivo <code>.yml</code> dentro de <code>.github/workflows/</code>. Este ejecuta las pruebas de un proyecto Node.js en cada push a <code>main</code> y en cada pull request:</p>
+          <pre data-archivo=".github/workflows/pruebas.yml"><code class="lenguaje-texto">name: Pruebas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: npm test</code></pre>
+          <table>
+            <thead>
+              <tr><th>Clave</th><th>Qué significa</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>name</code></td><td>El nombre del flujo de trabajo (<em>workflow</em>).</td></tr>
+              <tr><td><code>on</code></td><td>Cuándo se ejecuta.</td></tr>
+              <tr><td><code>jobs</code></td><td>Los trabajos que corre. Cada uno se ejecuta en una máquina limpia.</td></tr>
+              <tr><td><code>runs-on</code></td><td>El sistema operativo de esa máquina.</td></tr>
+              <tr><td><code>steps</code></td><td>La lista de pasos de un trabajo.</td></tr>
+              <tr><td><code>uses</code></td><td>Usa una acción ya hecha por otra persona (por ejemplo, descargar el código).</td></tr>
+              <tr><td><code>run</code></td><td>Ejecuta un comando.</td></tr>
+            </tbody>
+          </table>
+          <p>Los resultados aparecen en la pestaña <strong>Actions</strong> (✔ verde o ✘ rojo) y también como <em>checks</em> dentro de cada pull request. Si en la protección de <code>main</code> activas <em>Require status checks to pass</em>, nadie podrá fusionar un cambio que no pase las pruebas.</p>
+          <p>Los números de versión (<code>@v4</code>) cambian con el tiempo: comprueba cuál es el actual en la página de cada acción.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Las claves van en Secrets, nunca en el archivo</strong>
+            <p>Guárdalas en <strong>Settings → Secrets and variables → Actions</strong> y úsalas en el workflow con <code>${{ secrets.MI_CLAVE }}</code>. Así no aparecen en el código ni en los registros.</p>
+          </div>
+
+          <h3>Pages: publicar una web gratis</h3>
+          <p>GitHub Pages publica páginas estáticas (HTML, CSS y JavaScript) directamente desde tu repositorio.</p>
+          <ol>
+            <li>Sube tu sitio al repositorio, con un <code>index.html</code> en la raíz (o en una carpeta <code>docs</code>).</li>
+            <li>Ve a <strong>Settings → Pages</strong>.</li>
+            <li>En <strong>Build and deployment</strong>, elige <strong>Deploy from a branch</strong>, la rama <code>main</code> y la carpeta <code>/ (root)</code> (o <code>/docs</code>). Pulsa <strong>Save</strong>.</li>
+            <li>En uno o dos minutos tu sitio estará en <code>https://tu-usuario.github.io/nombre-del-repositorio/</code>.</li>
+          </ol>
+          <ul>
+            <li>Usa <strong>rutas relativas</strong> (<code>estilos.css</code> o <code>../imagenes/foto.png</code>) para que los enlaces funcionen bajo <code>/nombre-del-repositorio/</code>. Esta misma guía está hecha así.</li>
+            <li>Solo sirve para sitios estáticos: no ejecuta PHP ni un servidor Node.</li>
+            <li>En el plan gratuito, Pages funciona con repositorios públicos.</li>
+            <li>Si tu proyecto necesita una compilación (React, Vite…), en <strong>Source</strong> elige <strong>GitHub Actions</strong>.</li>
+            <li>Puedes usar tu propio dominio desde la misma pantalla de configuración.</li>
+          </ul>
+
+          <h3>Releases: publicar versiones</h3>
+          <p>Una <em>release</em> es una versión publicada, con notas y archivos descargables. Se apoya en una etiqueta.</p>
+          <ol>
+            <li>Crea y sube la etiqueta de la versión (mira <a href="#comandos-avanzados">Comandos avanzados</a>).</li>
+            <li>En la barra derecha del repositorio, pulsa <strong>Releases → Create a new release</strong>.</li>
+            <li>Elige la etiqueta, escribe un título y las notas. El botón <strong>Generate release notes</strong> las redacta a partir de los pull requests fusionados.</li>
+            <li>Adjunta archivos si hace falta (instaladores, <code>.zip</code>…) y pulsa <strong>Publish release</strong>.</li>
+          </ol>
+          <pre><code class="lenguaje-shell">git tag -a v1.0.0 -m "Primera versión"
+git push origin v1.0.0
+gh release create v1.0.0 --generate-notes</code></pre>
+
+          <h3>Wiki y Discussions</h3>
+          <ul>
+            <li><strong>Wiki:</strong> páginas de documentación larga. Por dentro es otro repositorio de Git (<code>https://github.com/usuario/repositorio.wiki.git</code>), así que puedes clonarlo y editarlo en tu computadora.</li>
+            <li><strong>Discussions:</strong> un foro dentro del repositorio para preguntas, ideas y anuncios que no son tareas. Se activa en <strong>Settings → Features → Discussions</strong>.</li>
+          </ul>
+
+          <h3>Seguridad de tu cuenta y tu código</h3>
+          <ul>
+            <li><strong>Verificación en dos pasos (2FA):</strong> actívala en <strong>Settings → Password and authentication</strong>. Si te roban la contraseña, tu código no queda expuesto.</li>
+            <li><strong>Dependabot:</strong> avisa cuando una librería que usas tiene una vulnerabilidad conocida y puede abrir pull requests para actualizarla.</li>
+            <li><strong>Secret scanning:</strong> detecta claves y contraseñas subidas por error. Con <em>push protection</em> bloquea el push antes de que se publiquen.</li>
+            <li><strong><code>SECURITY.md</code>:</strong> un archivo que explica cómo reportar un problema de seguridad de forma privada.</li>
+          </ul>
+
+          <h3>GitHub CLI (<code>gh</code>): GitHub desde la terminal</h3>
+          <p>Con <code>gh</code> haces desde la terminal lo que normalmente harías en la web. Instálalo y conéctalo con tu cuenta:</p>
+          <pre><code class="lenguaje-shell">winget install --id GitHub.cli
+gh auth login</code></pre>
+          <pre><code class="lenguaje-shell">gh repo create mi-proyecto --private --source=. --push   # crea el repositorio y sube tu carpeta
+gh repo clone usuario/repositorio                        # clona un repositorio
+gh issue list                                            # lista los issues abiertos
+gh issue create --title "Error al guardar" --body "Pasa en Firefox"
+gh pr create --fill                                      # abre un pull request con los datos de tus commits
+gh pr list                                               # lista los pull requests
+gh pr checkout 123                                       # trae el pull request 123 a tu computadora
+gh pr view 123 --web                                     # abre el pull request en el navegador
+gh pr merge 123 --squash --delete-branch                 # lo fusiona y borra la rama
+gh run list                                              # muestra las ejecuciones de Actions</code></pre>
+
+          <h3>Tu perfil como portafolio</h3>
+          <p>Quien quiera conocer tu trabajo mirará tu perfil de GitHub. Un par de ajustes lo mejoran mucho:</p>
+          <ul>
+            <li>Pon una foto, tu nombre y una frase corta sobre lo que haces.</li>
+            <li><strong>Fija</strong> (<em>Pin</em>) hasta seis repositorios, los mejores, para que aparezcan al inicio.</li>
+            <li>Crea un repositorio público con <strong>el mismo nombre que tu usuario</strong> y un <code>README.md</code>: su contenido se muestra en la portada de tu perfil.</li>
+            <li>Cuida el README de cada proyecto que fijes: qué hace, cómo se usa y una captura.</li>
+          </ul>
+
+          <h3>Archivos especiales de GitHub</h3>
+          <table>
+            <thead>
+              <tr><th>Archivo</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>README.md</code></td><td>La portada del repositorio.</td></tr>
+              <tr><td><code>LICENSE</code></td><td>Qué pueden hacer otras personas con tu código.</td></tr>
+              <tr><td><code>CONTRIBUTING.md</code></td><td>Cómo colaborar en el proyecto.</td></tr>
+              <tr><td><code>SECURITY.md</code></td><td>Cómo reportar un problema de seguridad.</td></tr>
+              <tr><td><code>.github/workflows/*.yml</code></td><td>Flujos de trabajo de Actions.</td></tr>
+              <tr><td><code>.github/ISSUE_TEMPLATE/*.md</code></td><td>Plantillas para crear issues.</td></tr>
+              <tr><td><code>.github/pull_request_template.md</code></td><td>Plantilla para la descripción de los pull requests.</td></tr>
+              <tr><td><code>.github/CODEOWNERS</code></td><td>Quién debe revisar cada parte del código (se pide la revisión automáticamente).</td></tr>
+              <tr><td><code>.github/dependabot.yml</code></td><td>Configuración de Dependabot.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="buenas-practicas">
+          <h2>Buenas prácticas</h2>
+          <p>Estos hábitos no cambian lo que Git puede hacer, pero sí cuánto te ayudará dentro de seis meses, cuando abras un proyecto viejo, o cuando otra persona lo abra por primera vez.</p>
+
+          <h3>Mensajes de commit claros</h3>
+          <p>El mensaje es lo que verás en <code>git log</code> cuando busques qué pasó. Escríbelo para tu yo del futuro.</p>
+          <ul>
+            <li><strong>Una línea corta</strong> (de unos 50 a 70 caracteres) que diga <em>qué</em> hace el commit.</li>
+            <li>Si hace falta, deja una línea en blanco y agrega un párrafo con el <em>por qué</em>.</li>
+            <li>Usa siempre la misma forma verbal. Un truco: debe completar la frase “Este commit… <em>agrega el formulario</em>”.</li>
+            <li><strong>Un commit, un cambio.</strong> No mezcles una función nueva con un arreglo no relacionado.</li>
+            <li>Sin punto final.</li>
+          </ul>
+          <table>
+            <thead>
+              <tr><th>Evita</th><th>Mejor así</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>arreglos</code></td><td><code>Corrige el cálculo del total con descuento</code></td></tr>
+              <tr><td><code>cambios varios</code></td><td><code>Agrega validación al formulario de registro</code></td></tr>
+              <tr><td><code>listo</code> o <code>asdf</code></td><td><code>Elimina la dependencia que ya no se usa</code></td></tr>
+              <tr><td><code>Corrige el error</code> (¿cuál?)</td><td><code>Corrige el error al guardar con el nombre vacío</code></td></tr>
+            </tbody>
+          </table>
+          <p>Para agregar un cuerpo al mensaje, usa <code>-m</code> dos veces: la primera es el título y la segunda, el párrafo.</p>
+          <pre><code class="lenguaje-shell">git commit -m "Corrige el cálculo del total con descuento" -m "El descuento se aplicaba antes de sumar el envío, por eso el total salía menor."</code></pre>
+          <p>Algunos equipos usan prefijos estándar (<em>Conventional Commits</em>) que permiten generar notas de versión automáticamente:</p>
+          <pre data-archivo="Ejemplos con prefijos" data-sin-copiar><code class="lenguaje-texto">feat: agrega el filtro por categoría
+fix: corrige el total con descuento
+docs: actualiza el README
+refactor: separa la lógica de validación
+test: agrega pruebas del carrito
+chore: actualiza dependencias</code></pre>
+          <p>No es obligatorio. Lo importante es que todo el equipo use la misma convención.</p>
+
+          <h3>Commits pequeños y frecuentes</h3>
+          <ul>
+            <li>Los commits pequeños se revisan, se deshacen y se encuentran mejor (por ejemplo, con <code>git bisect</code>).</li>
+            <li>Haz un commit cada vez que una pieza funcione. No esperes al final del día.</li>
+            <li>Si tu mensaje necesita una “y” (“Agrega X y corrige Y”), probablemente son dos commits.</li>
+            <li>Si en un mismo archivo hay cambios de dos cosas distintas, <code>git add -p</code> te deja elegir qué trozos entran en cada commit.</li>
+          </ul>
+
+          <h3><code>.gitignore</code>: lo que Git debe ignorar</h3>
+          <p>Es un archivo en la raíz del proyecto que lista qué archivos y carpetas no deben entrar en el repositorio: dependencias, resultados de compilación, archivos temporales y, sobre todo, claves.</p>
+          <pre data-archivo=".gitignore"><code class="lenguaje-texto"># Dependencias
+node_modules/
+
+# Archivos de entorno y claves
+.env
+*.key
+
+# Resultados de compilación
+dist/
+build/
+*.o
+*.exe
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.idea/
+
+# Registros y temporales
+*.log
+*.tmp
+__pycache__/</code></pre>
+          <table>
+            <thead>
+              <tr><th>Patrón</th><th>Qué ignora</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>archivo.txt</code></td><td>Ese archivo, esté donde esté.</td></tr>
+              <tr><td><code>*.log</code></td><td>Todos los archivos que terminan en <code>.log</code>.</td></tr>
+              <tr><td><code>carpeta/</code></td><td>Esa carpeta completa.</td></tr>
+              <tr><td><code>/config.local</code></td><td>Solo el que está en la raíz (por la barra inicial).</td></tr>
+              <tr><td><code>**/temp</code></td><td>Cualquier carpeta <code>temp</code>, a cualquier profundidad.</td></tr>
+              <tr><td><code>!importante.log</code></td><td>Una excepción: este sí se incluye.</td></tr>
+              <tr><td><code># texto</code></td><td>Un comentario.</td></tr>
+            </tbody>
+          </table>
+          <ul>
+            <li>Al crear un repositorio en GitHub puedes elegir una plantilla de <code>.gitignore</code> para tu lenguaje. También hay una colección completa en el repositorio <code>github/gitignore</code>.</li>
+            <li>El <code>.gitignore</code> solo afecta a archivos que Git <strong>todavía no sigue</strong>. Si ya hiciste commit de un archivo y luego lo agregas al <code>.gitignore</code>, tienes que sacarlo del seguimiento (sin borrarlo de tu disco):</li>
+          </ul>
+          <pre><code class="lenguaje-shell">git rm --cached archivo.txt
+git rm -r --cached carpeta/
+git commit -m "Deja de seguir archivos ignorados"</code></pre>
+          <p>Para saber por qué Git ignora un archivo, usa <code>git check-ignore -v archivo.txt</code>. Y si quieres ignorar algo solo en tu computadora, sin compartirlo con el equipo, escríbelo en <code>.git/info/exclude</code>.</p>
+
+          <h3><code>.gitattributes</code> (opcional): evita líos con los saltos de línea</h3>
+          <p>Windows y Linux terminan las líneas de forma distinta, y de ahí viene el aviso <code>LF will be replaced by CRLF</code>. Un <code>.gitattributes</code> en la raíz hace que todo el equipo use las mismas reglas:</p>
+          <pre data-archivo=".gitattributes"><code class="lenguaje-texto">* text=auto
+*.sh text eol=lf
+*.bat text eol=crlf</code></pre>
+
+          <h3>README: la portada de tu proyecto</h3>
+          <p>Es lo primero que ve cualquier persona que entra al repositorio. Un buen README responde, en este orden: qué es, cómo se instala, cómo se usa, cómo colaborar y bajo qué licencia está.</p>
+          <pre data-archivo="README.md"><code class="lenguaje-texto"># Nombre del proyecto
+
+Una frase que explique qué hace y para quién es.
+
+![Captura de pantalla](docs/captura.png)
+
+## Cómo instalarlo
+1. Clona el repositorio.
+2. Ejecuta `npm install`.
+
+## Cómo usarlo
+Un ejemplo o el comando principal.
+
+## Cómo colaborar
+Abre un issue o un pull request. Lee CONTRIBUTING.md.
+
+## Licencia
+MIT</code></pre>
+          <p>El README se escribe en <strong>Markdown</strong>, un formato de texto sencillo que GitHub convierte en una página con formato. Lo mismo vale para issues, pull requests y comentarios.</p>
+          <table>
+            <thead>
+              <tr><th>Escribes</th><th>Resultado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code># Título</code></td><td>Un título grande (usa <code>##</code> y <code>###</code> para subtítulos).</td></tr>
+              <tr><td><code>**negrita**</code></td><td><strong>negrita</strong></td></tr>
+              <tr><td><code>*cursiva*</code></td><td><em>cursiva</em></td></tr>
+              <tr><td><code>`código`</code></td><td>Código dentro de una línea.</td></tr>
+              <tr><td><code>```</code> (en una línea sola, antes y después)</td><td>Un bloque de código.</td></tr>
+              <tr><td><code>- elemento</code></td><td>Una lista con viñetas.</td></tr>
+              <tr><td><code>1. elemento</code></td><td>Una lista numerada.</td></tr>
+              <tr><td><code>[texto](https://ejemplo.com)</code></td><td>Un enlace.</td></tr>
+              <tr><td><code>![descripción](imagen.png)</code></td><td>Una imagen.</td></tr>
+              <tr><td><code>- [ ] tarea</code></td><td>Una casilla que se puede marcar.</td></tr>
+              <tr><td><code>&gt; cita</code></td><td>Una cita.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Licencias</h3>
+          <p>Si no pones licencia, tu código queda con “todos los derechos reservados”: aunque sea público, nadie puede usarlo ni modificarlo legalmente sin tu permiso. Si quieres compartirlo, elige una licencia.</p>
+          <table>
+            <thead>
+              <tr><th>Licencia</th><th>Qué permite</th><th>Cuándo elegirla</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>MIT</strong></td><td>Usar, copiar, modificar y distribuir, incluso con fines comerciales. Solo hay que conservar el aviso de autoría.</td><td>La más simple y común. Ideal para proyectos personales y de portafolio.</td></tr>
+              <tr><td><strong>Apache 2.0</strong></td><td>Parecida a MIT, y además concede permiso sobre patentes.</td><td>Proyectos más grandes o de empresas.</td></tr>
+              <tr><td><strong>GPL v3</strong></td><td>Quien modifique y distribuya tu código debe publicar su versión con la misma licencia.</td><td>Cuando quieres que las mejoras sigan siendo libres.</td></tr>
+              <tr><td><strong>Creative Commons</strong></td><td>Pensada para contenido (textos, imágenes), no para código.</td><td>Guías, documentación, material de curso.</td></tr>
+              <tr><td><strong>Sin licencia</strong></td><td>Todos los derechos reservados.</td><td>Código que no quieres compartir.</td></tr>
+            </tbody>
+          </table>
+          <p>Para agregarla, elige <strong>Add a license</strong> al crear el repositorio, o en uno existente usa <strong>Add file → Create new file</strong>, escribe <code>LICENSE</code> como nombre y pulsa <strong>Choose a license template</strong>. Esto es una orientación general, no asesoría legal.</p>
+
+          <h3>Cómo evitar subir contraseñas y claves</h3>
+          <ol>
+            <li><strong>Nunca escribas una clave dentro del código.</strong> Léela desde una variable de entorno (<code>process.env.CLAVE_API</code> en JavaScript, <code>os.environ["CLAVE_API"]</code> en Python).</li>
+            <li>Guarda los valores reales en un archivo <code>.env</code> y <strong>agrégalo al <code>.gitignore</code></strong>.</li>
+            <li>Sube un <code>.env.example</code> con los nombres de las variables y sin valores, para que los demás sepan qué configurar.</li>
+            <li>Antes de cada commit, mira <code>git status</code> y <code>git diff --staged</code>.</li>
+            <li>Activa <em>secret scanning</em> y <em>push protection</em> en el repositorio.</li>
+            <li>Si usas una IA: no pegues claves en el chat, pídele que no las escriba en el código y vigila lo que sube con <code>git add .</code>.</li>
+          </ol>
+          <pre data-archivo=".env.example"><code class="lenguaje-texto">CLAVE_API=
+URL_BASE_DE_DATOS=</code></pre>
+
+          <h3>Si ya subiste una clave</h3>
+          <ol>
+            <li><strong>Revócala o cámbiala ahora mismo</strong> en el servicio que la emitió. Aunque borres el commit, alguien pudo copiarla: hay robots que escanean GitHub todo el tiempo y las encuentran en minutos.</li>
+            <li>Opcionalmente, límpiala del historial. La herramienta recomendada es <code>git filter-repo</code>, que se instala aparte:</li>
+          </ol>
+          <pre><code class="lenguaje-shell">pip install git-filter-repo
+git filter-repo --path .env --invert-paths
+git remote add origin https://github.com/tu-usuario/mi-proyecto.git
+git push --force-with-lease origin main</code></pre>
+          <p><code>git filter-repo</code> quita por seguridad la conexión con <code>origin</code>, por eso hay que volver a agregarla. Después, avisa al equipo para que clone de nuevo el repositorio. Revisa también los registros del servicio por si alguien usó la clave.</p>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Asume que una clave subida está comprometida</strong>
+            <p>Un repositorio público lo ve todo el mundo, y los robots buscan claves a diario. Limpiar el historial no sustituye a cambiar la clave: lo primero siempre es cambiarla.</p>
+          </div>
+
+          <h3>Tres listas de comprobación</h3>
+          <table>
+            <thead>
+              <tr><th>Antes de…</th><th>Comprueba</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Hacer commit</strong></td><td><code>git status</code> y <code>git diff --staged</code>. ¿Solo entra lo que quieres? ¿Hay claves? ¿Funciona?</td></tr>
+              <tr><td><strong>Hacer push</strong></td><td><code>git pull</code> para traer lo nuevo, las pruebas en verde y <code>git log --oneline -5</code> para ver qué vas a subir.</td></tr>
+              <tr><td><strong>Abrir un pull request</strong></td><td>Rama al día con <code>main</code>, descripción clara y una autorrevisión: abre <strong>Files changed</strong> y léelo como si fueras otra persona.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Hábitos que te hacen ver profesional</h3>
+          <ul>
+            <li><code>main</code> siempre funciona.</li>
+            <li>Una rama por tarea, y se borra al terminar.</li>
+            <li>Un repositorio por proyecto, con README desde el primer día.</li>
+            <li>Nunca <code>git push --force</code> sobre <code>main</code>.</li>
+            <li>No subas archivos generados ni pesados (usa <code>.gitignore</code>).</li>
+            <li>Haz push al terminar cada sesión de trabajo.</li>
+            <li>Con una IA: commit antes y después de cada tarea, y revisa el <code>git diff</code>.</li>
+          </ul>
+        </section>
+
+        <section id="referencia-rapida">
+          <h2>Referencia rápida de comandos</h2>
+          <p>Para consultar de un vistazo. Cada comando está explicado con calma en las secciones anteriores. Con <code>git help comando</code> (por ejemplo <code>git help commit</code>) Git abre su manual completo, incluso sin internet.</p>
+
+          <h3>Configuración</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git --version</code></td><td>Muestra la versión de Git instalada.</td></tr>
+              <tr><td><code>git config --global user.name "Nombre"</code></td><td>Define tu nombre para los commits.</td></tr>
+              <tr><td><code>git config --global user.email "correo"</code></td><td>Define tu correo para los commits.</td></tr>
+              <tr><td><code>git config --global --list</code></td><td>Muestra toda tu configuración.</td></tr>
+              <tr><td><code>git help comando</code></td><td>Abre el manual de un comando.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Crear y conectar</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git init</code></td><td>Crea un repositorio en la carpeta actual.</td></tr>
+              <tr><td><code>git clone URL</code></td><td>Descarga un repositorio de GitHub.</td></tr>
+              <tr><td><code>git remote -v</code></td><td>Muestra a qué repositorios remotos estás conectado.</td></tr>
+              <tr><td><code>git remote add origin URL</code></td><td>Conecta tu carpeta con un repositorio de GitHub.</td></tr>
+              <tr><td><code>git remote set-url origin URL</code></td><td>Cambia la dirección de <code>origin</code>.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>El día a día</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git status</code></td><td>Muestra el estado de tus archivos.</td></tr>
+              <tr><td><code>git add archivo</code></td><td>Prepara un archivo para el commit.</td></tr>
+              <tr><td><code>git add .</code></td><td>Prepara todos los cambios.</td></tr>
+              <tr><td><code>git add -p</code></td><td>Prepara los cambios trozo por trozo.</td></tr>
+              <tr><td><code>git commit -m "mensaje"</code></td><td>Guarda lo preparado en el historial.</td></tr>
+              <tr><td><code>git commit -am "mensaje"</code></td><td>Prepara los archivos ya conocidos y hace commit.</td></tr>
+              <tr><td><code>git push</code></td><td>Sube tus commits a GitHub.</td></tr>
+              <tr><td><code>git pull</code></td><td>Trae y mezcla los cambios de GitHub.</td></tr>
+              <tr><td><code>git fetch</code></td><td>Trae los cambios de GitHub sin mezclarlos.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Ver el historial y los cambios</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git log --oneline</code></td><td>Lista los commits, uno por línea.</td></tr>
+              <tr><td><code>git log --oneline --graph --all</code></td><td>Dibuja el historial con todas las ramas.</td></tr>
+              <tr><td><code>git diff</code></td><td>Muestra los cambios que aún no preparaste.</td></tr>
+              <tr><td><code>git diff --staged</code></td><td>Muestra los cambios ya preparados.</td></tr>
+              <tr><td><code>git show abc1234</code></td><td>Muestra un commit con sus cambios.</td></tr>
+              <tr><td><code>git blame archivo</code></td><td>Muestra quién cambió cada línea.</td></tr>
+              <tr><td><code>git shortlog -sn</code></td><td>Cuenta los commits de cada persona.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Ramas</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git branch</code></td><td>Lista las ramas locales.</td></tr>
+              <tr><td><code>git switch nombre</code></td><td>Cambia a otra rama.</td></tr>
+              <tr><td><code>git switch -c nombre</code></td><td>Crea una rama y se cambia a ella.</td></tr>
+              <tr><td><code>git merge nombre</code></td><td>Fusiona esa rama en la actual.</td></tr>
+              <tr><td><code>git branch -d nombre</code></td><td>Borra una rama ya fusionada.</td></tr>
+              <tr><td><code>git push -u origin nombre</code></td><td>Sube una rama nueva y la conecta con GitHub.</td></tr>
+              <tr><td><code>git push origin --delete nombre</code></td><td>Borra una rama en GitHub.</td></tr>
+              <tr><td><code>git rebase main</code></td><td>Reaplica tus commits sobre <code>main</code>.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Deshacer</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git restore archivo</code></td><td>Descarta los cambios de un archivo.</td></tr>
+              <tr><td><code>git restore --staged archivo</code></td><td>Saca un archivo de lo preparado.</td></tr>
+              <tr><td><code>git commit --amend</code></td><td>Corrige el último commit (si no lo subiste).</td></tr>
+              <tr><td><code>git reset --soft HEAD~1</code></td><td>Deshace el último commit y deja los cambios preparados.</td></tr>
+              <tr><td><code>git reset --hard HEAD~1</code></td><td>Deshace el último commit y borra sus cambios.</td></tr>
+              <tr><td><code>git revert abc1234</code></td><td>Deshace un commit creando otro nuevo.</td></tr>
+              <tr><td><code>git stash</code> y <code>git stash pop</code></td><td>Guarda cambios a medias y los recupera después.</td></tr>
+              <tr><td><code>git reflog</code></td><td>Muestra todos los movimientos recientes, para rescatar commits.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Etiquetas y comandos avanzados</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>git tag -a v1.0.0 -m "mensaje"</code></td><td>Marca una versión.</td></tr>
+              <tr><td><code>git push origin --tags</code></td><td>Sube todas las etiquetas.</td></tr>
+              <tr><td><code>git cherry-pick abc1234</code></td><td>Copia un commit a la rama actual.</td></tr>
+              <tr><td><code>git bisect start</code></td><td>Empieza a buscar qué commit rompió algo.</td></tr>
+              <tr><td><code>git worktree add ruta rama</code></td><td>Abre otra rama en una carpeta distinta.</td></tr>
+              <tr><td><code>git grep "texto"</code></td><td>Busca texto en los archivos del repositorio.</td></tr>
+              <tr><td><code>git clean -n</code></td><td>Simula qué archivos sin seguimiento se borrarían.</td></tr>
+              <tr><td><code>git push --force-with-lease</code></td><td>Sobrescribe tu rama en GitHub de forma segura.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>GitHub CLI</h3>
+          <table>
+            <thead><tr><th>Comando</th><th>Qué hace</th></tr></thead>
+            <tbody>
+              <tr><td><code>gh auth login</code></td><td>Inicia sesión en GitHub.</td></tr>
+              <tr><td><code>gh repo create</code></td><td>Crea un repositorio en GitHub.</td></tr>
+              <tr><td><code>gh pr create --fill</code></td><td>Abre un pull request con los datos de tus commits.</td></tr>
+              <tr><td><code>gh pr checkout 123</code></td><td>Trae un pull request a tu computadora.</td></tr>
+              <tr><td><code>gh pr merge 123 --squash</code></td><td>Fusiona un pull request juntando sus commits en uno.</td></tr>
+              <tr><td><code>gh issue create</code></td><td>Crea un issue.</td></tr>
+              <tr><td><code>gh run list</code></td><td>Lista las ejecuciones de GitHub Actions.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Pantallas que asustan y cómo salir</h3>
+          <table>
+            <thead><tr><th>Lo que ves</th><th>Cómo salir</th></tr></thead>
+            <tbody>
+              <tr><td>Un listado largo que no te deja escribir (<code>log</code>, <code>diff</code>)</td><td>Pulsa <kbd>q</kbd>.</td></tr>
+              <tr><td>Un editor raro (Vim) al hacer un commit</td><td>Pulsa <kbd>Esc</kbd> y escribe <code>:wq</code> para guardar y salir, o <code>:q!</code> para salir sin guardar.</td></tr>
+              <tr><td>Una fusión con conflictos</td><td>Resuélvelos y haz commit, o cancela con <code>git merge --abort</code>.</td></tr>
+              <tr><td>Un rebase a medias</td><td><code>git rebase --continue</code> o <code>git rebase --abort</code>.</td></tr>
+              <tr><td><code>detached HEAD</code> (estás en un commit, no en una rama)</td><td>Si hiciste commits ahí, guárdalos con <code>git switch -c rescate</code>. Si no, vuelve con <code>git switch main</code>.</td></tr>
+              <tr><td>Escribiste mal el último mensaje de commit</td><td><code>git commit --amend -m "Mensaje correcto"</code> (si no lo subiste).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Mensajes de error frecuentes</h3>
+          <table>
+            <thead><tr><th>Mensaje</th><th>Qué pasó</th><th>Solución</th></tr></thead>
+            <tbody>
+              <tr><td><code>fatal: not a git repository</code></td><td>No estás dentro de un repositorio.</td><td>Entra a la carpeta del proyecto con <code>cd</code>.</td></tr>
+              <tr><td><code>rejected</code> o <code>failed to push some refs</code> (con <code>fetch first</code>)</td><td>GitHub tiene commits que tú no tienes.</td><td><code>git pull</code> y luego <code>git push</code>.</td></tr>
+              <tr><td><code>The current branch ... has no upstream branch</code></td><td>Tu rama aún no está conectada con GitHub.</td><td><code>git push -u origin nombre-de-la-rama</code></td></tr>
+              <tr><td><code>Authentication failed</code> o <code>Permission denied (publickey)</code></td><td>Tus credenciales o tu clave SSH no sirven.</td><td>Vuelve a iniciar sesión, o prueba <code>ssh -T git@github.com</code> y revisa tu clave en GitHub.</td></tr>
+              <tr><td><code>Your local changes ... would be overwritten</code></td><td>Tienes cambios sin guardar que chocan con los que traes.</td><td>Haz commit o <code>git stash</code> y repite.</td></tr>
+              <tr><td><code>CONFLICT (content)</code></td><td>Un conflicto de fusión.</td><td>Mira <a href="#resolver-conflictos">Resolver conflictos</a>.</td></tr>
+              <tr><td><code>refusing to merge unrelated histories</code></td><td>Los dos historiales no tienen un origen común.</td><td><code>git pull origin main --allow-unrelated-histories</code></td></tr>
+              <tr><td><code>exceeds GitHub's file size limit of 100 MB</code></td><td>Un archivo es demasiado grande para GitHub.</td><td>Quítalo del commit con <code>git rm --cached archivo</code> y <code>git commit --amend</code>, o usa Git LFS.</td></tr>
+              <tr><td><code>LF will be replaced by CRLF</code></td><td>Aviso sobre los saltos de línea en Windows.</td><td>Es normal: puedes ignorarlo.</td></tr>
+              <tr><td><code>nothing to commit, working tree clean</code></td><td>No hay cambios nuevos.</td><td>No necesitas hacer nada.</td></tr>
+            </tbody>
+          </table>
+
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Para seguir aprendiendo</strong>
+            <p>El libro oficial <em>Pro Git</em> es gratuito y está en español: <a href="https://git-scm.com/book/es/v2" target="_blank" rel="noopener">git-scm.com/book/es/v2</a>. Y recuerda que <code>git help comando</code> funciona sin conexión.</p>
+          </div>
+        </section>
       </div>
     </div>
   </main>
