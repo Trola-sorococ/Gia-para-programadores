@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arduino · Gia para programadores</title>
+  <meta name="description" content="Guía de Arduino IDE en español: instalar, programar tu primera placa y usar LEDs, botones, sensores, motores y pantallas.">
+  <meta name="theme-color" content="#0a0f1e">
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg">
+  <script>
+    /* Aplica el modo claro u oscuro antes de pintar la página, para evitar parpadeos */
+    (function () {
+      var modo = 'oscuro';
+      try {
+        modo = localStorage.getItem('gia-modo') ||
+          (window.matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'oscuro');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-modo', modo);
+    })();
+  </script>
+  <link rel="stylesheet" href="../assets/css/estilos.css">
+</head>
+<body data-raiz="../" data-tema="arduino">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- Cabecera, título del tema, índice lateral y pie se generan desde assets/js/app.js -->
+  <div data-cabecera></div>
+
+  <main id="contenido">
+    <div data-encabezado-tema></div>
+
+    <div class="contenedor cuerpo-tema">
+      <aside class="cuerpo-tema__lateral" data-toc></aside>
+
+      <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
+           (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
+      <div class="articulo" data-articulo>
+      </div>
+    </div>
+  </main>
+
+  <div data-pie></div>
+
+  <script src="../assets/js/indice.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

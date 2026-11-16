@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gia para programadores · Guía de estudio en español</title>
+  <meta name="description" content="Guía en español para aprender a programar: Git y GitHub, C++, Arduino, Python, JavaScript, desarrollo web, la consola y cómo usar la IA. Con buscador y ejemplos listos para copiar.">
+  <meta name="theme-color" content="#0a0f1e">
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
+  <script>
+    /* Aplica el modo claro u oscuro antes de pintar la página, para evitar parpadeos */
+    (function () {
+      var modo = 'oscuro';
+      try {
+        modo = localStorage.getItem('gia-modo') ||
+          (window.matchMedia('(prefers-color-scheme: light)').matches ? 'claro' : 'oscuro');
+      } catch (e) {}
+      document.documentElement.setAttribute('data-modo', modo);
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/css/estilos.css">
+</head>
+<body data-raiz="">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <!-- La cabecera se genera desde assets/js/app.js -->
+  <div data-cabecera></div>
+
+  <main id="contenido">
+    <section class="hero">
+      <div class="contenedor hero__rejilla">
+
+        <div class="hero__texto aparece">
+          <p class="etiqueta"><span class="punto" aria-hidden="true"></span>Guía de estudio · 100&nbsp;% en español</p>
+          <h1>Aprende a programar <span class="degradado">paso a paso</span></h1>
+          <p class="hero__sub">Git y GitHub, C++, Arduino, Python, JavaScript, desarrollo web y cómo usar la IA a tu favor. Todo con ejemplos listos para copiar.</p>
+
+          <!-- Buscador -->
+          <form class="buscador buscador--grande" role="search" data-formulario-busqueda>
+            <label class="solo-lectores" for="busqueda">Buscar en la guía</label>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input id="busqueda" type="search" placeholder="Busca un tema: for, git, css…" autocomplete="off" spellcheck="false" data-campo-busqueda>
+            <kbd aria-hidden="true">/</kbd>
+          </form>
+          <p class="solo-lectores" role="status" aria-live="polite" data-anuncio></p>
+
+          <!-- Resultados de la búsqueda -->
+          <div class="resultados" data-resultados hidden>
+            <div class="resultados__caja">
+              <div class="resultados__cabecera">
+                <h2 data-titulo-resultados></h2>
+                <button type="button" class="boton-texto" data-limpiar>Borrar</button>
+              </div>
+              <ul class="resultados__lista" data-lista-resultados></ul>
+              <p class="resultados__nota" data-nota-resultados hidden></p>
+              <p class="resultados__vacio" data-sin-resultados hidden>No encontré nada con esa búsqueda. Prueba con otra palabra, por ejemplo <strong>for</strong>, <strong>git</strong>, <strong>css</strong> o <strong>arduino</strong>.</p>
+            </div>
+          </div>
+
+          <p class="sugerencias">Prueba con:
+            <button type="button" class="chip" data-sugerencia="for">for</button>
+            <button type="button" class="chip" data-sugerencia="git commit">git commit</button>
+            <button type="button" class="chip" data-sugerencia="matriz">matriz</button>
+            <button type="button" class="chip" data-sugerencia="css animaciones">css animaciones</button>
+            <button type="button" class="chip" data-sugerencia="arduino led">arduino led</button>
+          </p>
+
+          <ul class="hero__puntos">
+            <li>Ejemplos listos para copiar</li>
+            <li>Funciona sin internet</li>
+            <li>De cero a avanzado</li>
+          </ul>
+        </div>
+
+        <!-- Ventana de código decorativa (se anima desde app.js) -->
+        <div class="hero__terminal aparece" style="--i:2" aria-hidden="true">
+          <div class="terminal">
+            <div class="terminal__barra">
+              <span class="terminal__puntos"><i></i><i></i><i></i></span>
+              <span class="terminal__archivo" data-terminal-archivo>hola.cpp</span>
+            </div>
+            <pre class="terminal__cuerpo"><code data-terminal-codigo></code></pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="seccion" id="temas">
+      <div class="contenedor">
+        <div class="seccion__cabecera">
+          <h2>Temas</h2>
+          <p>Elige un tema para ver su contenido, o usa el buscador para ir directo a lo que necesitas.</p>
+        </div>
+
+        <!-- Las tarjetas se generan desde assets/js/indice.js -->
+        <div class="rejilla-temas" data-rejilla></div>
+
+        <noscript>
+          <p class="aviso-js">Esta guía necesita JavaScript para mostrar las tarjetas y el buscador. Actívalo en tu navegador o entra directo a un tema:
+            <a href="git-github/index.html">Git y GitHub</a> ·
+            <a href="cmd/index.html">CMD y PowerShell</a> ·
+            <a href="cpp/index.html">C++</a> ·
+            <a href="arduino/index.html">Arduino</a> ·
+            <a href="python/index.html">Python</a> ·
+            <a href="javascript/index.html">JavaScript</a> ·
+            <a href="desarrollo-web/index.html">Desarrollo web</a> ·
+            <a href="ia-para-programar/index.html">IA para programar</a>
+          </p>
+        </noscript>
+      </div>
+    </section>
+  </main>
+
+  <!-- El pie de página se genera desde assets/js/app.js -->
+  <div data-pie></div>
+
+  <script src="assets/js/indice.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
