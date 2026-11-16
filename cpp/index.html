@@ -35,6 +35,780 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="primer-programa">
+          <h2>Tu primer programa</h2>
+          <p>En C++ escribes el código en un archivo de texto, lo <strong>compilas</strong> (lo conviertes a un programa ejecutable) y luego lo <strong>ejecutas</strong>. Aquí verás el “Hola, mundo” completo en Windows.</p>
+
+          <h3>Qué necesitas</h3>
+          <ul>
+            <li>Un editor (Bloc de notas, VS Code, Cursor…).</li>
+            <li>El compilador <code>g++</code> (viene con <a href="https://www.mingw-w64.org/" target="_blank" rel="noopener">MinGW-w64</a> o con <a href="https://www.msys2.org/" target="_blank" rel="noopener">MSYS2</a>). En la terminal debe responder <code>g++ --version</code>.</li>
+          </ul>
+
+          <h3>El programa</h3>
+          <p>Crea un archivo llamado <code>main.cpp</code> con esto:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Hola, mundo" &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+
+          <h3>Qué hace cada parte</h3>
+          <table>
+            <thead>
+              <tr><th>Fragmento</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>#include &lt;iostream&gt;</code></td><td>Trae la biblioteca de entrada/salida. Sin ella no puedes usar <code>cout</code> ni <code>cin</code>.</td></tr>
+              <tr><td><code>int main()</code></td><td>Es la función principal: el programa <strong>siempre</strong> empieza aquí.</td></tr>
+              <tr><td><code>std::cout</code></td><td>Escribe texto en la consola (<em>console out</em>).</td></tr>
+              <tr><td><code>std::endl</code></td><td>Salto de línea (y vacía el búfer de salida).</td></tr>
+              <tr><td><code>return 0;</code></td><td>Indica que el programa terminó bien. El <code>0</code> significa “sin errores”.</td></tr>
+            </tbody>
+          </table>
+          <div class="nota">
+            <strong class="nota__titulo">Sobre <code>std::</code></strong>
+            <p>Muchas cosas de la biblioteca estándar viven en el espacio de nombres <code>std</code>. Escribes <code>std::cout</code> o, más adelante, puedes poner <code>using namespace std;</code> para acortar (en programas pequeños está bien).</p>
+          </div>
+
+          <h3>Compilar y ejecutar en Windows</h3>
+          <p>Abre PowerShell en la carpeta del archivo y escribe:</p>
+          <pre><code class="lenguaje-shell">g++ main.cpp -o programa.exe
+.\programa.exe</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Hola, mundo</code></pre>
+          <ul>
+            <li><code>g++ main.cpp -o programa.exe</code> compila y crea el ejecutable <code>programa.exe</code>.</li>
+            <li><code>.\programa.exe</code> lo ejecuta (en PowerShell el <code>.\</code> es necesario).</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si g++ no se reconoce</strong>
+            <p>Instala MinGW/MSYS2 y asegúrate de que la carpeta del <code>bin</code> (donde está <code>g++.exe</code>) esté en el PATH. Cierra y vuelve a abrir la terminal después de instalar.</p>
+          </div>
+
+          <h3>Versión con <code>using namespace std;</code></h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hola, mundo" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <p>El resto de esta guía usa esta forma para que los ejemplos se lean más fácil.</p>
+        </section>
+
+        <section id="comentarios">
+          <h2>Comentarios</h2>
+          <p>Los comentarios son texto que el compilador <strong>ignora</strong>. Sirven para explicar el código a ti y a otras personas (o a tu yo del futuro).</p>
+
+          <h3>Comentario de una línea: <code>//</code></h3>
+          <p>Todo lo que va después de <code>//</code> hasta el final de la línea se ignora:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // Esto es un comentario: no se ejecuta
+    cout &lt;&lt; "Hola" &lt;&lt; endl;  // también al final de una línea
+    return 0;
+}</code></pre>
+
+          <h3>Comentario de varias líneas: <code>/* */</code></h3>
+          <p>Empieza con <code>/*</code> y termina con <code>*/</code>. Puede ocupar una o muchas líneas:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    /*
+      Programa de prueba.
+      Imprime un saludo en la consola.
+    */
+    cout &lt;&lt; "Hola" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+          <h3>Cuándo usarlos</h3>
+          <ul>
+            <li>Explica el <strong>porqué</strong>, no lo obvio (“suma 1” no aporta; “evita índice negativo” sí).</li>
+            <li>Marca tareas temporales: <code>// TODO: validar entrada</code>.</li>
+            <li>Desactiva código un momento sin borrarlo (mejor que dejarlo “por si acaso” para siempre).</li>
+          </ul>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No anides <code>/* */</code></strong>
+            <p>Si abres un <code>/*</code> dentro de otro, el primero <code>*/</code> cierra todo y el resto del archivo puede “romperse”. Para varias líneas sueltas, suele ser más seguro usar varios <code>//</code>.</p>
+          </div>
+        </section>
+
+        <section id="variables-y-tipos">
+          <h2>Variables y tipos de datos</h2>
+          <p>Una <strong>variable</strong> es un nombre que guarda un valor. En C++ debes declarar su <strong>tipo</strong>: qué clase de dato va a guardar.</p>
+
+          <h3>Tipos básicos que usarás todo el tiempo</h3>
+          <table>
+            <thead>
+              <tr><th>Tipo</th><th>Qué guarda</th><th>Ejemplo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>int</code></td><td>Enteros (sin decimales)</td><td><code>42</code>, <code>-3</code></td></tr>
+              <tr><td><code>double</code></td><td>Números con decimales</td><td><code>3.14</code>, <code>-0.5</code></td></tr>
+              <tr><td><code>char</code></td><td>Un solo carácter</td><td><code>'A'</code>, <code>'7'</code></td></tr>
+              <tr><td><code>bool</code></td><td>Verdadero o falso</td><td><code>true</code>, <code>false</code></td></tr>
+              <tr><td><code>string</code></td><td>Texto (varios caracteres)</td><td><code>"hola"</code></td></tr>
+            </tbody>
+          </table>
+          <div class="nota">
+            <p>Para usar <code>string</code> necesitas <code>#include &lt;string&gt;</code> (además de <code>iostream</code> si vas a imprimir).</p>
+          </div>
+
+          <h3>Declarar y asignar</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    int edad = 20;
+    double precio = 19.99;
+    char inicial = 'M';
+    bool activo = true;
+    string nombre = "Ana";
+
+    cout &lt;&lt; nombre &lt;&lt; " tiene " &lt;&lt; edad &lt;&lt; " años" &lt;&lt; endl;
+    cout &lt;&lt; "Precio: " &lt;&lt; precio &lt;&lt; endl;
+    cout &lt;&lt; "Inicial: " &lt;&lt; inicial &lt;&lt; endl;
+    cout &lt;&lt; "Activo: " &lt;&lt; activo &lt;&lt; endl;  // imprime 1 (true) o 0 (false)
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Ana tiene 20 años
+Precio: 19.99
+Inicial: M
+Activo: 1</code></pre>
+
+          <h3>Reglas rápidas</h3>
+          <ul>
+            <li>El nombre puede llevar letras, números y <code>_</code>, pero <strong>no</strong> puede empezar con número.</li>
+            <li>C++ distingue mayúsculas: <code>edad</code> y <code>Edad</code> son variables distintas.</li>
+            <li>Puedes declarar sin valor y asignar después: <code>int x; x = 5;</code>.</li>
+            <li>Con <code>const</code> evitas que cambie: <code>const double PI = 3.1416;</code>.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Elige el tipo que encaje</strong>
+            <p>Usa <code>int</code> para conteos y edades, <code>double</code> para medidas y dinero aproximado, <code>string</code> para nombres y frases, <code>bool</code> para banderas (sí/no).</p>
+          </div>
+        </section>
+
+        <section id="mostrar-texto">
+          <h2>Mostrar texto en la consola</h2>
+          <p><code>cout</code> (de <em>character output</em>) escribe en la consola. El operador <code>&lt;&lt;</code> “empuja” lo que sigue hacia la salida.</p>
+
+          <h3>Texto, variables y saltos de línea</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string curso = "C++";
+    int anio = 2026;
+
+    cout &lt;&lt; "Estoy aprendiendo " &lt;&lt; curso &lt;&lt; endl;
+    cout &lt;&lt; "Año: " &lt;&lt; anio &lt;&lt; "\n";
+    cout &lt;&lt; "Uno " &lt;&lt; "dos " &lt;&lt; "tres" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Estoy aprendiendo C++
+Año: 2026
+Uno dos tres</code></pre>
+
+          <h3><code>endl</code> frente a <code>\n</code></h3>
+          <table>
+            <thead>
+              <tr><th>Opción</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>endl</code></td><td>Salto de línea y vacía el búfer (fuerza a mostrar ya lo pendiente).</td></tr>
+              <tr><td><code>"\n"</code></td><td>Solo salto de línea; suele ser un poco más rápido.</td></tr>
+            </tbody>
+          </table>
+          <p>Para empezar, cualquiera de los dos está bien. Encadena varios <code>&lt;&lt;</code> en la misma instrucción: no hace falta un <code>cout</code> por cada pedazo.</p>
+
+          <h3>Ejemplo con operaciones</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 7, b = 3;
+    cout &lt;&lt; a &lt;&lt; " + " &lt;&lt; b &lt;&lt; " = " &lt;&lt; (a + b) &lt;&lt; endl;
+    cout &lt;&lt; a &lt;&lt; " / " &lt;&lt; b &lt;&lt; " = " &lt;&lt; (a / b) &lt;&lt; endl;  // división entera
+    cout &lt;&lt; a &lt;&lt; " / " &lt;&lt; b &lt;&lt; " = " &lt;&lt; (a / (double)b) &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">7 + 3 = 10
+7 / 3 = 2
+7 / 3 = 2.33333</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">División entre enteros</strong>
+            <p>Si divides dos <code>int</code>, el resultado es entero (se trunca). Convierte al menos uno a <code>double</code> si quieres decimales.</p>
+          </div>
+        </section>
+
+        <section id="pedir-datos">
+          <h2>Pedir datos por consola</h2>
+          <p><code>cin</code> lee desde el teclado. El operador <code>&gt;&gt;</code> “extrae” el valor y lo guarda en una variable.</p>
+
+          <h3>Leer números y una palabra</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string nombre;
+    int edad;
+
+    cout &lt;&lt; "Tu nombre (una palabra): ";
+    cin &gt;&gt; nombre;
+    cout &lt;&lt; "Tu edad: ";
+    cin &gt;&gt; edad;
+
+    cout &lt;&lt; "Hola, " &lt;&lt; nombre &lt;&lt; ". Tienes " &lt;&lt; edad &lt;&lt; " años." &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Tu nombre (una palabra): Luis
+Tu edad: 25
+Hola, Luis. Tienes 25 años.</code></pre>
+
+          <h3>Leer una línea completa: <code>getline</code></h3>
+          <p><code>cin &gt;&gt;</code> se detiene en el primer espacio. Para frases (nombre completo, dirección…) usa <code>getline</code>:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string frase;
+    cout &lt;&lt; "Escribe una frase: ";
+    getline(cin, frase);
+    cout &lt;&lt; "Escribiste: " &lt;&lt; frase &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+          <h3>Error típico: mezclar <code>cin &gt;&gt;</code> y <code>getline</code></h3>
+          <p>Después de <code>cin &gt;&gt;</code> suele quedar un salto de línea en el búfer. El siguiente <code>getline</code> lo lee como “línea vacía”. Límpialo con <code>cin.ignore</code>:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;limits&gt;
+using namespace std;
+
+int main() {
+    int edad;
+    string nombreCompleto;
+
+    cout &lt;&lt; "Edad: ";
+    cin &gt;&gt; edad;
+    cin.ignore(numeric_limits&lt;streamsize&gt;::max(), '\n');  // descarta el Enter pendiente
+
+    cout &lt;&lt; "Nombre completo: ";
+    getline(cin, nombreCompleto);
+
+    cout &lt;&lt; nombreCompleto &lt;&lt; " (" &lt;&lt; edad &lt;&lt; ")" &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Otros tropiezos frecuentes</strong>
+            <ul>
+              <li>Si el usuario escribe letras cuando esperabas un <code>int</code>, <code>cin</code> falla y las lecturas siguientes se comportan mal. Valida o vuelve a pedir el dato (ver do while).</li>
+              <li>No olvides declarar la variable <strong>antes</strong> de usarla con <code>cin</code>.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section id="ciclo-for">
+          <h2>Ciclo for</h2>
+          <p>El <code>for</code> repite un bloque un número de veces que <strong>conoces de antemano</strong> (o que controlas con un contador).</p>
+
+          <h3>Forma general</h3>
+          <pre data-archivo="Esquema" data-sin-copiar><code class="lenguaje-texto">for (inicio; condición; actualización) {
+    // instrucciones
+}</code></pre>
+          <ol>
+            <li><strong>inicio</strong>: se ejecuta una vez al entrar (suele declarar el contador).</li>
+            <li><strong>condición</strong>: mientras sea verdadera, se repite el bloque.</li>
+            <li><strong>actualización</strong>: se ejecuta al final de cada vuelta (casi siempre <code>i++</code>).</li>
+          </ol>
+
+          <h3>Contar del 1 al 5</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    for (int i = 1; i &lt;= 5; i++) {
+        cout &lt;&lt; i &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">1
+2
+3
+4
+5</code></pre>
+
+          <h3>Tabla de multiplicar y suma</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int n = 7;
+    cout &lt;&lt; "Tabla del " &lt;&lt; n &lt;&lt; ":" &lt;&lt; endl;
+    for (int i = 1; i &lt;= 10; i++) {
+        cout &lt;&lt; n &lt;&lt; " x " &lt;&lt; i &lt;&lt; " = " &lt;&lt; (n * i) &lt;&lt; endl;
+    }
+
+    int suma = 0;
+    for (int i = 1; i &lt;= 100; i++) {
+        suma += i;
+    }
+    cout &lt;&lt; "Suma 1..100 = " &lt;&lt; suma &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+          <h3>Contar hacia atrás y de dos en dos</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    for (int i = 5; i &gt;= 1; i--) {
+        cout &lt;&lt; i &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+
+    for (int i = 0; i &lt;= 10; i += 2) {
+        cout &lt;&lt; i &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">5 4 3 2 1
+0 2 4 6 8 10</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Índices desde 0</strong>
+            <p>Al recorrer arreglos verás mucho <code>for (int i = 0; i &lt; n; i++)</code>: el primer elemento está en la posición 0 y el último en <code>n - 1</code>.</p>
+          </div>
+        </section>
+
+        <section id="ciclo-while">
+          <h2>Ciclo while</h2>
+          <p><code>while</code> repite <strong>mientras</strong> una condición sea verdadera. Es ideal cuando no sabes cuántas vueltas habrá.</p>
+
+          <h3>Forma general</h3>
+          <pre data-archivo="Esquema" data-sin-copiar><code class="lenguaje-texto">while (condición) {
+    // instrucciones
+    // algo debe acercarte a que la condición deje de cumplirse
+}</code></pre>
+
+          <h3>Contar hasta 5</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int i = 1;
+    while (i &lt;= 5) {
+        cout &lt;&lt; i &lt;&lt; endl;
+        i++;  // si olvidas esto, el ciclo no termina
+    }
+    return 0;
+}</code></pre>
+
+          <h3>Leer hasta que el usuario diga “fin”</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    string palabra;
+    cout &lt;&lt; "Escribe palabras (fin para salir):" &lt;&lt; endl;
+    cin &gt;&gt; palabra;
+
+    while (palabra != "fin") {
+        cout &lt;&lt; "Leí: " &lt;&lt; palabra &lt;&lt; endl;
+        cin &gt;&gt; palabra;
+    }
+    cout &lt;&lt; "Listo." &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Escribe palabras (fin para salir):
+hola
+Leí: hola
+mundo
+Leí: mundo
+fin
+Listo.</code></pre>
+
+          <h3>Acumulador</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int numero;
+    int suma = 0;
+
+    cout &lt;&lt; "Números (0 para terminar): ";
+    cin &gt;&gt; numero;
+    while (numero != 0) {
+        suma += numero;
+        cin &gt;&gt; numero;
+    }
+    cout &lt;&lt; "Suma = " &lt;&lt; suma &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Bucles infinitos</strong>
+            <p>Si la condición nunca se vuelve falsa (olvidaste actualizar la variable), el programa se queda colgado. En la terminal puedes interrumpirlo con <kbd>Ctrl</kbd>+<kbd>C</kbd>.</p>
+          </div>
+        </section>
+
+        <section id="ciclo-do-while">
+          <h2>Ciclo do while</h2>
+          <p>Es como <code>while</code>, pero el bloque se ejecuta <strong>al menos una vez</strong>: primero corre el cuerpo y después mira la condición.</p>
+
+          <h3>Forma general</h3>
+          <pre data-archivo="Esquema" data-sin-copiar><code class="lenguaje-texto">do {
+    // instrucciones
+} while (condición);  // el punto y coma al final es obligatorio</code></pre>
+
+          <h3>Menú simple</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int opcion;
+    do {
+        cout &lt;&lt; "\n=== Menú ===" &lt;&lt; endl;
+        cout &lt;&lt; "1. Saludar" &lt;&lt; endl;
+        cout &lt;&lt; "2. Sumar 2 + 2" &lt;&lt; endl;
+        cout &lt;&lt; "0. Salir" &lt;&lt; endl;
+        cout &lt;&lt; "Opción: ";
+        cin &gt;&gt; opcion;
+
+        if (opcion == 1) {
+            cout &lt;&lt; "¡Hola!" &lt;&lt; endl;
+        } else if (opcion == 2) {
+            cout &lt;&lt; "2 + 2 = " &lt;&lt; (2 + 2) &lt;&lt; endl;
+        } else if (opcion != 0) {
+            cout &lt;&lt; "Opción no válida." &lt;&lt; endl;
+        }
+    } while (opcion != 0);
+
+    cout &lt;&lt; "Adiós." &lt;&lt; endl;
+    return 0;
+}</code></pre>
+
+          <h3>Validar un dato</h3>
+          <p>Ideal para insistir hasta que el valor sea correcto:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int edad;
+    do {
+        cout &lt;&lt; "Edad (1 a 120): ";
+        cin &gt;&gt; edad;
+        if (edad &lt; 1 || edad &gt; 120) {
+            cout &lt;&lt; "Valor fuera de rango. Intenta de nuevo." &lt;&lt; endl;
+        }
+    } while (edad &lt; 1 || edad &gt; 120);
+
+    cout &lt;&lt; "Edad registrada: " &lt;&lt; edad &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">¿while o do while?</strong>
+            <p>Usa <code>while</code> si podrías no entrar ni una vez. Usa <code>do while</code> para menús y validaciones: siempre quieres mostrar el menú o pedir el dato al menos una vez.</p>
+          </div>
+        </section>
+
+        <section id="arreglos">
+          <h2>Arreglos (arrays)</h2>
+          <p>Un arreglo guarda <strong>varios valores del mismo tipo</strong> bajo un solo nombre. Cada valor se identifica por un <strong>índice</strong> que empieza en 0.</p>
+
+          <h3>Arreglo de tamaño fijo</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int notas[5] = {8, 7, 9, 6, 10};
+
+    cout &lt;&lt; "Primera nota: " &lt;&lt; notas[0] &lt;&lt; endl;
+    cout &lt;&lt; "Última nota: " &lt;&lt; notas[4] &lt;&lt; endl;
+
+    notas[2] = 10;  // cambia el tercer elemento
+
+    for (int i = 0; i &lt; 5; i++) {
+        cout &lt;&lt; "notas[" &lt;&lt; i &lt;&lt; "] = " &lt;&lt; notas[i] &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Primera nota: 8
+Última nota: 10
+notas[0] = 8
+notas[1] = 7
+notas[2] = 10
+notas[3] = 6
+notas[4] = 10</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No te salgas del rango</strong>
+            <p>Si el arreglo tiene 5 elementos, los índices válidos son 0…4. Acceder a <code>notas[5]</code> es un error (comportamiento indefinido).</p>
+          </div>
+
+          <h3><code>vector</code>: tamaño flexible</h3>
+          <p>Un <code>vector</code> crece y se encoge. Necesitas <code>#include &lt;vector&gt;</code>:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    vector&lt;int&gt; nums;
+    nums.push_back(10);
+    nums.push_back(20);
+    nums.push_back(30);
+
+    cout &lt;&lt; "Cantidad: " &lt;&lt; nums.size() &lt;&lt; endl;
+    for (int i = 0; i &lt; (int)nums.size(); i++) {
+        cout &lt;&lt; nums[i] &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+
+    // recorrer con for-each (C++11 en adelante)
+    for (int x : nums) {
+        cout &lt;&lt; x &lt;&lt; " ";
+    }
+    cout &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Cantidad: 3
+10 20 30
+10 20 30</code></pre>
+
+          <h3>Leer N números en un vector</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    int n;
+    cout &lt;&lt; "¿Cuántos números? ";
+    cin &gt;&gt; n;
+
+    vector&lt;int&gt; datos(n);  // n ceros; luego los leemos
+    for (int i = 0; i &lt; n; i++) {
+        cout &lt;&lt; "Dato " &lt;&lt; (i + 1) &lt;&lt; ": ";
+        cin &gt;&gt; datos[i];
+    }
+
+    int suma = 0;
+    for (int x : datos) {
+        suma += x;
+    }
+    cout &lt;&lt; "Suma = " &lt;&lt; suma &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">¿array o vector?</strong>
+            <p>Si el tamaño es fijo y pequeño, un arreglo clásico basta. Si el tamaño lo decide el usuario o cambia, usa <code>vector</code>.</p>
+          </div>
+        </section>
+
+        <section id="matrices">
+          <h2>Matrices de tamaño N×M</h2>
+          <p>Una matriz es un arreglo de <strong>dos dimensiones</strong>: filas y columnas. Con dos <code>for</code> anidados la recorres entera sin escribir cada elemento a mano.</p>
+
+          <h3>Idea: filas × columnas</h3>
+          <p>El elemento en la fila <code>i</code>, columna <code>j</code> es <code>matriz[i][j]</code>. El primer índice es la fila; el segundo, la columna.</p>
+
+          <h3>Matriz fija 3×3</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int m[3][3] = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+    for (int i = 0; i &lt; 3; i++) {
+        for (int j = 0; j &lt; 3; j++) {
+            cout &lt;&lt; m[i][j] &lt;&lt; " ";
+        }
+        cout &lt;&lt; endl;  // salto al terminar cada fila
+    }
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">1 2 3
+4 5 6
+7 8 9</code></pre>
+
+          <h3>Matriz N×M con tamaño pedido al usuario</h3>
+          <p>Con <code>vector</code> de vectores el tamaño no tiene que ser fijo en el código:</p>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    int n, m;
+    cout &lt;&lt; "Filas N: ";
+    cin &gt;&gt; n;
+    cout &lt;&lt; "Columnas M: ";
+    cin &gt;&gt; m;
+
+    vector&lt;vector&lt;int&gt;&gt; mat(n, vector&lt;int&gt;(m));
+
+    // Llenar: por ejemplo, consecutivos 1, 2, 3...
+    int valor = 1;
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; m; j++) {
+            mat[i][j] = valor;
+            valor++;
+        }
+    }
+
+    cout &lt;&lt; "Matriz:" &lt;&lt; endl;
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; m; j++) {
+            cout &lt;&lt; mat[i][j] &lt;&lt; "\t";
+        }
+        cout &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Filas N: 2
+Columnas M: 4
+Matriz:
+1       2       3       4
+5       6       7       8</code></pre>
+
+          <h3>Leer la matriz desde el teclado</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+int main() {
+    int n = 2, m = 3;
+    vector&lt;vector&lt;int&gt;&gt; mat(n, vector&lt;int&gt;(m));
+
+    cout &lt;&lt; "Escribe " &lt;&lt; n * m &lt;&lt; " enteros:" &lt;&lt; endl;
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; m; j++) {
+            cin &gt;&gt; mat[i][j];
+        }
+    }
+
+    int suma = 0;
+    for (int i = 0; i &lt; n; i++) {
+        for (int j = 0; j &lt; m; j++) {
+            suma += mat[i][j];
+        }
+    }
+    cout &lt;&lt; "Suma de todos = " &lt;&lt; suma &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">No escribas cada celda a mano</strong>
+            <p>Para cualquier N y M, dos bucles anidados bastan: el exterior recorre filas y el interior columnas. Así escalas de 2×2 a 100×100 sin cambiar la lógica.</p>
+          </div>
+        </section>
+
+        <section id="colas">
+          <h2>Colas (queue)</h2>
+          <p>Una <strong>cola</strong> es una estructura FIFO: <em>First In, First Out</em> — el primero en entrar es el primero en salir (como la fila del supermercado).</p>
+
+          <h3>Operaciones principales</h3>
+          <table>
+            <thead>
+              <tr><th>Método</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>push(x)</code></td><td>Encola <code>x</code> al final.</td></tr>
+              <tr><td><code>pop()</code></td><td>Saca el elemento del frente (no lo devuelve).</td></tr>
+              <tr><td><code>front()</code></td><td>Consulta el del frente sin sacarlo.</td></tr>
+              <tr><td><code>back()</code></td><td>Consulta el del final.</td></tr>
+              <tr><td><code>empty()</code></td><td><code>true</code> si no hay elementos.</td></tr>
+              <tr><td><code>size()</code></td><td>Cantidad de elementos.</td></tr>
+            </tbody>
+          </table>
+          <p>Necesitas <code>#include &lt;queue&gt;</code>.</p>
+
+          <h3>Ejemplo básico</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+int main() {
+    queue&lt;string&gt; fila;
+
+    fila.push("Ana");
+    fila.push("Luis");
+    fila.push("Mia");
+
+    cout &lt;&lt; "Primero en la fila: " &lt;&lt; fila.front() &lt;&lt; endl;
+    cout &lt;&lt; "Último en llegar: " &lt;&lt; fila.back() &lt;&lt; endl;
+    cout &lt;&lt; "Tamaño: " &lt;&lt; fila.size() &lt;&lt; endl;
+
+    fila.pop();  // sale Ana
+    cout &lt;&lt; "Ahora el primero es: " &lt;&lt; fila.front() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Primero en la fila: Ana
+Último en llegar: Mia
+Tamaño: 3
+Ahora el primero es: Luis</code></pre>
+
+          <h3>Atender toda la cola</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+int main() {
+    queue&lt;int&gt; q;
+    q.push(10);
+    q.push(20);
+    q.push(30);
+
+    cout &lt;&lt; "Atendiendo en orden:" &lt;&lt; endl;
+    while (!q.empty()) {
+        cout &lt;&lt; q.front() &lt;&lt; endl;
+        q.pop();
+    }
+    return 0;
+}</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Atendiendo en orden:
+10
+20
+30</code></pre>
+
+          <h3>Simulación breve: clientes</h3>
+          <pre data-archivo="main.cpp"><code class="lenguaje-cpp">#include &lt;iostream&gt;
+#include &lt;queue&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    queue&lt;string&gt; caja;
+    caja.push("Cliente A");
+    caja.push("Cliente B");
+    caja.push("Cliente C");
+
+    int turno = 1;
+    while (!caja.empty()) {
+        cout &lt;&lt; "Turno " &lt;&lt; turno &lt;&lt; ": atiende a " &lt;&lt; caja.front() &lt;&lt; endl;
+        caja.pop();
+        turno++;
+    }
+    cout &lt;&lt; "Cola vacía." &lt;&lt; endl;
+    return 0;
+}</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No uses <code>front</code> ni <code>pop</code> en cola vacía</strong>
+            <p>Antes de consultar o sacar, comprueba <code>!cola.empty()</code>. Si no, el comportamiento no está definido y el programa puede fallar.</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>

@@ -35,6 +35,643 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="que-es-la-consola">
+          <h2>¿Qué es la consola y cómo abrirla?</h2>
+          <p>La <strong>consola</strong> (también llamada terminal, shell o “símbolo del sistema”) es una ventana donde escribes <em>comandos</em> de texto y Windows los ejecuta. No sustituye al Explorador de archivos: es otra forma de hablarle a la computadora, muy útil cuando programas, instalas herramientas o quieres hacer algo repetitivo sin hacer clic mil veces.</p>
+          <ul>
+            <li>Cambiar de carpeta, crear archivos y copiar proyectos.</li>
+            <li>Ejecutar programas como Git, Python, Node o el compilador de C++.</li>
+            <li>Ver errores con más detalle que en una ventana gráfica.</li>
+            <li>Automatizar tareas con scripts (<code>.bat</code> o PowerShell).</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">No necesitas memorizar todo</strong>
+            <p>Con unos pocos comandos (<code>cd</code>, <code>dir</code>/<code>ls</code>, <code>mkdir</code>, copiar/pegar rutas) ya te mueves. El resto lo consultas aquí cuando lo necesites. Los mensajes de error a veces salen en inglés; en esta guía te explico los más comunes.</p>
+          </div>
+
+          <h3>Formas de abrirla en Windows</h3>
+          <table>
+            <thead>
+              <tr><th>Método</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><kbd>Win</kbd> + escribe <code>cmd</code> o <code>PowerShell</code></td><td>Abre CMD o PowerShell desde el menú Inicio.</td></tr>
+              <tr><td><kbd>Win</kbd> + <kbd>X</kbd> → <em>Terminal</em> o <em>Windows PowerShell</em></td><td>Atajo rápido al menú de energía / herramientas.</td></tr>
+              <tr><td>En el Explorador: barra de dirección → escribe <code>cmd</code> o <code>powershell</code> y <kbd>Enter</kbd></td><td>Abre la consola <strong>ya dentro</strong> de esa carpeta.</td></tr>
+              <tr><td>Clic derecho en una carpeta (o en el fondo) → <em>Abrir en Terminal</em></td><td>En Windows 11 abre Windows Terminal en esa ubicación.</td></tr>
+              <tr><td>Desde VS Code / Cursor: terminal integrada</td><td><kbd>Ctrl</kbd> + <kbd>`</kbd> (la tecla debajo de Esc). Ideal al programar.</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Windows Terminal (recomendado)</h3>
+          <p>Si puedes, usa <strong>Windows Terminal</strong>: una sola app con pestañas para CMD, PowerShell y más. Suele venir en Windows 11; en Windows 10 puedes instalarla desde la Microsoft Store o con:</p>
+          <pre><code class="lenguaje-shell">winget install --id Microsoft.WindowsTerminal -e</code></pre>
+          <p>Dentro de Terminal, el botón <strong>+</strong> o la flecha junto a él te deja elegir el perfil (PowerShell, Símbolo del sistema, etc.).</p>
+
+          <h3>Qué vas a ver al abrirla</h3>
+          <p>Una línea de texto (el <em>prompt</em>) te indica dónde estás. En CMD suele verse así:</p>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">C:\Users\TuNombre&gt;</code></pre>
+          <p>En PowerShell es parecido, a veces con <code>PS</code> al inicio:</p>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">PS C:\Users\TuNombre&gt;</code></pre>
+          <p>Esa ruta es tu <strong>carpeta actual</strong>. Los comandos que escribas actúan ahí, salvo que indiques otra ruta.</p>
+
+          <h3>Cuál elegir al empezar</h3>
+          <p>Para esta guía puedes usar las dos. Si no sabes por dónde empezar: abre <strong>PowerShell</strong> (o Windows Terminal con perfil PowerShell). Entiende casi todo lo de CMD y tiene comandos más modernos. En la siguiente sección comparamos las dos.</p>
+        </section>
+
+        <section id="cmd-vs-powershell">
+          <h2>CMD vs PowerShell</h2>
+          <p>En Windows conviven dos consolas “clásicas”. No son el mismo programa: comparten la idea de escribir comandos, pero el lenguaje y muchas herramientas cambian.</p>
+          <table>
+            <thead>
+              <tr><th></th><th>CMD (Símbolo del sistema)</th><th>PowerShell</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Qué es</strong></td><td>La consola antigua de Windows (desde los años 90)</td><td>Una shell moderna orientada a objetos y scripts</td></tr>
+              <tr><td><strong>Cómo se abre</strong></td><td><code>cmd.exe</code></td><td><code>powershell.exe</code> o <code>pwsh</code> (PowerShell 7+)</td></tr>
+              <tr><td><strong>Listar archivos</strong></td><td><code>dir</code></td><td><code>dir</code> o <code>ls</code> / <code>Get-ChildItem</code></td></tr>
+              <tr><td><strong>Limpiar pantalla</strong></td><td><code>cls</code></td><td><code>cls</code> o <code>Clear-Host</code></td></tr>
+              <tr><td><strong>Ayuda de un comando</strong></td><td><code>comando /?</code></td><td><code>Get-Help comando</code> o <code>comando -?</code></td></tr>
+              <tr><td><strong>Scripts</strong></td><td>Archivos <code>.bat</code> / <code>.cmd</code></td><td>Archivos <code>.ps1</code></td></tr>
+              <tr><td><strong>Ideal para</strong></td><td>Comandos viejos, lotes simples, tutoriales antiguos</td><td>Día a día, automatizar, administrar Windows</td></tr>
+            </tbody>
+          </table>
+
+          <h3>¿Puedo mezclar comandos?</h3>
+          <p>A menudo sí. En PowerShell muchos comandos de CMD siguen funcionando (<code>cd</code>, <code>mkdir</code>, <code>cls</code>, <code>ipconfig</code>…). Pero no al revés: cosas como <code>Get-ChildItem</code> o <code>$env:PATH</code> son de PowerShell y en CMD fallan.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Mira el prompt antes de copiar un comando</strong>
+            <p>Si un tutorial dice “abre PowerShell” y pegas un comando con <code>$</code> o <code>Get-</code> en CMD, no va a funcionar. Si dice “CMD” y usas sintaxis rara de PowerShell, tampoco. En esta guía marco las diferencias cuando importan.</p>
+          </div>
+
+          <h3>PowerShell clásico vs PowerShell 7</h3>
+          <ul>
+            <li><strong>Windows PowerShell 5.1</strong> viene instalado en Windows 10/11 (icono azul).</li>
+            <li><strong>PowerShell 7+</strong> (<code>pwsh</code>) se instala aparte; es más nuevo y multiplataforma. No es obligatorio para esta guía.</li>
+          </ul>
+          <p>Para empezar, el PowerShell que ya trae Windows basta.</p>
+
+          <h3>Resumen práctico</h3>
+          <ol>
+            <li>Estudia los comandos básicos en cualquiera de las dos.</li>
+            <li>Prefiere PowerShell cuando puedas.</li>
+            <li>Usa CMD si un tutorial o un <code>.bat</code> lo exige.</li>
+          </ol>
+        </section>
+
+        <section id="moverse-entre-carpetas">
+          <h2>Moverte entre carpetas</h2>
+          <p>Lo primero que necesitas es saber <strong>dónde estás</strong> y <strong>cómo cambiar de carpeta</strong>. Sin eso, cada comando “no encuentra” archivos que sí existen… en otra ruta.</p>
+
+          <h3>Ver la carpeta actual</h3>
+          <p>En CMD:</p>
+          <pre><code class="lenguaje-shell">cd</code></pre>
+          <p>En PowerShell también puedes usar:</p>
+          <pre><code class="lenguaje-shell">pwd</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">C:\Users\TuNombre\Documents</code></pre>
+
+          <h3><code>dir</code> y <code>ls</code>: listar el contenido</h3>
+          <p>En CMD el comando clásico es <code>dir</code>:</p>
+          <pre><code class="lenguaje-shell">dir
+dir /b</code></pre>
+          <p><code>/b</code> muestra solo los nombres (vista corta). En PowerShell puedes usar <code>dir</code>, <code>ls</code> o el nombre largo <code>Get-ChildItem</code> (los tres listan archivos y carpetas):</p>
+          <pre><code class="lenguaje-shell">ls
+Get-ChildItem</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">    Directorio: C:\Users\TuNombre\Documents
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        16/11/2026     09:00                Gia-para-programadores
+-a----        10/11/2026     18:22           1204 notas.txt</code></pre>
+
+          <h3><code>cd</code>: cambiar de carpeta</h3>
+          <pre><code class="lenguaje-shell">cd Documentos
+cd "Mis proyectos"
+cd C:\Users\TuNombre\Desktop</code></pre>
+          <ul>
+            <li>Si el nombre tiene espacios, ponlo entre comillas.</li>
+            <li>Puedes pegar una ruta copiada del Explorador (clic en la barra de dirección y <kbd>Ctrl</kbd> + <kbd>C</kbd>).</li>
+          </ul>
+
+          <h3><code>cd ..</code> y otras rutas relativas</h3>
+          <table>
+            <thead>
+              <tr><th>Comando / ruta</th><th>Qué hace</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>cd ..</code></td><td>Sube una carpeta (al padre).</td></tr>
+              <tr><td><code>cd ..\..</code></td><td>Sube dos niveles.</td></tr>
+              <tr><td><code>cd \</code></td><td>Va a la raíz de la unidad actual (por ejemplo <code>C:\</code>).</td></tr>
+              <tr><td><code>cd %USERPROFILE%</code> (CMD) o <code>cd ~</code> (PowerShell)</td><td>Va a tu carpeta de usuario.</td></tr>
+              <tr><td><code>cd.</code> o quedarte quieto</td><td>La carpeta actual se representa con <code>.</code>.</td></tr>
+            </tbody>
+          </table>
+          <pre><code class="lenguaje-shell">cd ..
+cd Desktop
+cd C:\Users\TuNombre\Documents\Gia-para-programadores</code></pre>
+
+          <h3>Cambiar de unidad (C:, D:, …)</h3>
+          <p>En Windows cada disco es una letra. En <strong>CMD</strong>, cambiar de unidad no es solo un <code>cd</code>: primero escribes la letra:</p>
+          <pre><code class="lenguaje-shell">D:
+cd D:\Proyectos\curso</code></pre>
+          <p>En <strong>PowerShell</strong> basta con:</p>
+          <pre><code class="lenguaje-shell">cd D:\Proyectos\curso</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Ruta absoluta vs relativa</strong>
+            <p>Una <strong>ruta absoluta</strong> empieza por la unidad (<code>C:\Users\...</code>) y funciona desde cualquier sitio. Una <strong>ruta relativa</strong> parte de donde estás ahora (<code>cd carpeta</code>, <code>cd ..\otra</code>). Usa absolutas cuando no quieras dudar; relativas cuando ya estás cerca.</p>
+          </div>
+
+          <h3>Truco del Explorador</h3>
+          <p>Navega con el ratón hasta la carpeta del proyecto, haz clic en la barra de dirección, escribe <code>powershell</code> (o <code>cmd</code>) y pulsa <kbd>Enter</kbd>. La consola abre ya en el sitio correcto.</p>
+        </section>
+
+        <section id="crear-copiar-mover-borrar">
+          <h2>Crear, copiar, mover y borrar</h2>
+          <p>Estos comandos hacen lo mismo que el Explorador, pero desde el teclado. Practica primero en una carpeta de prueba para no tocar proyectos importantes.</p>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Borrar desde la consola no usa la Papelera</strong>
+            <p><code>del</code>, <code>rmdir</code>, <code>Remove-Item</code> y similares eliminan de verdad. Revisa dos veces la ruta y el nombre antes de pulsar Enter.</p>
+          </div>
+
+          <h3>Crear carpetas: <code>mkdir</code></h3>
+          <p>Funciona en CMD y PowerShell (en CMD también existe el alias <code>md</code>):</p>
+          <pre><code class="lenguaje-shell">mkdir practica
+mkdir practica\entrada practica\salida</code></pre>
+          <p>En PowerShell el nombre largo es <code>New-Item -ItemType Directory -Name practica</code>; para el día a día <code>mkdir</code> basta.</p>
+
+          <h3>Crear un archivo vacío o con texto</h3>
+          <p>En CMD puedes crear un archivo vacío así:</p>
+          <pre><code class="lenguaje-shell">type nul &gt; practica\hola.txt</code></pre>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">New-Item practica\hola.txt
+Set-Content practica\hola.txt "Hola desde PowerShell"</code></pre>
+
+          <h3>Copiar: <code>copy</code> / <code>Copy-Item</code></h3>
+          <pre><code class="lenguaje-shell">copy practica\hola.txt practica\hola-copia.txt</code></pre>
+          <p>Equivalente en PowerShell:</p>
+          <pre><code class="lenguaje-shell">Copy-Item practica\hola.txt practica\hola-copia.txt
+Copy-Item practica\entrada\* practica\salida\ -Recurse</code></pre>
+          <p><code>-Recurse</code> copia también subcarpetas. En CMD, para carpetas enteras se usa a menudo <code>xcopy</code> o <code>robocopy</code> (más potentes; <code>robocopy</code> es el recomendado en Windows moderno).</p>
+          <pre><code class="lenguaje-shell">robocopy practica\entrada practica\salida /E</code></pre>
+
+          <h3>Mover o renombrar: <code>move</code> / <code>Move-Item</code></h3>
+          <p>Mover y renombrar son la misma idea: cambias la ruta o el nombre.</p>
+          <pre><code class="lenguaje-shell">move practica\hola.txt practica\entrada\
+move practica\entrada\hola.txt practica\entrada\saludo.txt</code></pre>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">Move-Item practica\hola.txt practica\entrada\
+Rename-Item practica\entrada\hola.txt saludo.txt</code></pre>
+
+          <h3>Borrar archivos: <code>del</code> / <code>Remove-Item</code></h3>
+          <pre><code class="lenguaje-shell">del practica\hola-copia.txt
+del practica\entrada\*.tmp</code></pre>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">Remove-Item practica\hola-copia.txt
+Remove-Item practica\entrada\*.tmp</code></pre>
+          <p>El asterisco <code>*</code> es un comodín: <code>*.tmp</code> son todos los archivos que terminan en <code>.tmp</code>.</p>
+
+          <h3>Borrar carpetas: <code>rmdir</code> / <code>rd</code></h3>
+          <p>En CMD, una carpeta vacía:</p>
+          <pre><code class="lenguaje-shell">rmdir practica\salida</code></pre>
+          <p>Si tiene archivos dentro, hace falta borrar en cascada (cuidado):</p>
+          <pre><code class="lenguaje-shell">rmdir /s /q practica</code></pre>
+          <ul>
+            <li><code>/s</code> borra también el contenido.</li>
+            <li><code>/q</code> no pide confirmación.</li>
+          </ul>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">Remove-Item practica -Recurse -Force</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Empieza sin <code>/q</code> ni <code>-Force</code></strong>
+            <p>Así Windows te pregunta o tú puedes cancelar si te equivocaste de carpeta. Reserva el modo “silencioso” para cuando estés seguro.</p>
+          </div>
+
+          <h3>Tabla rápida CMD ↔ PowerShell</h3>
+          <table>
+            <thead>
+              <tr><th>Acción</th><th>CMD</th><th>PowerShell</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Crear carpeta</td><td><code>mkdir</code> / <code>md</code></td><td><code>mkdir</code> / <code>New-Item</code></td></tr>
+              <tr><td>Copiar</td><td><code>copy</code> / <code>robocopy</code></td><td><code>Copy-Item</code></td></tr>
+              <tr><td>Mover / renombrar</td><td><code>move</code> / <code>ren</code></td><td><code>Move-Item</code> / <code>Rename-Item</code></td></tr>
+              <tr><td>Borrar archivo</td><td><code>del</code></td><td><code>Remove-Item</code></td></tr>
+              <tr><td>Borrar carpeta</td><td><code>rmdir /s</code></td><td><code>Remove-Item -Recurse</code></td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="ver-y-buscar">
+          <h2>Ver y buscar contenido</h2>
+          <p>Cuando programas, pasas mucho tiempo leyendo archivos de texto, buscando un error en un log o comprobando si un programa está instalado. Estos comandos cubren eso.</p>
+
+          <h3><code>type</code> y <code>Get-Content</code>: ver un archivo</h3>
+          <p>En CMD:</p>
+          <pre><code class="lenguaje-shell">type notas.txt
+type C:\Users\TuNombre\Documents\notas.txt</code></pre>
+          <p>En PowerShell (parecido a <code>cat</code> en otros sistemas):</p>
+          <pre><code class="lenguaje-shell">Get-Content notas.txt
+cat notas.txt</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Recordatorio: terminar la guía de CMD
+Probar git status mañana</code></pre>
+
+          <h3><code>more</code>: ver página a página</h3>
+          <p>Si el archivo es largo, <code>type</code> se te escapa por la pantalla. Con <code>more</code> avanzas con la barra espaciadora:</p>
+          <pre><code class="lenguaje-shell">more notas.txt
+type largo.log | more</code></pre>
+          <p>En PowerShell también puedes usar <code>more</code>, o:</p>
+          <pre><code class="lenguaje-shell">Get-Content largo.log | more</code></pre>
+          <p>Pulsa <kbd>q</kbd> o <kbd>Ctrl</kbd> + <kbd>C</kbd> si quieres salir antes de terminar.</p>
+
+          <h3><code>findstr</code> y <code>Select-String</code>: buscar texto</h3>
+          <p>En CMD, <code>findstr</code> busca una palabra dentro de archivos:</p>
+          <pre><code class="lenguaje-shell">findstr "error" app.log
+findstr /i /s "TODO" *.txt *.js</code></pre>
+          <ul>
+            <li><code>/i</code> ignora mayúsculas/minúsculas.</li>
+            <li><code>/s</code> busca también en subcarpetas.</li>
+          </ul>
+          <p>En PowerShell el equivalente moderno es <code>Select-String</code>:</p>
+          <pre><code class="lenguaje-shell">Select-String -Path app.log -Pattern "error"
+Select-String -Path *.txt,*.js -Pattern "TODO" -CaseSensitive:$false</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">app.log:42:Error: archivo de configuración no encontrado
+app.log:88:Error: tiempo de espera agotado</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Si vienes de Linux o macOS</strong>
+            <p><code>findstr</code> / <code>Select-String</code> hacen un papel parecido a <code>grep</code>. No son idénticos, pero para “buscar esta palabra en estos archivos” te sirven.</p>
+          </div>
+
+          <h3><code>where</code>: ¿dónde está este programa?</h3>
+          <p>Muy útil cuando Windows dice que “no se reconoce el comando” o tienes varias versiones instaladas:</p>
+          <pre><code class="lenguaje-shell">where python
+where git
+where node</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">C:\Users\TuNombre\AppData\Local\Programs\Python\Python312\python.exe
+C:\Users\TuNombre\AppData\Local\Microsoft\WindowsApps\python.exe</code></pre>
+          <p>En PowerShell también existe <code>Get-Command</code>:</p>
+          <pre><code class="lenguaje-shell">Get-Command python
+Get-Command git | Format-List *</code></pre>
+          <p>Te dice qué ejecutable se usará y de qué carpeta sale (relacionado con el PATH, que veremos más adelante).</p>
+        </section>
+
+        <section id="atajos-y-trucos">
+          <h2>Atajos y trucos</h2>
+          <p>La consola se vuelve cómoda cuando dejas de reescribir rutas a mano. Estos atajos ahorran tiempo desde el primer día.</p>
+
+          <h3>Tab: autocompletar</h3>
+          <p>Empieza a escribir el nombre de un archivo o carpeta y pulsa <kbd>Tab</kbd>. Windows completa el resto. Si hay varias opciones, pulsa <kbd>Tab</kbd> otra vez para ciclar entre ellas.</p>
+          <pre><code class="lenguaje-shell">cd Doc&lt;Tab&gt;
+cd Gia&lt;Tab&gt;</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Nombres con espacios</strong>
+            <p>Al autocompletar, la consola suele poner comillas sola (<code>"Mis documentos"</code>). Si escribes a mano, no olvides las comillas.</p>
+          </div>
+
+          <h3>Flechas: historial de comandos</h3>
+          <ul>
+            <li><kbd>↑</kbd> y <kbd>↓</kbd>: recuperan comandos que ya ejecutaste.</li>
+            <li><kbd>←</kbd> y <kbd>→</kbd>: mueven el cursor para editar la línea.</li>
+            <li>En PowerShell / Windows Terminal, <kbd>F7</kbd> a veces muestra una lista del historial (según configuración).</li>
+          </ul>
+          <p>También puedes marcar texto con el ratón y copiar/pegar con <kbd>Ctrl</kbd> + <kbd>C</kbd> / <kbd>Ctrl</kbd> + <kbd>V</kbd> en Windows Terminal y PowerShell modernos. En CMD antiguo, a veces hace falta clic derecho para pegar.</p>
+
+          <h3>Limpiar la pantalla: <code>cls</code> / <code>clear</code></h3>
+          <pre><code class="lenguaje-shell">cls</code></pre>
+          <p>En PowerShell también funciona <code>Clear-Host</code> y, en muchos perfiles, <code>clear</code>. No borra archivos: solo limpia lo que ves en la ventana.</p>
+
+          <h3><kbd>Ctrl</kbd> + <kbd>C</kbd>: cancelar</h3>
+          <p>Si un comando se queda “colgado” (un servidor, un ping infinito, un script), pulsa <kbd>Ctrl</kbd> + <kbd>C</kbd> para interrumpirlo y volver al prompt.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Ctrl+C no es “copiar” cuando un comando está corriendo</strong>
+            <p>Con un proceso activo, <kbd>Ctrl</kbd> + <kbd>C</kbd> lo cancela. Para copiar texto seleccionado en Terminal moderno usa <kbd>Ctrl</kbd> + <kbd>C</kbd> solo cuando <em>no</em> hay un comando en ejecución, o el menú / clic derecho según tu configuración.</p>
+          </div>
+
+          <h3>Más atajos útiles</h3>
+          <table>
+            <thead>
+              <tr><th>Atajo</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><kbd>Ctrl</kbd> + <kbd>L</kbd></td><td>En muchas consolas modernas, limpia la pantalla (como <code>cls</code>).</td></tr>
+              <tr><td><kbd>Ctrl</kbd> + <kbd>←</kbd> / <kbd>→</kbd></td><td>Salta de palabra en palabra al editar.</td></tr>
+              <tr><td><kbd>Esc</kbd></td><td>En CMD, borra la línea actual.</td></tr>
+              <tr><td><kbd>Ctrl</kbd> + <kbd>`</kbd></td><td>Abre/cierra la terminal en VS Code / Cursor.</td></tr>
+              <tr><td>Arrastrar un archivo a la ventana</td><td>Pega la ruta completa del archivo (muy útil).</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Ayuda rápida de un comando</h3>
+          <pre><code class="lenguaje-shell">dir /?
+cd /?
+Get-Help Get-ChildItem -Examples</code></pre>
+          <p>El <code>/?</code> es el estilo CMD. En PowerShell, <code>Get-Help</code> (o <code>-?</code>) da la documentación del comando.</p>
+        </section>
+
+        <section id="variables-de-entorno-y-path">
+          <h2>Variables de entorno y PATH</h2>
+          <p>Las <strong>variables de entorno</strong> son valores que Windows guarda y que los programas pueden leer: tu nombre de usuario, la carpeta temporal, el idioma… La más importante para programar es <strong>PATH</strong>.</p>
+
+          <h3>Qué es el PATH</h3>
+          <p>El PATH es una lista de carpetas. Cuando escribes un comando (<code>git</code>, <code>python</code>, <code>node</code>), Windows busca un ejecutable con ese nombre <em>en esas carpetas</em>, en orden. Si lo encuentra, lo ejecuta. Si no, aparece el mensaje temido:</p>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">"git" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.</code></pre>
+          <p>En PowerShell el mensaje suele ser:</p>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">git : El término 'git' no se reconoce como nombre de un cmdlet,
+función, archivo de script o programa ejecutable.</code></pre>
+          <p>Casi siempre significa una de estas tres cosas:</p>
+          <ol>
+            <li>El programa no está instalado.</li>
+            <li>Está instalado, pero su carpeta no está en el PATH.</li>
+            <li>Está en el PATH, pero no has <strong>cerrado y vuelto a abrir</strong> la consola después de instalarlo.</li>
+          </ol>
+
+          <h3>Ver el PATH actual</h3>
+          <p>En CMD:</p>
+          <pre><code class="lenguaje-shell">echo %PATH%</code></pre>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">$env:PATH
+$env:PATH -split ';'</code></pre>
+          <p>La segunda forma lo muestra carpeta por carpeta (más legible).</p>
+
+          <h3>Otras variables útiles</h3>
+          <table>
+            <thead>
+              <tr><th>Variable</th><th>CMD</th><th>PowerShell</th><th>Qué es</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Usuario</td><td><code>%USERNAME%</code></td><td><code>$env:USERNAME</code></td><td>Tu nombre de usuario</td></tr>
+              <tr><td>Carpeta de usuario</td><td><code>%USERPROFILE%</code></td><td><code>$env:USERPROFILE</code></td><td>Ej. <code>C:\Users\TuNombre</code></td></tr>
+              <tr><td>Temporal</td><td><code>%TEMP%</code></td><td><code>$env:TEMP</code></td><td>Archivos temporales</td></tr>
+              <tr><td>PATH</td><td><code>%PATH%</code></td><td><code>$env:PATH</code></td><td>Dónde busca ejecutables</td></tr>
+            </tbody>
+          </table>
+          <pre><code class="lenguaje-shell">echo %USERPROFILE%
+cd %USERPROFILE%\Documents</code></pre>
+          <pre><code class="lenguaje-shell">echo $env:USERPROFILE
+cd $env:USERPROFILE\Documents</code></pre>
+
+          <h3>Cómo arreglar “no se reconoce el comando”</h3>
+          <ol>
+            <li>Comprueba si está instalado: busca el programa en el menú Inicio o vuelve a instalarlo.</li>
+            <li>Cierra <em>todas</em> las ventanas de consola y abre una nueva (el PATH se lee al iniciar).</li>
+            <li>Si sigue fallando, localiza el <code>.exe</code> (por ejemplo con el Explorador) y mira si su carpeta está en el PATH.</li>
+            <li>Para añadirlo de forma permanente: <em>Configuración → Sistema → Acerca de → Configuración avanzada del sistema → Variables de entorno</em>. Edita <strong>Path</strong> (de tu usuario o del sistema), agrega la carpeta, acepta, y <strong>abre una consola nueva</strong>.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Comprueba con <code>where</code></strong>
+            <p>Después de instalar o tocar el PATH, ejecuta <code>where git</code> (o <code>python</code>, <code>node</code>…). Si imprime una ruta a un <code>.exe</code>, Windows ya lo encuentra.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No borres entradas del PATH a ciegas</strong>
+            <p>Quitar carpetas del PATH puede romper programas. Añade lo que falte; no limpies la lista “por ordenar” sin saber qué hace cada ruta.</p>
+          </div>
+        </section>
+
+        <section id="redirecciones-y-pipes">
+          <h2>Redirecciones y pipes</h2>
+          <p>Por defecto, la salida de un comando se imprime en pantalla. Con <strong>redirecciones</strong> la mandas a un archivo; con un <strong>pipe</strong> (<code>|</code>) se la pasas a otro comando.</p>
+
+          <h3>Guardar la salida: <code>&gt;</code> y <code>&gt;&gt;</code></h3>
+          <ul>
+            <li><code>&gt;</code> crea el archivo o <strong>lo sobrescribe</strong> si ya existía.</li>
+            <li><code>&gt;&gt;</code> <strong>añade</strong> al final sin borrar lo anterior.</li>
+          </ul>
+          <pre><code class="lenguaje-shell">dir &gt; lista.txt
+echo Primera linea &gt; notas.txt
+echo Segunda linea &gt;&gt; notas.txt</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Primera linea
+Segunda linea</code></pre>
+          <p>(El contenido de <code>notas.txt</code> tras los dos <code>echo</code>.)</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Un solo <code>&gt;</code> borra el contenido previo</strong>
+            <p>Si quieres conservar lo que ya había en el archivo, usa <code>&gt;&gt;</code>. Reserva <code>&gt;</code> para cuando quieras empezar de cero.</p>
+          </div>
+
+          <h3>Pipe: <code>|</code></h3>
+          <p>El símbolo <code>|</code> conecta la salida de un comando con la entrada del siguiente. Ejemplo clásico: listar y buscar a la vez.</p>
+          <pre><code class="lenguaje-shell">dir /b | findstr "html"
+ipconfig | findstr "IPv4"</code></pre>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">Get-ChildItem | Select-String "html"
+Get-ChildItem | Where-Object { $_.Name -like "*.html" }
+ipconfig | Select-String "IPv4"</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">   Dirección IPv4. . . . . . . . . . . . . . : 192.168.1.20</code></pre>
+
+          <h3>Combinar ideas</h3>
+          <pre><code class="lenguaje-shell">ipconfig &gt; red.txt
+type red.txt | findstr "IPv4"
+dir /b *.md &gt; lista-md.txt</code></pre>
+          <p>Patrón mental: <strong>comando</strong> → (opcional) filtrar con <code>|</code> → (opcional) guardar con <code>&gt;</code> / <code>&gt;&gt;</code>.</p>
+
+          <h3>Errores y salida estándar (idea breve)</h3>
+          <p>Algunos programas escriben mensajes normales por un canal y errores por otro. En CMD puedes redirigir errores con <code>2&gt;</code>:</p>
+          <pre><code class="lenguaje-shell">comando_que_falla 2&gt; errores.txt
+comando &gt; todo.txt 2&gt;&amp;1</code></pre>
+          <p>La segunda forma junta salida normal y errores en el mismo archivo. No hace falta memorizarlo al principio; basta saber que existe cuando un log “no guarda” los mensajes rojos.</p>
+        </section>
+
+        <section id="procesos-y-red">
+          <h2>Procesos y red</h2>
+          <p>Cuando un programa no responde, el puerto está ocupado o “no hay internet”, la consola te da pistas rápidas sin instalar nada.</p>
+
+          <h3><code>tasklist</code>: qué está corriendo</h3>
+          <pre><code class="lenguaje-shell">tasklist
+tasklist | findstr "chrome"</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Nombre de imagen                     PID Nombre de sesión Núm. de ses Memoria
+========================= ======== ================ =========== ============
+chrome.exe                    12345 Console                    1    250,000 K
+chrome.exe                    12346 Console                    1    180,000 K</code></pre>
+          <p>El <strong>PID</strong> es el número de proceso. Lo necesitas para cerrarlo a propósito.</p>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">Get-Process
+Get-Process chrome -ErrorAction SilentlyContinue</code></pre>
+
+          <h3><code>taskkill</code>: cerrar un proceso</h3>
+          <pre><code class="lenguaje-shell">taskkill /PID 12345
+taskkill /IM notepad.exe
+taskkill /PID 12345 /F</code></pre>
+          <ul>
+            <li><code>/IM</code> usa el nombre de la imagen (el <code>.exe</code>).</li>
+            <li><code>/F</code> fuerza el cierre (cuando no responde).</li>
+          </ul>
+          <p>En PowerShell:</p>
+          <pre><code class="lenguaje-shell">Stop-Process -Id 12345
+Stop-Process -Name notepad -Force</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">No mates procesos al azar</strong>
+            <p>Cerrar el proceso equivocado puede perder trabajo sin guardar o dejar el sistema inestable. Úsalo cuando sepas qué estás cerrando (un editor colgado, un servidor de desarrollo, etc.).</p>
+          </div>
+
+          <h3><code>ipconfig</code>: tu configuración de red</h3>
+          <pre><code class="lenguaje-shell">ipconfig
+ipconfig /all</code></pre>
+          <p>Lo más buscado al principio: la <strong>dirección IPv4</strong> de tu PC en la red local (algo como <code>192.168.x.x</code>) y si el adaptador Wi‑Fi o Ethernet está conectado.</p>
+          <pre><code class="lenguaje-shell">ipconfig | findstr "IPv4"</code></pre>
+
+          <h3><code>ping</code>: ¿llega la red hasta allí?</h3>
+          <pre><code class="lenguaje-shell">ping 8.8.8.8
+ping google.com
+ping -n 4 127.0.0.1</code></pre>
+          <ul>
+            <li><code>8.8.8.8</code> es un DNS público de Google: si responde, hay salida a internet (salvo firewalls raros).</li>
+            <li><code>google.com</code> prueba también la resolución de nombres (DNS).</li>
+            <li><code>127.0.0.1</code> es “esta misma máquina” (localhost).</li>
+            <li><code>-n 4</code> envía solo 4 ecos (si no, en algunos casos sigue hasta que canceles con <kbd>Ctrl</kbd> + <kbd>C</kbd>).</li>
+          </ul>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Haciendo ping a google.com [142.250.x.x] con 32 bytes de datos:
+Respuesta desde 142.250.x.x: bytes=32 tiempo=18ms TTL=116
+...
+Estadísticas de ping para 142.250.x.x:
+    Paquetes: enviados = 4, recibidos = 4, perdidos = 0 (0% perdidos)</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Ping no lo es todo</strong>
+            <p>Algunos servidores bloquean el ping y aun así la web funciona. Si falla el ping pero el navegador carga, no asumas que “no hay red”.</p>
+          </div>
+        </section>
+
+        <section id="scripts-bat">
+          <h2>Scripts .bat</h2>
+          <p>Un archivo <strong><code>.bat</code></strong> (batch / “por lotes”) es un bloc de notas con comandos de CMD, uno tras otro. Al hacer doble clic o al ejecutarlo desde la consola, Windows los corre en orden. Sirve para automatizar lo que siempre repites.</p>
+
+          <h3>Tu primer .bat</h3>
+          <ol>
+            <li>Abre el Bloc de notas.</li>
+            <li>Escribe los comandos.</li>
+            <li>Guarda como <code>hola.bat</code> (en “Tipo”, elige <em>Todos los archivos</em> para que no quede en <code>.txt</code>).</li>
+            <li>Ejecútalo con doble clic o desde la consola: <code>hola.bat</code>.</li>
+          </ol>
+          <pre><code class="lenguaje-shell">@echo off
+echo Hola desde un script bat
+cd /d %USERPROFILE%\Documents
+dir /b
+pause</code></pre>
+          <ul>
+            <li><code>@echo off</code> oculta la eco de cada línea (la pantalla se lee mejor).</li>
+            <li><code>cd /d</code> cambia de carpeta y de unidad si hace falta.</li>
+            <li><code>pause</code> espera una tecla: útil si abriste el <code>.bat</code> con doble clic (si no, la ventana se cierra al terminar).</li>
+          </ul>
+
+          <h3>Variables y parámetros</h3>
+          <pre><code class="lenguaje-shell">@echo off
+set NOMBRE=Ada
+echo Hola, %NOMBRE%
+
+REM %1 es el primer argumento al llamar el script
+echo Primer argumento: %1</code></pre>
+          <p>Si guardas eso como <code>saludo.bat</code> y ejecutas:</p>
+          <pre><code class="lenguaje-shell">saludo.bat Mundo</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Hola, Ada
+Primer argumento: Mundo</code></pre>
+
+          <h3>Ejemplo práctico: preparar una carpeta de proyecto</h3>
+          <pre><code class="lenguaje-shell">@echo off
+set NOMBRE=%1
+if "%NOMBRE%"=="" (
+  echo Uso: nuevo-proyecto.bat nombre-del-proyecto
+  exit /b 1
+)
+mkdir "%NOMBRE%"
+mkdir "%NOMBRE%\src"
+mkdir "%NOMBRE%\docs"
+echo # %NOMBRE%&gt; "%NOMBRE%\README.md"
+echo Proyecto "%NOMBRE%" creado.
+pause</code></pre>
+
+          <h3>Consejos para no sufrir</h3>
+          <ul>
+            <li>Pon rutas con espacios entre comillas: <code>"C:\Mis documentos\proyecto"</code>.</li>
+            <li>Prueba primero los comandos a mano en CMD; cuando funcionen, pégalos en el <code>.bat</code>.</li>
+            <li>Comenta con <code>REM</code> o <code>::</code> lo que no sea obvio.</li>
+          </ul>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">¿Y PowerShell?</strong>
+            <p>Los scripts de PowerShell usan extensión <code>.ps1</code> y otra sintaxis. Windows a veces bloquea su ejecución por política de seguridad; los <code>.bat</code> son más simples para empezar. Cuando te quedes corto, el siguiente paso natural es aprender <code>.ps1</code>.</p>
+          </div>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">No ejecutes .bat de desconocidos</strong>
+            <p>Un script puede borrar archivos o instalar cosas. Abre el archivo en el Bloc de notas y léelo antes de ejecutarlo si no lo escribiste tú.</p>
+          </div>
+        </section>
+
+        <section id="comandos-para-programadores">
+          <h2>Comandos que usarás al programar</h2>
+          <p>La consola es el sitio donde compruebas que tus herramientas están instaladas y donde las ejecutas día a día. El patrón casi siempre es el mismo: <code>programa --version</code> (o <code>-v</code>) para verificar, y luego el comando de trabajo.</p>
+
+          <h3>Comprobar que existen</h3>
+          <pre><code class="lenguaje-shell">git --version
+python --version
+node --version
+npm --version
+g++ --version</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">git version 2.47.1.windows.1
+Python 3.12.4
+v22.11.0
+10.9.0
+g++ (MinGW-W64) 13.2.0</code></pre>
+          <p>Si alguno falla con “no se reconoce”, vuelve a la sección del PATH: instala el programa, cierra y abre la consola, y prueba <code>where nombre</code>.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Python en Windows</strong>
+            <p>A veces <code>python</code> abre la Microsoft Store o no está en el PATH, y el comando real es <code>py</code>. Prueba también:</p>
+            <pre><code class="lenguaje-shell">py --version
+py -3 --version</code></pre>
+          </div>
+
+          <h3>Git</h3>
+          <p>Control de versiones. Ciclo mínimo cuando ya tienes un repositorio:</p>
+          <pre><code class="lenguaje-shell">git status
+git add .
+git commit -m "Describe el cambio"
+git push</code></pre>
+          <p>Para clonar un proyecto:</p>
+          <pre><code class="lenguaje-shell">git clone https://github.com/usuario/repositorio.git
+cd repositorio</code></pre>
+          <p>La guía completa está en el tema <strong>Git y GitHub</strong> de este sitio.</p>
+
+          <h3>Python</h3>
+          <pre><code class="lenguaje-shell">python archivo.py
+py archivo.py
+python -m venv .venv
+.\.venv\Scripts\activate</code></pre>
+          <p>El último bloque crea y activa un entorno virtual en PowerShell/CMD (en PowerShell a veces hace falta permitir scripts la primera vez). Con el entorno activo, <code>pip install</code> instala paquetes solo ahí.</p>
+
+          <h3>Node.js y npm</h3>
+          <pre><code class="lenguaje-shell">node archivo.js
+npm -v
+npm init -y
+npm install
+npm run start</code></pre>
+          <ul>
+            <li><code>node</code> ejecuta JavaScript.</li>
+            <li><code>npm</code> instala paquetes y corre scripts definidos en <code>package.json</code>.</li>
+          </ul>
+
+          <h3>g++ (C++)</h3>
+          <p>Si tienes MinGW, MSYS2 o similar en el PATH:</p>
+          <pre><code class="lenguaje-shell">g++ --version
+g++ main.cpp -o main.exe
+.\main.exe</code></pre>
+          <p>El primer comando confirma el compilador; el segundo genera el ejecutable; el tercero lo corre desde la carpeta actual.</p>
+
+          <h3>Mapa mental</h3>
+          <table>
+            <thead>
+              <tr><th>Quieres…</th><th>Comando típico</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ver si está instalado</td><td><code>git|python|node|npm|g++ --version</code> y <code>where ...</code></td></tr>
+              <tr><td>Entrar al proyecto</td><td><code>cd ruta\del\proyecto</code></td></tr>
+              <tr><td>Instalar dependencias (Node)</td><td><code>npm install</code></td></tr>
+              <tr><td>Ejecutar un script</td><td><code>python app.py</code>, <code>node app.js</code>, <code>.\main.exe</code></td></tr>
+              <tr><td>Guardar cambios en Git</td><td><code>git add</code> → <code>commit</code> → <code>push</code></td></tr>
+            </tbody>
+          </table>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Trabaja siempre dentro de la carpeta del proyecto</strong>
+            <p>Antes de <code>npm install</code>, <code>git status</code> o compilar, mira el prompt o ejecuta <code>cd</code> / <code>pwd</code>. La mitad de los “no encuentro el archivo” es estar en la carpeta equivocada.</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>

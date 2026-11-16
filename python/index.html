@@ -35,6 +35,802 @@
       <!-- Aquí va el contenido: una <section id="..."> por cada sección del índice
            (assets/js/indice.js). Las que falten muestran “Próximamente”. -->
       <div class="articulo" data-articulo>
+
+        <section id="instalar-python">
+          <h2>Instalar Python y tu primer programa</h2>
+          <p>Python es un lenguaje de programación claro y versátil: sirve para scripts, automatizar tareas, datos, web y mucho más. En esta guía trabajamos en <strong>Windows</strong> y usamos la terminal (PowerShell o CMD).</p>
+
+          <h3>1. Revisa si ya lo tienes</h3>
+          <p>Abre PowerShell y escribe:</p>
+          <pre><code class="lenguaje-shell">python --version
+py --version</code></pre>
+          <p>Si responde algo como <code>Python 3.12.3</code>, ya lo tienes. En Windows también existe el lanzador <code>py</code>, que a veces funciona aunque <code>python</code> no esté en el PATH.</p>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Si se abre la Microsoft Store</strong>
+            <p>En algunas versiones de Windows, el comando <code>python</code> abre la tienda en lugar de ejecutar Python. Instálalo con el paso siguiente o usa <code>py</code> mientras tanto.</p>
+          </div>
+
+          <h3>2. Instálalo en Windows</h3>
+          <p>La forma más sencilla es con <code>winget</code>:</p>
+          <pre><code class="lenguaje-shell">winget install --id Python.Python.3.12 -e --source winget</code></pre>
+          <p>También puedes descargar el instalador desde <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org</a>. En la primera pantalla del instalador, marca la casilla <strong>Add python.exe to PATH</strong> y luego pulsa <em>Install Now</em>.</p>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Cierra y vuelve a abrir la terminal</strong>
+            <p>Después de instalar, cierra PowerShell por completo y ábrela de nuevo para que reconozca el comando <code>python</code>.</p>
+          </div>
+
+          <h3>3. Comprueba la instalación</h3>
+          <pre><code class="lenguaje-shell">python --version
+pip --version</code></pre>
+          <p><code>pip</code> es la herramienta para instalar librerías de terceros. Si ambos comandos responden con un número de versión, estás listo.</p>
+
+          <h3>4. Tu primer programa: Hola, mundo</h3>
+          <p>Crea una carpeta para practicar, entra en ella y crea un archivo <code>hola.py</code> (con el Bloc de notas, VS Code o el editor que prefieras) con este contenido:</p>
+          <pre data-archivo="hola.py"><code class="lenguaje-python">print("Hola, mundo")</code></pre>
+          <p>En la terminal, desde esa carpeta, ejecútalo:</p>
+          <pre><code class="lenguaje-shell">python hola.py
+# o, si usas el lanzador de Windows:
+py hola.py</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Hola, mundo</code></pre>
+
+          <h3>5. La consola interactiva (REPL)</h3>
+          <p>Si escribes solo <code>python</code> (o <code>py</code>) y pulsas Enter, entras a una consola donde puedes probar código línea a línea. El prompt es <code>&gt;&gt;&gt;</code>. Para salir escribe <code>exit()</code> o pulsa <kbd>Ctrl</kbd>+<kbd>Z</kbd> y luego <kbd>Enter</kbd>.</p>
+          <pre><code class="lenguaje-shell">python</code></pre>
+          <pre data-archivo="Dentro del REPL" data-sin-copiar><code class="lenguaje-texto">&gt;&gt;&gt; 2 + 3
+5
+&gt;&gt;&gt; print("Hola")
+Hola
+&gt;&gt;&gt; exit()</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo">Archivo vs. consola</strong>
+            <p>La consola sirve para experimentar. Los programas “de verdad” los guardas en archivos <code>.py</code> y los ejecutas con <code>python nombre.py</code>.</p>
+          </div>
+        </section>
+
+        <section id="variables-y-tipos">
+          <h2>Variables y tipos de datos</h2>
+          <p>Una <strong>variable</strong> es un nombre que guarda un valor. En Python no declaras el tipo por adelantado: el tipo lo decide el valor que le asignas.</p>
+
+          <h3>Crear variables</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">nombre = "Ana"
+edad = 20
+altura = 1.68
+estudiante = True
+apellido = None
+
+print(nombre, edad, altura, estudiante, apellido)</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Ana 20 1.68 True None</code></pre>
+
+          <h3>Tipos básicos</h3>
+          <table>
+            <thead>
+              <tr><th>Tipo</th><th>Ejemplo</th><th>Para qué sirve</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>int</code></td><td><code>42</code>, <code>-3</code></td><td>Números enteros</td></tr>
+              <tr><td><code>float</code></td><td><code>3.14</code>, <code>2.0</code></td><td>Números con decimales</td></tr>
+              <tr><td><code>str</code></td><td><code>"hola"</code>, <code>'hola'</code></td><td>Texto (cadenas)</td></tr>
+              <tr><td><code>bool</code></td><td><code>True</code>, <code>False</code></td><td>Verdadero o falso (con mayúscula)</td></tr>
+              <tr><td><code>None</code></td><td><code>None</code></td><td>“Sin valor” / vacío a propósito</td></tr>
+            </tbody>
+          </table>
+          <p>Para saber el tipo de una variable usa <code>type()</code>:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">x = 10
+y = 3.5
+z = "Python"
+
+print(type(x))  # &lt;class 'int'&gt;
+print(type(y))  # &lt;class 'float'&gt;
+print(type(z))  # &lt;class 'str'&gt;</code></pre>
+
+          <h3>Nombres de variables</h3>
+          <ul>
+            <li>Pueden usar letras, números y <code>_</code>, pero no empezar por número.</li>
+            <li>Distinguen mayúsculas: <code>edad</code> y <code>Edad</code> son distintas.</li>
+            <li>Por convención se escribe en <code>snake_case</code>: <code>nombre_completo</code>.</li>
+            <li>No uses palabras reservadas (<code>if</code>, <code>for</code>, <code>class</code>, etc.).</li>
+          </ul>
+
+          <h3>Casting: convertir entre tipos</h3>
+          <p>A menudo necesitas convertir un valor de un tipo a otro, sobre todo cuando lees texto con <code>input()</code>:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">texto = "42"
+numero = int(texto)       # str → int
+decimal = float("3.14")   # str → float
+otra_vez = str(numero)    # int → str
+bandera = bool(1)         # 0 es False; cualquier otro número es True
+
+print(numero + 8)         # 50
+print(otra_vez + " años") # 42 años
+print(bandera)            # True</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Conversiones que fallan</strong>
+            <p><code>int("hola")</code> o <code>int("3.14")</code> lanzan un error. Para un decimal en texto usa <code>float()</code> primero, o asegúrate de que el texto sea un entero válido.</p>
+          </div>
+
+          <h3>Cadenas útiles</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">frase = "  Hola, Python  "
+print(len(frase))           # longitud (incluye espacios)
+print(frase.strip())        # quita espacios al inicio y al final
+print(frase.upper())        # HOLA, PYTHON
+print(frase.lower())        # hola, python
+print("Python" in frase)    # True: ¿está esa subcadena?</code></pre>
+        </section>
+
+        <section id="entrada-y-salida">
+          <h2>Entrada y salida de datos</h2>
+          <p>Casi todo programa habla con quien lo usa: muestra mensajes y pide datos. En la consola eso se hace con <code>print()</code> e <code>input()</code>.</p>
+
+          <h3><code>print()</code>: mostrar información</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">print("Hola")
+print("Uno", "Dos", "Tres")          # separa con espacios
+print("Uno", "Dos", sep="-")         # Uno-Dos
+print("Sin salto", end=" ")          # no termina en nueva línea
+print("en la misma línea")</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Hola
+Uno Dos Tres
+Uno-Dos
+Sin salto en la misma línea</code></pre>
+
+          <h3><code>input()</code>: pedir datos</h3>
+          <p><code>input()</code> siempre devuelve un <strong>str</strong> (texto). Si necesitas un número, conviértelo:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">nombre = input("¿Cómo te llamas? ")
+edad_texto = input("¿Cuántos años tienes? ")
+edad = int(edad_texto)
+
+print("Hola,", nombre)
+print("El año que viene tendrás", edad + 1)</code></pre>
+          <pre data-archivo="Ejemplo de interacción" data-sin-copiar><code class="lenguaje-texto">¿Cómo te llamas? Ana
+¿Cuántos años tienes? 20
+Hola, Ana
+El año que viene tendrás 21</code></pre>
+
+          <h3>f-strings: texto con variables</h3>
+          <p>Los <em>f-strings</em> (cadenas con formato) son la forma más clara de mezclar texto y valores. Pon una <code>f</code> delante de las comillas y escribe expresiones entre llaves:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">nombre = "Luis"
+puntos = 95
+promedio = 8.4567
+
+print(f"Hola, {nombre}")
+print(f"{nombre} tiene {puntos} puntos")
+print(f"Promedio: {promedio:.2f}")   # dos decimales
+print(f"{nombre=} {puntos=}")        # útil al depurar</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">Hola, Luis
+Luis tiene 95 puntos
+Promedio: 8.46
+nombre='Luis' puntos=95</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Prefiere f-strings</strong>
+            <p>También existen <code>%</code> y <code>.format()</code>, pero en código nuevo lo habitual es usar f-strings: se leen mejor y cometes menos errores.</p>
+          </div>
+
+          <h3>Ejemplo completo</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">producto = input("Producto: ")
+precio = float(input("Precio unitario: "))
+cantidad = int(input("Cantidad: "))
+total = precio * cantidad
+
+print(f"Ticket: {cantidad} × {producto}")
+print(f"Total a pagar: ${total:.2f}")</code></pre>
+        </section>
+
+        <section id="operadores-y-condicionales">
+          <h2>Operadores y condicionales</h2>
+          <p>Los <strong>operadores</strong> calculan o comparan. Los <strong>condicionales</strong> eligen qué camino seguir según una condición sea verdadera o falsa.</p>
+
+          <h3>Operadores aritméticos</h3>
+          <table>
+            <thead>
+              <tr><th>Operador</th><th>Significado</th><th>Ejemplo</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>+</code> <code>-</code> <code>*</code> <code>/</code></td><td>Suma, resta, multiplicación, división</td><td><code>10 / 4</code> → <code>2.5</code></td></tr>
+              <tr><td><code>//</code></td><td>División entera (sin decimales)</td><td><code>10 // 4</code> → <code>2</code></td></tr>
+              <tr><td><code>%</code></td><td>Resto (módulo)</td><td><code>10 % 4</code> → <code>2</code></td></tr>
+              <tr><td><code>**</code></td><td>Potencia</td><td><code>2 ** 3</code> → <code>8</code></td></tr>
+            </tbody>
+          </table>
+
+          <h3>Comparaciones</h3>
+          <p>Devuelven un <code>bool</code> (<code>True</code> o <code>False</code>):</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">x = 10
+print(x == 10)   # igual a
+print(x != 5)    # distinto de
+print(x &gt; 3)     # mayor que
+print(x &gt;= 10)   # mayor o igual
+print(x &lt; 20)    # menor que
+print(x &lt;= 9)    # menor o igual</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo"><code>==</code> no es <code>=</code></strong>
+            <p><code>=</code> asigna un valor. <code>==</code> compara si dos valores son iguales. Escribir <code>if x = 10</code> es un error de sintaxis.</p>
+          </div>
+
+          <h3>Operadores lógicos: <code>and</code>, <code>or</code>, <code>not</code></h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">edad = 20
+tiene_pase = True
+
+print(edad &gt;= 18 and tiene_pase)  # True: las dos
+print(edad &lt; 18 or tiene_pase)    # True: al menos una
+print(not tiene_pase)             # False: niega</code></pre>
+
+          <h3><code>if</code>, <code>elif</code> y <code>else</code></h3>
+          <p>En Python la indentación (sangría) marca qué código pertenece al bloque. Se usan 4 espacios:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">nota = float(input("Tu nota (0-10): "))
+
+if nota &gt;= 9:
+    print("Excelente")
+elif nota &gt;= 7:
+    print("Bien")
+elif nota &gt;= 5:
+    print("Aprobado")
+else:
+    print("Reprobado")</code></pre>
+          <ul>
+            <li><code>if</code>: se ejecuta si la condición es verdadera.</li>
+            <li><code>elif</code> (else if): se prueba solo si lo anterior no se cumplió. Puedes poner varios.</li>
+            <li><code>else</code>: se ejecuta si ninguna condición anterior fue verdadera.</li>
+          </ul>
+
+          <h3>Condiciones anidadas y operador ternario</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">edad = 16
+acompanado = True
+
+if edad &gt;= 18:
+    print("Puede entrar")
+else:
+    if acompanado:
+        print("Puede entrar con acompañante")
+    else:
+        print("No puede entrar")
+
+# Forma corta (ternario) para asignar un valor
+mensaje = "mayor" if edad &gt;= 18 else "menor"
+print(mensaje)</code></pre>
+        </section>
+
+        <section id="bucles">
+          <h2>Bucles for y while</h2>
+          <p>Un <strong>bucle</strong> repite un bloque de código. Usa <code>for</code> cuando sabes (o puedes recorrer) una secuencia; usa <code>while</code> cuando la repetición depende de una condición.</p>
+
+          <h3><code>for</code> y <code>range()</code></h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python"># Del 0 al 4
+for i in range(5):
+    print(i)
+
+# Del 1 al 5
+for i in range(1, 6):
+    print(i, end=" ")
+print()
+
+# Del 0 al 10 de 2 en 2
+for i in range(0, 11, 2):
+    print(i, end=" ")
+print()</code></pre>
+          <pre data-archivo="Salida" data-sin-copiar><code class="lenguaje-texto">0
+1
+2
+3
+4
+1 2 3 4 5
+0 2 4 6 8 10</code></pre>
+          <p>También puedes recorrer texto o listas directamente:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">for letra in "hola":
+    print(letra)
+
+frutas = ["manzana", "pera", "uva"]
+for fruta in frutas:
+    print(f"Me gusta la {fruta}")</code></pre>
+
+          <h3><code>while</code>: mientras se cumpla</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">n = 1
+while n &lt;= 5:
+    print(n)
+    n += 1  # equivalente a n = n + 1</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">Cuidado con los bucles infinitos</strong>
+            <p>Si la condición del <code>while</code> nunca se vuelve falsa, el programa no termina. En la terminal puedes interrumpirlo con <kbd>Ctrl</kbd>+<kbd>C</kbd>. Asegúrate de actualizar la variable que controla el bucle.</p>
+          </div>
+
+          <h3><code>break</code> y <code>continue</code></h3>
+          <ul>
+            <li><code>break</code>: sale del bucle por completo.</li>
+            <li><code>continue</code>: salta al siguiente giro sin ejecutar el resto del bloque.</li>
+          </ul>
+          <pre data-archivo="main.py"><code class="lenguaje-python"># break: detener al encontrar un número
+for n in range(1, 10):
+    if n == 5:
+        break
+    print(n, end=" ")
+print()  # 1 2 3 4
+
+# continue: saltar los pares
+for n in range(1, 8):
+    if n % 2 == 0:
+        continue
+    print(n, end=" ")
+print()  # 1 3 5 7</code></pre>
+
+          <h3>Ejemplo: menú simple</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">opcion = ""
+while opcion != "3":
+    print("1) Saludar")
+    print("2) Sumar dos números")
+    print("3) Salir")
+    opcion = input("Elige: ")
+
+    if opcion == "1":
+        print("¡Hola!")
+    elif opcion == "2":
+        a = float(input("a = "))
+        b = float(input("b = "))
+        print(f"Suma: {a + b}")
+    elif opcion == "3":
+        print("Adiós")
+    else:
+        print("Opción no válida")</code></pre>
+        </section>
+
+        <section id="listas-tuplas-diccionarios">
+          <h2>Listas, tuplas, diccionarios y conjuntos</h2>
+          <p>Python trae varias formas de guardar colecciones de datos. La diferencia principal es si puedes cambiarlas, si tienen orden y si permiten duplicados.</p>
+          <table>
+            <thead>
+              <tr><th>Tipo</th><th>Se escribe</th><th>¿Mutable?</th><th>¿Orden?</th><th>¿Duplicados?</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Lista</td><td><code>[1, 2]</code></td><td>Sí</td><td>Sí</td><td>Sí</td></tr>
+              <tr><td>Tupla</td><td><code>(1, 2)</code></td><td>No</td><td>Sí</td><td>Sí</td></tr>
+              <tr><td>Diccionario</td><td><code>{"a": 1}</code></td><td>Sí</td><td>Sí (3.7+)</td><td>Claves únicas</td></tr>
+              <tr><td>Conjunto (set)</td><td><code>{1, 2}</code></td><td>Sí</td><td>No</td><td>No</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Listas</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">numeros = [10, 20, 30]
+numeros.append(40)       # agrega al final
+numeros.insert(1, 15)    # inserta en el índice 1
+numeros[0] = 11          # cambia el primer elemento
+ultimo = numeros.pop()   # quita y devuelve el último
+print(numeros)
+print(ultimo)
+print(len(numeros))
+print(20 in numeros)     # ¿está 20?</code></pre>
+          <p>Los índices empiezan en <strong>0</strong>. Con índices negativos cuentas desde el final: <code>lista[-1]</code> es el último elemento.</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">letras = ["a", "b", "c", "d", "e"]
+print(letras[1:4])   # ['b', 'c', 'd']  (rebanada / slice)
+print(letras[:2])    # ['a', 'b']
+print(letras[2:])    # ['c', 'd', 'e']
+print(letras[::-1])  # al revés</code></pre>
+
+          <h3>Tuplas</h3>
+          <p>Son como listas, pero <strong>no se pueden modificar</strong> después de crearlas. Útiles para datos fijos (coordenadas, colores RGB, etc.):</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">punto = (3, 5)
+# punto[0] = 9  # TypeError: no se puede cambiar
+x, y = punto    # desempaquetado
+print(f"x={x}, y={y}")</code></pre>
+
+          <h3>Diccionarios</h3>
+          <p>Guardan pares <strong>clave → valor</strong>. Las claves suelen ser strings:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">persona = {
+    "nombre": "Ana",
+    "edad": 22,
+    "ciudad": "Guadalajara",
+}
+
+print(persona["nombre"])
+persona["edad"] = 23              # actualizar
+persona["email"] = "ana@mail.com" # agregar
+del persona["ciudad"]             # eliminar
+
+for clave, valor in persona.items():
+    print(f"{clave}: {valor}")</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Clave inexistente</strong>
+            <p><code>persona["telefono"]</code> lanza <code>KeyError</code> si no existe. Usa <code>persona.get("telefono")</code> (devuelve <code>None</code>) o <code>persona.get("telefono", "N/D")</code>.</p>
+          </div>
+
+          <h3>Conjuntos (<code>set</code>)</h3>
+          <p>No permiten duplicados y son rápidos para preguntar “¿está este elemento?”:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">a = {1, 2, 3, 3, 2}
+b = {3, 4, 5}
+print(a)            # {1, 2, 3}
+print(a | b)        # unión
+print(a &amp; b)        # intersección
+print(a - b)        # diferencia
+a.add(9)</code></pre>
+        </section>
+
+        <section id="funciones">
+          <h2>Funciones</h2>
+          <p>Una <strong>función</strong> agrupa un trozo de código con un nombre para reutilizarlo. Evitas copiar y pegar y tu programa se entiende mejor.</p>
+
+          <h3>Definir y llamar</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">def saludar():
+    print("¡Hola!")
+
+saludar()
+saludar()</code></pre>
+
+          <h3>Parámetros y <code>return</code></h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">def sumar(a, b):
+    return a + b
+
+resultado = sumar(3, 5)
+print(resultado)  # 8
+
+def presentar(nombre, edad=18):
+    return f"{nombre} tiene {edad} años"
+
+print(presentar("Luis"))
+print(presentar("Ana", 25))
+print(presentar(edad=30, nombre="Mia"))  # por nombre</code></pre>
+          <ul>
+            <li>Los parámetros con valor por defecto (<code>edad=18</code>) van al final.</li>
+            <li>Si no usas <code>return</code>, la función devuelve <code>None</code>.</li>
+            <li>Puedes devolver varios valores (en realidad una tupla): <code>return x, y</code>.</li>
+          </ul>
+
+          <h3>Documentar y validar un poco</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">def promedio(numeros):
+    """Devuelve el promedio de una lista de números."""
+    if not numeros:
+        return 0
+    return sum(numeros) / len(numeros)
+
+print(promedio([8, 9, 10]))
+print(promedio([]))</code></pre>
+
+          <h3><code>*args</code> y <code>**kwargs</code> (visión breve)</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">def suma_todo(*valores):
+    total = 0
+    for v in valores:
+        total += v
+    return total
+
+print(suma_todo(1, 2, 3, 4))  # 10
+
+def mostrar_info(**datos):
+    for clave, valor in datos.items():
+        print(f"{clave}: {valor}")
+
+mostrar_info(nombre="Ana", curso="Python")</code></pre>
+
+          <h3>Lambda (funciones cortas)</h3>
+          <p>Una <code>lambda</code> es una función anónima de una sola expresión. Se usa sobre todo como argumento rápido:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">doble = lambda x: x * 2
+print(doble(4))  # 8
+
+numeros = [3, 1, 4, 1, 5]
+ordenados = sorted(numeros)
+print(ordenados)
+
+pares = list(filter(lambda n: n % 2 == 0, range(2, 11)))
+print(pares)  # [2, 4, 6, 8, 10]</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">No abuses de lambda</strong>
+            <p>Si la lógica crece, escribe una función normal con <code>def</code>. Se lee mejor y puedes documentarla.</p>
+          </div>
+        </section>
+
+        <section id="archivos">
+          <h2>Leer y escribir archivos</h2>
+          <p>Los programas suelen guardar datos en disco. En Python lo habitual es <code>open()</code> junto con <code>with</code>, que cierra el archivo solo aunque ocurra un error.</p>
+
+          <h3>Texto (.txt)</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python"># Escribir (crea o sobrescribe)
+with open("notas.txt", "w", encoding="utf-8") as f:
+    f.write("Primera línea\n")
+    f.write("Segunda línea\n")
+
+# Añadir al final
+with open("notas.txt", "a", encoding="utf-8") as f:
+    f.write("Tercera línea\n")
+
+# Leer todo
+with open("notas.txt", "r", encoding="utf-8") as f:
+    contenido = f.read()
+print(contenido)
+
+# Leer línea a línea
+with open("notas.txt", "r", encoding="utf-8") as f:
+    for linea in f:
+        print(linea.strip())</code></pre>
+          <table>
+            <thead>
+              <tr><th>Modo</th><th>Significado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>"r"</code></td><td>Leer (falla si no existe)</td></tr>
+              <tr><td><code>"w"</code></td><td>Escribir (borra el contenido previo)</td></tr>
+              <tr><td><code>"a"</code></td><td>Añadir al final</td></tr>
+              <tr><td><code>"x"</code></td><td>Crear; falla si ya existe</td></tr>
+            </tbody>
+          </table>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Usa <code>encoding="utf-8"</code></strong>
+            <p>En Windows el encoding por defecto a veces no es UTF-8. Al especificarlo evitas problemas con acentos y eñes.</p>
+          </div>
+
+          <h3>CSV</h3>
+          <p>El módulo <code>csv</code> de la biblioteca estándar facilita tablas separadas por comas:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">import csv
+
+with open("alumnos.csv", "w", newline="", encoding="utf-8") as f:
+    escritor = csv.writer(f)
+    escritor.writerow(["nombre", "nota"])
+    escritor.writerow(["Ana", 9.5])
+    escritor.writerow(["Luis", 8.0])
+
+with open("alumnos.csv", "r", encoding="utf-8") as f:
+    lector = csv.DictReader(f)
+    for fila in lector:
+        print(f"{fila['nombre']}: {fila['nota']}")</code></pre>
+
+          <h3>JSON</h3>
+          <p>JSON es el formato más común para guardar estructuras (listas y diccionarios) e intercambiar datos con APIs:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">import json
+
+datos = {
+    "curso": "Python",
+    "alumnos": ["Ana", "Luis"],
+    "activo": True,
+}
+
+with open("curso.json", "w", encoding="utf-8") as f:
+    json.dump(datos, f, ensure_ascii=False, indent=2)
+
+with open("curso.json", "r", encoding="utf-8") as f:
+    cargado = json.load(f)
+
+print(cargado["curso"])
+print(cargado["alumnos"][0])</code></pre>
+          <div class="nota">
+            <strong class="nota__titulo"><code>dump</code> / <code>load</code> vs. <code>dumps</code> / <code>loads</code></strong>
+            <p>Las versiones con <code>s</code> trabajan con <em>strings</em> en memoria. Las que no tienen <code>s</code> trabajan con archivos.</p>
+          </div>
+        </section>
+
+        <section id="errores-y-excepciones">
+          <h2>Errores y excepciones</h2>
+          <p>Cuando algo sale mal, Python muestra un mensaje (el <em>traceback</em>) y se detiene. Con <code>try</code> / <code>except</code> puedes atrapar esos fallos y decidir qué hacer.</p>
+
+          <h3>Leer un traceback</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">numeros = [1, 2, 3]
+print(numeros[5])</code></pre>
+          <pre data-archivo="Salida de error" data-sin-copiar><code class="lenguaje-texto">Traceback (most recent call last):
+  File "main.py", line 2, in &lt;module&gt;
+    print(numeros[5])
+IndexError: list index out of range</code></pre>
+          <p>Léelo de abajo hacia arriba: el tipo de error (<code>IndexError</code>), el mensaje, el archivo y la línea. Ahí suele estar la pista.</p>
+
+          <h3><code>try</code>, <code>except</code>, <code>else</code> y <code>finally</code></h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">texto = input("Escribe un número entero: ")
+
+try:
+    n = int(texto)
+except ValueError:
+    print("Eso no es un entero válido.")
+else:
+    print(f"El doble es {n * 2}")
+finally:
+    print("Fin del intento.")</code></pre>
+          <ul>
+            <li><code>try</code>: código que puede fallar.</li>
+            <li><code>except</code>: qué hacer si ocurre ese error.</li>
+            <li><code>else</code>: se ejecuta solo si <em>no</em> hubo excepción.</li>
+            <li><code>finally</code>: se ejecuta siempre (haya error o no).</li>
+          </ul>
+
+          <h3>Varios tipos de error</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">def dividir(a, b):
+    try:
+        return a / b
+    except ZeroDivisionError:
+        print("No se puede dividir entre cero.")
+        return None
+    except TypeError:
+        print("Ambos valores deben ser números.")
+        return None
+
+print(dividir(10, 2))
+print(dividir(10, 0))</code></pre>
+          <div class="nota nota--peligro">
+            <strong class="nota__titulo">No uses <code>except:</code> a ciegas</strong>
+            <p>Un <code>except:</code> vacío (o <code>except Exception:</code> sin más) puede ocultar bugs. Atrapa el error concreto que esperas y, si hace falta, vuelve a lanzarlo o regístralo.</p>
+          </div>
+
+          <h3>Lanzar tus propios errores</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">def retirar(saldo, cantidad):
+    if cantidad &lt;= 0:
+        raise ValueError("La cantidad debe ser positiva.")
+    if cantidad &gt; saldo:
+        raise ValueError("Saldo insuficiente.")
+    return saldo - cantidad
+
+try:
+    print(retirar(100, 150))
+except ValueError as e:
+    print(f"Error: {e}")</code></pre>
+        </section>
+
+        <section id="modulos-y-pip">
+          <h2>Módulos, pip y entornos virtuales</h2>
+          <p>No tienes que escribirlo todo tú. Python trae una <strong>biblioteca estándar</strong> enorme, y con <code>pip</code> instalas paquetes de la comunidad. Los <strong>entornos virtuales</strong> aíslan las dependencias de cada proyecto.</p>
+
+          <h3><code>import</code>: usar módulos</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">import math
+from random import randint
+import datetime as dt
+
+print(math.sqrt(16))
+print(randint(1, 6))  # dado
+hoy = dt.date.today()
+print(hoy)</code></pre>
+          <p>También puedes crear tus propios módulos: un archivo <code>utilidades.py</code> en la misma carpeta se importa con <code>import utilidades</code>.</p>
+          <pre data-archivo="utilidades.py"><code class="lenguaje-python">def saludar(nombre):
+    return f"Hola, {nombre}"</code></pre>
+          <pre data-archivo="main.py"><code class="lenguaje-python">import utilidades
+
+print(utilidades.saludar("Ana"))</code></pre>
+
+          <h3>pip: instalar paquetes</h3>
+          <pre><code class="lenguaje-shell">python -m pip install requests
+python -m pip list
+python -m pip uninstall requests
+python -m pip freeze &gt; requirements.txt
+python -m pip install -r requirements.txt</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Usa <code>python -m pip</code></strong>
+            <p>Así te aseguras de instalar en el mismo Python que ejecutas con <code>python</code>, y no en otra copia del sistema.</p>
+          </div>
+
+          <h3>venv: un entorno por proyecto</h3>
+          <p>Crea la carpeta del proyecto, genera el entorno e actívalo (en PowerShell):</p>
+          <pre><code class="lenguaje-shell">mkdir mi-proyecto
+cd mi-proyecto
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install requests</code></pre>
+          <p>Cuando el entorno está activo, el prompt suele mostrar <code>(.venv)</code>. Para desactivar:</p>
+          <pre><code class="lenguaje-shell">deactivate</code></pre>
+          <div class="nota nota--cuidado">
+            <strong class="nota__titulo">Política de ejecución en PowerShell</strong>
+            <p>Si al activar ves un error de “execution of scripts is disabled”, ejecuta una vez (como usuario): <code>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</code>. O usa CMD: <code>.venv\Scripts\activate.bat</code>.</p>
+          </div>
+          <div class="nota">
+            <strong class="nota__titulo">Qué poner en Git</strong>
+            <p>No subas la carpeta <code>.venv</code>. Sí conviene subir un <code>requirements.txt</code> generado con <code>pip freeze</code> para que otras personas instalen lo mismo.</p>
+          </div>
+        </section>
+
+        <section id="clases-y-objetos">
+          <h2>Clases y objetos</h2>
+          <p>La programación orientada a objetos (POO) te deja modelar “cosas” del mundo real: una cuenta bancaria, un jugador, un producto. Una <strong>clase</strong> es el molde; un <strong>objeto</strong> es una instancia creada a partir de ese molde.</p>
+
+          <h3>Tu primera clase</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">class Persona:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+
+    def presentarse(self):
+        return f"Soy {self.nombre} y tengo {self.edad} años"
+
+ana = Persona("Ana", 22)
+luis = Persona("Luis", 30)
+
+print(ana.presentarse())
+print(luis.presentarse())
+print(ana.nombre)</code></pre>
+          <ul>
+            <li><code>__init__</code> se ejecuta al crear el objeto: inicializa atributos.</li>
+            <li><code>self</code> es la instancia actual (Python lo pasa solo; tú lo pones como primer parámetro).</li>
+            <li>Los métodos son funciones definidas dentro de la clase.</li>
+          </ul>
+
+          <h3>Ejemplo con estado que cambia</h3>
+          <pre data-archivo="main.py"><code class="lenguaje-python">class Cuenta:
+    def __init__(self, titular, saldo=0.0):
+        self.titular = titular
+        self.saldo = saldo
+
+    def depositar(self, cantidad):
+        if cantidad &lt;= 0:
+            raise ValueError("La cantidad debe ser positiva.")
+        self.saldo += cantidad
+
+    def retirar(self, cantidad):
+        if cantidad &gt; self.saldo:
+            raise ValueError("Saldo insuficiente.")
+        self.saldo -= cantidad
+
+    def __str__(self):
+        return f"Cuenta de {self.titular}: ${self.saldo:.2f}"
+
+cuenta = Cuenta("Ana", 100)
+cuenta.depositar(50)
+cuenta.retirar(30)
+print(cuenta)  # usa __str__</code></pre>
+
+          <h3>Herencia (breve)</h3>
+          <p>Una clase puede <strong>heredar</strong> de otra y reutilizar o ampliar su comportamiento:</p>
+          <pre data-archivo="main.py"><code class="lenguaje-python">class Animal:
+    def __init__(self, nombre):
+        self.nombre = nombre
+
+    def hablar(self):
+        return "..."
+
+class Perro(Animal):
+    def hablar(self):
+        return "Guau"
+
+class Gato(Animal):
+    def hablar(self):
+        return "Miau"
+
+mascotas = [Perro("Firulais"), Gato("Michi"), Animal("???")]
+for m in mascotas:
+    print(f"{m.nombre}: {m.hablar()}")</code></pre>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">¿Cuándo usar clases?</strong>
+            <p>No hace falta una clase para todo. Si solo tienes datos y un par de funciones, un diccionario y funciones sueltas pueden bastar. Usa clases cuando el estado y el comportamiento van juntos y se reutilizan.</p>
+          </div>
+        </section>
+
+        <section id="proyectos">
+          <h2>Proyectos para practicar</h2>
+          <p>La mejor forma de afianzar Python es construir cosas pequeñas de punta a punta. Aquí tienes ideas ordenadas de más simples a un poco más exigentes. Intenta hacerlas <strong>sin mirar la solución</strong> primero; si te atascas, vuelve a la sección correspondiente.</p>
+
+          <h3>1. Adivina el número</h3>
+          <p>El programa elige un número al azar entre 1 y 50. Tú intentas adivinarlo. Después de cada intento dice “más alto” o “más bajo”, y al final muestra cuántos intentos usaste.</p>
+          <p><strong>Practicas:</strong> <code>random</code>, <code>while</code>, <code>input</code>, <code>int</code>, contadores.</p>
+          <pre data-archivo="adivina.py"><code class="lenguaje-python">import random
+
+secreto = random.randint(1, 50)
+intentos = 0
+
+print("Adivina el número (1-50)")
+
+while True:
+    intento = int(input("Tu número: "))
+    intentos += 1
+    if intento &lt; secreto:
+        print("Más alto")
+    elif intento &gt; secreto:
+        print("Más bajo")
+    else:
+        print(f"¡Correcto! Lo lograste en {intentos} intentos.")
+        break</code></pre>
+
+          <h3>2. Lista de tareas en un archivo</h3>
+          <p>Menú con opciones: ver tareas, agregar, marcar como hecha y salir. Guarda las tareas en <code>tareas.txt</code> (una por línea) para que no se pierdan al cerrar el programa.</p>
+          <p><strong>Practicas:</strong> listas, archivos, menú con <code>while</code>, f-strings.</p>
+
+          <h3>3. Conversor de moneda (con diccionario)</h3>
+          <p>Guarda tasas en un diccionario (<code>{"USD": 17.2, "EUR": 18.5}</code> respecto a pesos, por ejemplo). Pide cantidad y moneda destino, calcula y muestra el resultado con dos decimales.</p>
+          <p><strong>Practicas:</strong> diccionarios, <code>float</code>, formateo, validación con <code>try/except</code>.</p>
+
+          <h3>4. Estadísticas de un CSV</h3>
+          <p>Crea un <code>ventas.csv</code> con columnas <code>producto,cantidad,precio</code>. Lee el archivo, calcula el total vendido y el producto con más ingresos.</p>
+          <p><strong>Practicas:</strong> módulo <code>csv</code>, bucles, variables acumuladoras.</p>
+
+          <h3>5. Mini agenda con clases</h3>
+          <p>Clase <code>Contacto</code> (nombre, teléfono, email) y una clase <code>Agenda</code> que guarda una lista de contactos, permite agregar, buscar por nombre y exportar a JSON.</p>
+          <p><strong>Practicas:</strong> clases, listas, <code>json</code>, métodos.</p>
+
+          <h3>Cómo trabajar cada proyecto</h3>
+          <ol>
+            <li>Crea una carpeta y, si quieres, un <code>venv</code>.</li>
+            <li>Escribe primero el menú o el flujo en papel (o en comentarios).</li>
+            <li>Implementa una función a la vez y pruébala.</li>
+            <li>Cuando funcione, súbelo a GitHub: es buen material de portafolio.</li>
+          </ol>
+          <div class="nota nota--consejo">
+            <strong class="nota__titulo">Siguiente paso</strong>
+            <p>Cuando estos te resulten cómodos, prueba automatizar algo de tu día (renombrar archivos, organizar descargas) o sigue con la guía de <a href="../git-github/">Git y GitHub</a> para versionar tus proyectos.</p>
+          </div>
+        </section>
+
       </div>
     </div>
   </main>

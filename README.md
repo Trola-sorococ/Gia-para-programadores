@@ -19,11 +19,11 @@ Cada tema tiene su propia carpeta con su página (`<carpeta>/index.html`):
 | Carpeta | Qué incluye | Secciones | Estado |
 |---|---|:---:|---|
 | `git-github/` | Git y GitHub, de lo más básico a lo avanzado: trabajo en solitario con IA, trabajo en equipo y revisión de cambios | 15 | Disponible |
-| `cmd/` | Cómo usar la consola (CMD y PowerShell) | 11 | Próximamente |
-| `cpp/` | C++: comentarios, entrada y salida por consola, arreglos, colas, `for`, `while`, `do while` y matrices | 11 | Próximamente |
+| `cmd/` | Cómo usar la consola (CMD y PowerShell) | 11 | Disponible |
+| `cpp/` | C++: comentarios, entrada y salida por consola, arreglos, colas, `for`, `while`, `do while` y matrices | 11 | Disponible |
 | `arduino/` | Arduino IDE y todo lo necesario para empezar y avanzar con Arduino | 18 | Próximamente |
-| `python/` | Python desde cero | 12 | Próximamente |
-| `javascript/` | JavaScript desde cero | 13 | Próximamente |
+| `python/` | Python desde cero | 12 | Disponible |
+| `javascript/` | JavaScript desde cero | 13 | Disponible |
 | `desarrollo-web/` | HTML y CSS con estilo profesional, animaciones de texto y más | 16 | Próximamente |
 | `ia-para-programar/` | Cómo usar la IA para programar y lograr que los programas salgan bien | 13 | Próximamente |
 
@@ -31,12 +31,12 @@ Cada tema tiene su propia carpeta con su página (`<carpeta>/index.html`):
 
 La **base de la página ya está lista**: inicio con buscador, una página por tema con su índice lateral, resaltado de colores para el código, botón de copiar y modo claro/oscuro.
 
-**Ya disponible:** Git y GitHub (15 secciones). El resto de temas muestra sus secciones planeadas como "Próximamente" mientras se escriben.
+**Ya disponible:** Git y GitHub, C++, CMD y PowerShell, Python y JavaScript. El resto de temas muestra sus secciones planeadas como "Próximamente" mientras se escriben.
 
 El contenido se va agregando en este orden:
 
 1. ~~Git y GitHub~~ (listo)
-2. C++, CMD, Python y JavaScript
+2. ~~C++, CMD, Python y JavaScript~~ (listo)
 3. Arduino y desarrollo web
 4. IA para programar
 
